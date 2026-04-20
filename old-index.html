@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ANDD — AI Native Distributed Datacenters</title>
+    <link rel="icon" type="image/png" href="andd.png">
+    <style>
+        :root {
+            --blue-dark: #1a3a5c;
+            --blue-mid: #2b6cb0;
+            --blue-bright: #3b82f6;
+            --blue-light: #60a5fa;
+            --silver-dark: #6b7280;
+            --silver-mid: #9ca3af;
+            --silver-light: #d1d5db;
+            --chrome: linear-gradient(135deg, #c0c0c0, #e8e8e8, #a0a0a0);
+            --blue-gradient: linear-gradient(135deg, #1e40af, #3b82f6, #60a5fa);
+            --dark-bg: #0a1628;
+            --dark-surface: #111d33;
+            --dark-card: #162440;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            color: #e2e8f0;
+            background: var(--dark-bg);
+            line-height: 1.6;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(10, 22, 40, 0.92);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(59, 130, 246, 0.15);
+            padding: 0 2rem;
+        }
+
+        .nav-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 72px;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .nav-logo img {
+            height: 56px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--silver-mid);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            letter-spacing: 0.03em;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--blue-light);
+        }
+
+        .nav-cta {
+            background: var(--blue-gradient);
+            color: #fff !important;
+            padding: 0.5rem 1.25rem;
+            border-radius: 6px;
+            font-weight: 600 !important;
+        }
+
+        .nav-cta:hover {
+            opacity: 0.9;
+        }
+
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: #e2e8f0;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Hero */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 6rem 2rem 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 80% 60% at 50% 40%, rgba(30, 64, 175, 0.15), transparent),
+                radial-gradient(ellipse 60% 50% at 80% 20%, rgba(59, 130, 246, 0.08), transparent);
+        }
+
+        .hero-grid {
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(59, 130, 246, 0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(59, 130, 246, 0.04) 1px, transparent 1px);
+            background-size: 60px 60px;
+        }
+
+        .hero-content {
+            position: relative;
+            max-width: 900px;
+        }
+
+        .hero-logo {
+            width: 360px;
+            height: auto;
+            margin: 0 auto 2.5rem;
+            display: block;
+            filter: drop-shadow(0 0 40px rgba(59, 130, 246, 0.25));
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(59, 130, 246, 0.12);
+            border: 1px solid rgba(59, 130, 246, 0.25);
+            color: var(--blue-light);
+            padding: 0.4rem 1rem;
+            border-radius: 999px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4.2rem);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #e2e8f0 0%, #94a3b8 30%, #60a5fa 60%, #3b82f6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--silver-mid);
+            max-width: 680px;
+            margin: 0 auto 2.5rem;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background: var(--blue-gradient);
+            color: #fff;
+            padding: 0.85rem 2rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+            transition: opacity 0.2s, transform 0.2s;
+        }
+
+        .btn-primary:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--silver-light);
+            padding: 0.85rem 2rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            border: 1px solid rgba(156, 163, 175, 0.3);
+            cursor: pointer;
+            transition: border-color 0.2s, color 0.2s;
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--blue-light);
+            color: var(--blue-light);
+        }
+
+        /* Stats bar */
+        .stats {
+            background: var(--dark-surface);
+            border-top: 1px solid rgba(59, 130, 246, 0.1);
+            border-bottom: 1px solid rgba(59, 130, 246, 0.1);
+            padding: 3rem 2rem;
+        }
+
+        .stats-grid {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: var(--blue-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-label {
+            color: var(--silver-mid);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-top: 0.25rem;
+        }
+
+        /* Sections */
+        section {
+            padding: 6rem 2rem;
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 4rem;
+        }
+
+        .section-label {
+            color: var(--blue-bright);
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.75rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.4rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #e2e8f0, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-header p {
+            color: var(--silver-mid);
+            font-size: 1.1rem;
+        }
+
+        /* Infrastructure cards */
+        .infra-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+        }
+
+        .infra-card {
+            background: var(--dark-card);
+            border: 1px solid rgba(59, 130, 246, 0.1);
+            border-radius: 12px;
+            padding: 2rem;
+            transition: border-color 0.3s, transform 0.3s;
+        }
+
+        .infra-card:hover {
+            border-color: rgba(59, 130, 246, 0.35);
+            transform: translateY(-4px);
+        }
+
+        .infra-icon {
+            width: 48px;
+            height: 48px;
+            background: rgba(59, 130, 246, 0.1);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .infra-card h3 {
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin-bottom: 0.6rem;
+            color: #f1f5f9;
+        }
+
+        .infra-card p {
+            color: var(--silver-mid);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        /* Network section */
+        .network {
+            background: var(--dark-surface);
+        }
+
+        .network-layout {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .network-visual {
+            position: relative;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .node-ring {
+            position: absolute;
+            border: 1px solid rgba(59, 130, 246, 0.15);
+            border-radius: 50%;
+        }
+
+        .node-ring-1 { width: 320px; height: 320px; }
+        .node-ring-2 { width: 220px; height: 220px; }
+        .node-ring-3 { width: 120px; height: 120px; }
+
+        .node-center {
+            position: absolute;
+            width: 56px;
+            height: 56px;
+            background: var(--blue-gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: #fff;
+            box-shadow: 0 0 30px rgba(59, 130, 246, 0.3);
+        }
+
+        .node-dot {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: var(--blue-bright);
+            border-radius: 50%;
+            box-shadow: 0 0 8px rgba(59, 130, 246, 0.5);
+        }
+
+        .node-dot:nth-child(5) { top: 40px; left: 50%; transform: translateX(-50%); }
+        .node-dot:nth-child(6) { bottom: 40px; left: 50%; transform: translateX(-50%); }
+        .node-dot:nth-child(7) { left: 40px; top: 50%; transform: translateY(-50%); }
+        .node-dot:nth-child(8) { right: 40px; top: 50%; transform: translateY(-50%); }
+        .node-dot:nth-child(9) { top: 80px; left: 80px; }
+        .node-dot:nth-child(10) { top: 80px; right: 80px; }
+        .node-dot:nth-child(11) { bottom: 80px; left: 80px; }
+        .node-dot:nth-child(12) { bottom: 80px; right: 80px; }
+
+        .network-info h2 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 1.25rem;
+            background: linear-gradient(135deg, #e2e8f0, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .network-info p {
+            color: var(--silver-mid);
+            margin-bottom: 1rem;
+            font-size: 1.05rem;
+        }
+
+        .network-features {
+            list-style: none;
+            margin-top: 1.5rem;
+        }
+
+        .network-features li {
+            padding: 0.6rem 0;
+            color: var(--silver-light);
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            font-size: 0.95rem;
+        }
+
+        .network-features li::before {
+            content: '▸';
+            color: var(--blue-bright);
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        /* Use cases */
+        .use-cases-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        .use-case {
+            background: var(--dark-card);
+            border: 1px solid rgba(59, 130, 246, 0.1);
+            border-radius: 12px;
+            padding: 2rem;
+            transition: border-color 0.3s;
+        }
+
+        .use-case:hover {
+            border-color: rgba(59, 130, 246, 0.3);
+        }
+
+        .use-case-icon {
+            font-size: 1.6rem;
+            margin-bottom: 1rem;
+        }
+
+        .use-case h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: #f1f5f9;
+        }
+
+        .use-case p {
+            color: var(--silver-mid);
+            font-size: 0.9rem;
+        }
+
+        /* DePIN section */
+        .depin {
+            background: var(--dark-surface);
+        }
+
+        .depin-layout {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .depin-content h2 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 1.25rem;
+            background: linear-gradient(135deg, #e2e8f0, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .depin-content p {
+            color: var(--silver-mid);
+            margin-bottom: 1rem;
+            font-size: 1.05rem;
+        }
+
+        .depin-visual {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .depin-stat {
+            background: var(--dark-card);
+            border: 1px solid rgba(59, 130, 246, 0.12);
+            border-radius: 10px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .depin-stat .number {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: var(--blue-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .depin-stat .label {
+            color: var(--silver-mid);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            margin-top: 0.25rem;
+        }
+
+        /* Opportunity Zones */
+        .oz-layout {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: start;
+        }
+
+        .oz-content h3,
+        .oz-incentives h3 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #f1f5f9;
+            margin-bottom: 1rem;
+        }
+
+        .oz-content h3:not(:first-child) {
+            margin-top: 2rem;
+        }
+
+        .oz-content p {
+            color: var(--silver-mid);
+            font-size: 1rem;
+            margin-bottom: 0.75rem;
+            line-height: 1.7;
+        }
+
+        .oz-content strong {
+            color: var(--blue-light);
+        }
+
+        .oz-card {
+            background: var(--dark-card);
+            border: 1px solid rgba(59, 130, 246, 0.12);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .oz-card.highlight {
+            border-color: rgba(59, 130, 246, 0.35);
+            background: linear-gradient(135deg, rgba(30, 64, 175, 0.15), var(--dark-card));
+        }
+
+        .oz-card-header {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #f1f5f9;
+            margin-bottom: 0.5rem;
+            background: var(--blue-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .oz-card p {
+            color: var(--silver-mid);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .oz-card strong {
+            color: var(--blue-light);
+        }
+
+        /* CTA */
+        .cta {
+            text-align: center;
+            padding: 6rem 2rem;
+        }
+
+        .cta-box {
+            max-width: 700px;
+            margin: 0 auto;
+            background: linear-gradient(135deg, rgba(30, 64, 175, 0.2), rgba(59, 130, 246, 0.1));
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            border-radius: 16px;
+            padding: 4rem 3rem;
+        }
+
+        .cta-box h2 {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            color: #f1f5f9;
+        }
+
+        .cta-box p {
+            color: var(--silver-mid);
+            margin-bottom: 2rem;
+            font-size: 1.05rem;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark-surface);
+            border-top: 1px solid rgba(59, 130, 246, 0.1);
+            padding: 3rem 2rem;
+        }
+
+        .footer-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .footer-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .footer-brand img {
+            height: 32px;
+        }
+
+        .footer-brand span {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: #f1f5f9;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .footer-links a {
+            color: var(--silver-mid);
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: var(--blue-light);
+        }
+
+        .footer-copy {
+            color: var(--silver-dark);
+            font-size: 0.8rem;
+            width: 100%;
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .infra-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .nav-toggle { display: block; }
+            .nav-links.open {
+                display: flex;
+                flex-direction: column;
+                position: absolute;
+                top: 72px;
+                left: 0;
+                right: 0;
+                background: rgba(10, 22, 40, 0.98);
+                padding: 1.5rem 2rem;
+                border-bottom: 1px solid rgba(59, 130, 246, 0.15);
+            }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .infra-grid { grid-template-columns: 1fr; }
+            .network-layout { grid-template-columns: 1fr; }
+            .network-visual { height: 300px; }
+            .node-ring-1 { width: 250px; height: 250px; }
+            .node-ring-2 { width: 170px; height: 170px; }
+            .node-ring-3 { width: 90px; height: 90px; }
+            .use-cases-grid { grid-template-columns: 1fr; }
+            .depin-layout { grid-template-columns: 1fr; }
+            .oz-layout { grid-template-columns: 1fr; }
+            .cta-box { padding: 3rem 1.5rem; }
+            .footer-inner { flex-direction: column; text-align: center; }
+            .footer-links { justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav>
+    <div class="nav-inner">
+        <a href="#" class="nav-logo">
+            <img src="andd.png" alt="ANDD">
+        </a>
+        <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu">&#9776;</button>
+        <ul class="nav-links">
+            <li><a href="#infrastructure">Infrastructure</a></li>
+            <li><a href="#network">Network</a></li>
+            <li><a href="#solutions">Solutions</a></li>
+            <li><a href="#depin">DePIN</a></li>
+            <li><a href="#opportunity-zones">OZ</a></li>
+            <li><a href="#contact" class="nav-cta">Get in Touch</a></li>
+        </ul>
+    </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+    <div class="hero-grid"></div>
+    <div class="hero-content">
+        <img src="andd.png" alt="ANDD" class="hero-logo">
+        <h1>The Distributed Datacenter Network Built for the&nbsp;Edge</h1>
+        <p>AI native data center infrastructure designed to meet you where it matters most.</p>
+        <div class="hero-buttons">
+            <a href="#contact" class="btn-primary">Join the Network</a>
+            <a href="#infrastructure" class="btn-secondary">Learn More</a>
+        </div>
+    </div>
+</section>
+
+<!-- Stats -->
+<div class="stats">
+    <div class="stats-grid">
+        <div>
+            <div class="stat-number">&lt;2MW</div>
+            <div class="stat-label">Per Datacenter</div>
+        </div>
+        <div>
+            <div class="stat-number">100s</div>
+            <div class="stat-label">Edge Locations</div>
+        </div>
+        <div>
+            <div class="stat-number">4</div>
+            <div class="stat-label">Hardware Domains</div>
+        </div>
+        <div>
+            <div class="stat-number">US+</div>
+            <div class="stat-label">Coverage</div>
+        </div>
+    </div>
+</div>
+
+<!-- Infrastructure -->
+<section id="infrastructure">
+    <div class="section-header">
+        <div class="section-label">Infrastructure</div>
+        <h2>Four Pillars of Edge&nbsp;Power</h2>
+        <p>Each ANDD datacenter hosts a tailored mix of hardware optimized for local demand and network-wide orchestration.</p>
+    </div>
+    <div class="infra-grid">
+        <div class="infra-card">
+            <div class="infra-icon">&#9881;</div>
+            <h3>Compute</h3>
+            <p>High-density compute nodes delivering low-latency processing at the edge. From general workloads to specialized HPC tasks, right where your users are.</p>
+        </div>
+        <div class="infra-card">
+            <div class="infra-icon">&#9907;</div>
+            <h3>Storage</h3>
+            <p>Distributed storage infrastructure with redundancy across the network. Data stays close to where it's consumed, with global availability when needed.</p>
+        </div>
+        <div class="infra-card">
+            <div class="infra-icon">&#8644;</div>
+            <h3>Connectivity</h3>
+            <p>Each facility interconnects with telcos, service providers, and specialized networks, creating a mesh that improves delivery and reduces single points of failure.</p>
+        </div>
+        <div class="infra-card">
+            <div class="infra-icon">&#10070;</div>
+            <h3>AI Hardware</h3>
+            <p>Purpose-built accelerators for inference and training workloads. Run AI models at the edge without round-tripping to centralized hyperscale facilities.</p>
+        </div>
+    </div>
+</section>
+
+<!-- Network -->
+<section class="network" id="network">
+    <div class="network-layout">
+        <div class="network-visual">
+            <div class="node-ring node-ring-1"></div>
+            <div class="node-ring node-ring-2"></div>
+            <div class="node-ring node-ring-3"></div>
+            <div class="node-center">A&D</div>
+            <div class="node-dot"></div>
+            <div class="node-dot"></div>
+            <div class="node-dot"></div>
+            <div class="node-dot"></div>
+            <div class="node-dot"></div>
+            <div class="node-dot"></div>
+            <div class="node-dot"></div>
+            <div class="node-dot"></div>
+        </div>
+        <div class="network-info">
+            <h2>An Interconnected Edge Fabric</h2>
+            <p>ANDD datacenters don't operate in isolation. Every facility is connected to the broader network, creating a distributed fabric that routes workloads intelligently and sustains operations even when individual nodes go offline.</p>
+            <ul class="network-features">
+                <li>Resilient mesh architecture — no single point of failure</li>
+                <li>Intelligent workload routing across the network</li>
+                <li>Telco and service provider interconnection</li>
+                <li>Defense and specialized network compatibility</li>
+                <li>Scales from hundreds to thousands of locations</li>
+                <li>US-first rollout with global expansion planned</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- Solutions / Use Cases -->
+<section id="solutions">
+    <div class="section-header">
+        <div class="section-label">Solutions</div>
+        <h2>Built for Builders, Operators &amp;&nbsp;Governments</h2>
+        <p>From startups to federal agencies, ANDD provides infrastructure that meets you where you are.</p>
+    </div>
+    <div class="use-cases-grid">
+        <div class="use-case">
+            <div class="use-case-icon">&#127970;</div>
+            <h3>Communities &amp; Local Government</h3>
+            <p>Bring compute, connectivity, and AI capabilities directly into communities. Power smart-city initiatives, public safety systems, and local digital services.</p>
+        </div>
+        <div class="use-case">
+            <div class="use-case-icon">&#128640;</div>
+            <h3>Startups &amp; Developers</h3>
+            <p>Access edge infrastructure without building your own. Deploy AI models, run latency-sensitive applications, and scale with the network as you grow.</p>
+        </div>
+        <div class="use-case">
+            <div class="use-case-icon">&#9981;</div>
+            <h3>Blockchain &amp; Web3</h3>
+            <p>Host validators, run nodes, and power DePIN projects on distributed, high-quality hardware purpose-built for decentralized infrastructure.</p>
+        </div>
+        <div class="use-case">
+            <div class="use-case-icon">&#127974;</div>
+            <h3>Regional Fintech</h3>
+            <p>Meet data residency and latency requirements with edge compute that keeps financial data and processing close to the markets you serve.</p>
+        </div>
+        <div class="use-case">
+            <div class="use-case-icon">&#127963;</div>
+            <h3>State &amp; Federal Government</h3>
+            <p>Secure, distributed infrastructure for government workloads. Supports compliance requirements and integrates with defense and specialized networks.</p>
+        </div>
+        <div class="use-case">
+            <div class="use-case-icon">&#128225;</div>
+            <h3>Telcos &amp; Service Providers</h3>
+            <p>Extend your reach with edge facilities that provide last-mile compute, CDN offload, and network function hosting across the ANDD footprint.</p>
+        </div>
+    </div>
+</section>
+
+<!-- DePIN -->
+<section class="depin" id="depin">
+    <div class="depin-layout">
+        <div class="depin-content">
+            <div class="section-label">DePIN Ready</div>
+            <h2>Purpose-Built for Decentralized Infrastructure</h2>
+            <p>ANDD is designed from the ground up to support DePIN projects. Our network of high-quality edge datacenters provides the physical backbone that decentralized physical infrastructure networks need to deliver real-world performance.</p>
+            <p>Unlike repurposed consumer hardware or retrofitted facilities, every ANDD datacenter is built to commercial standards with redundant power, cooling, and connectivity — giving DePIN projects enterprise-grade reliability.</p>
+        </div>
+        <div class="depin-visual">
+            <div class="depin-stat">
+                <div class="number">99.99%</div>
+                <div class="label">Target Uptime</div>
+            </div>
+            <div class="depin-stat">
+                <div class="number">N+1</div>
+                <div class="label">Redundancy</div>
+            </div>
+            <div class="depin-stat">
+                <div class="number">&lt;5ms</div>
+                <div class="label">Edge Latency</div>
+            </div>
+            <div class="depin-stat">
+                <div class="number">1000s</div>
+                <div class="label">Planned Sites</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Opportunity Zones -->
+<section id="opportunity-zones">
+    <div class="section-header">
+        <div class="section-label">Strategic Deployment</div>
+        <h2>Opportunity Zone Aligned</h2>
+        <p>ANDD targets federally designated Opportunity Zones — placing infrastructure where it creates the most impact and unlocking powerful tax incentives for investors.</p>
+    </div>
+    <div class="oz-layout">
+        <div class="oz-content">
+            <h3>What Are Opportunity Zones?</h3>
+            <p>Established by the 2017 Tax Cuts and Jobs Act and made permanent by the One Big Beautiful Bill Act in 2025, Opportunity Zones are <strong>8,764 designated census tracts</strong> across all 50 states and U.S. territories where new investment qualifies for preferential tax treatment.</p>
+            <p>Over <strong>$100 billion in private capital</strong> has been deployed into OZs through approximately 7,800 Qualified Opportunity Funds — and about <strong>25% of datacenter square footage</strong> proposed or under construction is already in designated zones.</p>
+
+            <h3>Why OZs Are Ideal for ANDD</h3>
+            <ul class="network-features">
+                <li>Underserved communities that lack digital infrastructure and connectivity</li>
+                <li>Sub-2MW edge facilities deliver economic benefits without straining local power and water</li>
+                <li>Creates construction and permanent skilled operations jobs in distressed areas</li>
+                <li>Drives local workforce development and technology training programs</li>
+                <li>Generates tax revenue supporting schools, roads, and public services</li>
+                <li>Bridges the digital divide by placing compute closer to end users</li>
+            </ul>
+        </div>
+        <div class="oz-incentives">
+            <h3>Investor Tax Incentives</h3>
+            <div class="oz-card">
+                <div class="oz-card-header">Capital Gains Deferral</div>
+                <p>Defer tax on eligible capital gains by reinvesting into a Qualified Opportunity Fund with a rolling 5-year deferral window.</p>
+            </div>
+            <div class="oz-card">
+                <div class="oz-card-header">Basis Step-Up</div>
+                <p>Receive a <strong>10% step-up in basis</strong> at 5 years — or up to <strong>30% for rural OZ investments</strong> through Qualified Rural Opportunity Funds.</p>
+            </div>
+            <div class="oz-card highlight">
+                <div class="oz-card-header">10-Year Exclusion</div>
+                <p>Hold for 10+ years and <strong>pay zero tax on all appreciation</strong> of the new investment. Datacenter infrastructure naturally aligns with this long-term hold period.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="cta" id="contact">
+    <div class="cta-box">
+        <h2>Ready to Build on the Edge?</h2>
+        <p>Whether you're a startup, a government agency, or a DePIN project — we'd love to talk about how ANDD can power your infrastructure.</p>
+        <div class="cta-buttons">
+            <a href="mailto:contact@andd.network" class="btn-primary">Contact Us</a>
+            <a href="#infrastructure" class="btn-secondary">Explore Infrastructure</a>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer>
+    <div class="footer-inner">
+        <div class="footer-brand">
+            <img src="andd.png" alt="ANDD">
+            <span>ANDD</span>
+        </div>
+        <ul class="footer-links">
+            <li><a href="#infrastructure">Infrastructure</a></li>
+            <li><a href="#network">Network</a></li>
+            <li><a href="#solutions">Solutions</a></li>
+            <li><a href="#depin">DePIN</a></li>
+            <li><a href="#opportunity-zones">OZ</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+        <div class="footer-copy">&copy; 2026 ANDD — AI Native Distributed Datacenters. All rights reserved.</div>
+    </div>
+</footer>
+
+</body>
+</html>

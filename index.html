@@ -1,1006 +1,693 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ANDD — AI Native Distributed Datacenters</title>
-    <link rel="icon" type="image/png" href="andd.png">
-    <style>
-        :root {
-            --blue-dark: #1a3a5c;
-            --blue-mid: #2b6cb0;
-            --blue-bright: #3b82f6;
-            --blue-light: #60a5fa;
-            --silver-dark: #6b7280;
-            --silver-mid: #9ca3af;
-            --silver-light: #d1d5db;
-            --chrome: linear-gradient(135deg, #c0c0c0, #e8e8e8, #a0a0a0);
-            --blue-gradient: linear-gradient(135deg, #1e40af, #3b82f6, #60a5fa);
-            --dark-bg: #0a1628;
-            --dark-surface: #111d33;
-            --dark-card: #162440;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            color: #e2e8f0;
-            background: var(--dark-bg);
-            line-height: 1.6;
-        }
-
-        /* Navigation */
-        nav {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            z-index: 1000;
-            background: rgba(10, 22, 40, 0.92);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(59, 130, 246, 0.15);
-            padding: 0 2rem;
-        }
-
-        .nav-inner {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            height: 72px;
-        }
-
-        .nav-logo {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            text-decoration: none;
-        }
-
-        .nav-logo img {
-            height: 56px;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-            list-style: none;
-        }
-
-        .nav-links a {
-            color: var(--silver-mid);
-            text-decoration: none;
-            font-size: 0.9rem;
-            font-weight: 500;
-            letter-spacing: 0.03em;
-            transition: color 0.2s;
-        }
-
-        .nav-links a:hover {
-            color: var(--blue-light);
-        }
-
-        .nav-cta {
-            background: var(--blue-gradient);
-            color: #fff !important;
-            padding: 0.5rem 1.25rem;
-            border-radius: 6px;
-            font-weight: 600 !important;
-        }
-
-        .nav-cta:hover {
-            opacity: 0.9;
-        }
-
-        .nav-toggle {
-            display: none;
-            background: none;
-            border: none;
-            color: #e2e8f0;
-            font-size: 1.5rem;
-            cursor: pointer;
-        }
-
-        /* Hero */
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 6rem 2rem 4rem;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background:
-                radial-gradient(ellipse 80% 60% at 50% 40%, rgba(30, 64, 175, 0.15), transparent),
-                radial-gradient(ellipse 60% 50% at 80% 20%, rgba(59, 130, 246, 0.08), transparent);
-        }
-
-        .hero-grid {
-            position: absolute;
-            inset: 0;
-            background-image:
-                linear-gradient(rgba(59, 130, 246, 0.04) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(59, 130, 246, 0.04) 1px, transparent 1px);
-            background-size: 60px 60px;
-        }
-
-        .hero-content {
-            position: relative;
-            max-width: 900px;
-        }
-
-        .hero-logo {
-            width: 360px;
-            height: auto;
-            margin: 0 auto 2.5rem;
-            display: block;
-            filter: drop-shadow(0 0 40px rgba(59, 130, 246, 0.25));
-        }
-
-        .hero-badge {
-            display: inline-block;
-            background: rgba(59, 130, 246, 0.12);
-            border: 1px solid rgba(59, 130, 246, 0.25);
-            color: var(--blue-light);
-            padding: 0.4rem 1rem;
-            border-radius: 999px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            margin-bottom: 1.5rem;
-        }
-
-        .hero h1 {
-            font-size: clamp(2.5rem, 6vw, 4.2rem);
-            font-weight: 800;
-            line-height: 1.1;
-            margin-bottom: 1.5rem;
-            background: linear-gradient(135deg, #e2e8f0 0%, #94a3b8 30%, #60a5fa 60%, #3b82f6 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .hero p {
-            font-size: 1.2rem;
-            color: var(--silver-mid);
-            max-width: 680px;
-            margin: 0 auto 2.5rem;
-        }
-
-        .hero-buttons {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .btn-primary {
-            background: var(--blue-gradient);
-            color: #fff;
-            padding: 0.85rem 2rem;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 1rem;
-            border: none;
-            cursor: pointer;
-            transition: opacity 0.2s, transform 0.2s;
-        }
-
-        .btn-primary:hover {
-            opacity: 0.9;
-            transform: translateY(-1px);
-        }
-
-        .btn-secondary {
-            background: transparent;
-            color: var(--silver-light);
-            padding: 0.85rem 2rem;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 1rem;
-            border: 1px solid rgba(156, 163, 175, 0.3);
-            cursor: pointer;
-            transition: border-color 0.2s, color 0.2s;
-        }
-
-        .btn-secondary:hover {
-            border-color: var(--blue-light);
-            color: var(--blue-light);
-        }
-
-        /* Stats bar */
-        .stats {
-            background: var(--dark-surface);
-            border-top: 1px solid rgba(59, 130, 246, 0.1);
-            border-bottom: 1px solid rgba(59, 130, 246, 0.1);
-            padding: 3rem 2rem;
-        }
-
-        .stats-grid {
-            max-width: 1000px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 2rem;
-            text-align: center;
-        }
-
-        .stat-number {
-            font-size: 2.5rem;
-            font-weight: 800;
-            background: var(--blue-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .stat-label {
-            color: var(--silver-mid);
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            margin-top: 0.25rem;
-        }
-
-        /* Sections */
-        section {
-            padding: 6rem 2rem;
-        }
-
-        .section-header {
-            text-align: center;
-            max-width: 700px;
-            margin: 0 auto 4rem;
-        }
-
-        .section-label {
-            color: var(--blue-bright);
-            font-size: 0.8rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            margin-bottom: 0.75rem;
-        }
-
-        .section-header h2 {
-            font-size: 2.4rem;
-            font-weight: 800;
-            margin-bottom: 1rem;
-            background: linear-gradient(135deg, #e2e8f0, #94a3b8);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .section-header p {
-            color: var(--silver-mid);
-            font-size: 1.1rem;
-        }
-
-        /* Infrastructure cards */
-        .infra-grid {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 1.5rem;
-        }
-
-        .infra-card {
-            background: var(--dark-card);
-            border: 1px solid rgba(59, 130, 246, 0.1);
-            border-radius: 12px;
-            padding: 2rem;
-            transition: border-color 0.3s, transform 0.3s;
-        }
-
-        .infra-card:hover {
-            border-color: rgba(59, 130, 246, 0.35);
-            transform: translateY(-4px);
-        }
-
-        .infra-icon {
-            width: 48px;
-            height: 48px;
-            background: rgba(59, 130, 246, 0.1);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.4rem;
-            margin-bottom: 1.25rem;
-        }
-
-        .infra-card h3 {
-            font-size: 1.15rem;
-            font-weight: 700;
-            margin-bottom: 0.6rem;
-            color: #f1f5f9;
-        }
-
-        .infra-card p {
-            color: var(--silver-mid);
-            font-size: 0.9rem;
-            line-height: 1.6;
-        }
-
-        /* Network section */
-        .network {
-            background: var(--dark-surface);
-        }
-
-        .network-layout {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            align-items: center;
-        }
-
-        .network-visual {
-            position: relative;
-            height: 400px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .node-ring {
-            position: absolute;
-            border: 1px solid rgba(59, 130, 246, 0.15);
-            border-radius: 50%;
-        }
-
-        .node-ring-1 { width: 320px; height: 320px; }
-        .node-ring-2 { width: 220px; height: 220px; }
-        .node-ring-3 { width: 120px; height: 120px; }
-
-        .node-center {
-            position: absolute;
-            width: 56px;
-            height: 56px;
-            background: var(--blue-gradient);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            font-weight: 800;
-            color: #fff;
-            box-shadow: 0 0 30px rgba(59, 130, 246, 0.3);
-        }
-
-        .node-dot {
-            position: absolute;
-            width: 10px;
-            height: 10px;
-            background: var(--blue-bright);
-            border-radius: 50%;
-            box-shadow: 0 0 8px rgba(59, 130, 246, 0.5);
-        }
-
-        .node-dot:nth-child(5) { top: 40px; left: 50%; transform: translateX(-50%); }
-        .node-dot:nth-child(6) { bottom: 40px; left: 50%; transform: translateX(-50%); }
-        .node-dot:nth-child(7) { left: 40px; top: 50%; transform: translateY(-50%); }
-        .node-dot:nth-child(8) { right: 40px; top: 50%; transform: translateY(-50%); }
-        .node-dot:nth-child(9) { top: 80px; left: 80px; }
-        .node-dot:nth-child(10) { top: 80px; right: 80px; }
-        .node-dot:nth-child(11) { bottom: 80px; left: 80px; }
-        .node-dot:nth-child(12) { bottom: 80px; right: 80px; }
-
-        .network-info h2 {
-            font-size: 2.2rem;
-            font-weight: 800;
-            margin-bottom: 1.25rem;
-            background: linear-gradient(135deg, #e2e8f0, #94a3b8);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .network-info p {
-            color: var(--silver-mid);
-            margin-bottom: 1rem;
-            font-size: 1.05rem;
-        }
-
-        .network-features {
-            list-style: none;
-            margin-top: 1.5rem;
-        }
-
-        .network-features li {
-            padding: 0.6rem 0;
-            color: var(--silver-light);
-            display: flex;
-            align-items: flex-start;
-            gap: 0.75rem;
-            font-size: 0.95rem;
-        }
-
-        .network-features li::before {
-            content: '▸';
-            color: var(--blue-bright);
-            font-weight: bold;
-            flex-shrink: 0;
-        }
-
-        /* Use cases */
-        .use-cases-grid {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1.5rem;
-        }
-
-        .use-case {
-            background: var(--dark-card);
-            border: 1px solid rgba(59, 130, 246, 0.1);
-            border-radius: 12px;
-            padding: 2rem;
-            transition: border-color 0.3s;
-        }
-
-        .use-case:hover {
-            border-color: rgba(59, 130, 246, 0.3);
-        }
-
-        .use-case-icon {
-            font-size: 1.6rem;
-            margin-bottom: 1rem;
-        }
-
-        .use-case h3 {
-            font-size: 1.1rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-            color: #f1f5f9;
-        }
-
-        .use-case p {
-            color: var(--silver-mid);
-            font-size: 0.9rem;
-        }
-
-        /* DePIN section */
-        .depin {
-            background: var(--dark-surface);
-        }
-
-        .depin-layout {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            align-items: center;
-        }
-
-        .depin-content h2 {
-            font-size: 2.2rem;
-            font-weight: 800;
-            margin-bottom: 1.25rem;
-            background: linear-gradient(135deg, #e2e8f0, #94a3b8);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .depin-content p {
-            color: var(--silver-mid);
-            margin-bottom: 1rem;
-            font-size: 1.05rem;
-        }
-
-        .depin-visual {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-        }
-
-        .depin-stat {
-            background: var(--dark-card);
-            border: 1px solid rgba(59, 130, 246, 0.12);
-            border-radius: 10px;
-            padding: 1.5rem;
-            text-align: center;
-        }
-
-        .depin-stat .number {
-            font-size: 1.8rem;
-            font-weight: 800;
-            background: var(--blue-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .depin-stat .label {
-            color: var(--silver-mid);
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 0.06em;
-            margin-top: 0.25rem;
-        }
-
-        /* Opportunity Zones */
-        .oz-layout {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 3rem;
-            align-items: start;
-        }
-
-        .oz-content h3,
-        .oz-incentives h3 {
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: #f1f5f9;
-            margin-bottom: 1rem;
-        }
-
-        .oz-content h3:not(:first-child) {
-            margin-top: 2rem;
-        }
-
-        .oz-content p {
-            color: var(--silver-mid);
-            font-size: 1rem;
-            margin-bottom: 0.75rem;
-            line-height: 1.7;
-        }
-
-        .oz-content strong {
-            color: var(--blue-light);
-        }
-
-        .oz-card {
-            background: var(--dark-card);
-            border: 1px solid rgba(59, 130, 246, 0.12);
-            border-radius: 10px;
-            padding: 1.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .oz-card.highlight {
-            border-color: rgba(59, 130, 246, 0.35);
-            background: linear-gradient(135deg, rgba(30, 64, 175, 0.15), var(--dark-card));
-        }
-
-        .oz-card-header {
-            font-size: 1.05rem;
-            font-weight: 700;
-            color: #f1f5f9;
-            margin-bottom: 0.5rem;
-            background: var(--blue-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .oz-card p {
-            color: var(--silver-mid);
-            font-size: 0.9rem;
-            line-height: 1.6;
-        }
-
-        .oz-card strong {
-            color: var(--blue-light);
-        }
-
-        /* CTA */
-        .cta {
-            text-align: center;
-            padding: 6rem 2rem;
-        }
-
-        .cta-box {
-            max-width: 700px;
-            margin: 0 auto;
-            background: linear-gradient(135deg, rgba(30, 64, 175, 0.2), rgba(59, 130, 246, 0.1));
-            border: 1px solid rgba(59, 130, 246, 0.2);
-            border-radius: 16px;
-            padding: 4rem 3rem;
-        }
-
-        .cta-box h2 {
-            font-size: 2rem;
-            font-weight: 800;
-            margin-bottom: 1rem;
-            color: #f1f5f9;
-        }
-
-        .cta-box p {
-            color: var(--silver-mid);
-            margin-bottom: 2rem;
-            font-size: 1.05rem;
-        }
-
-        .cta-buttons {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        /* Footer */
-        footer {
-            background: var(--dark-surface);
-            border-top: 1px solid rgba(59, 130, 246, 0.1);
-            padding: 3rem 2rem;
-        }
-
-        .footer-inner {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-
-        .footer-brand {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .footer-brand img {
-            height: 32px;
-        }
-
-        .footer-brand span {
-            font-weight: 700;
-            font-size: 1.1rem;
-            color: #f1f5f9;
-        }
-
-        .footer-links {
-            display: flex;
-            gap: 2rem;
-            list-style: none;
-        }
-
-        .footer-links a {
-            color: var(--silver-mid);
-            text-decoration: none;
-            font-size: 0.85rem;
-            transition: color 0.2s;
-        }
-
-        .footer-links a:hover {
-            color: var(--blue-light);
-        }
-
-        .footer-copy {
-            color: var(--silver-dark);
-            font-size: 0.8rem;
-            width: 100%;
-            text-align: center;
-            margin-top: 2rem;
-        }
-
-        /* Responsive */
-        @media (max-width: 1024px) {
-            .infra-grid { grid-template-columns: repeat(2, 1fr); }
-        }
-
-        @media (max-width: 768px) {
-            .nav-links { display: none; }
-            .nav-toggle { display: block; }
-            .nav-links.open {
-                display: flex;
-                flex-direction: column;
-                position: absolute;
-                top: 72px;
-                left: 0;
-                right: 0;
-                background: rgba(10, 22, 40, 0.98);
-                padding: 1.5rem 2rem;
-                border-bottom: 1px solid rgba(59, 130, 246, 0.15);
-            }
-            .stats-grid { grid-template-columns: repeat(2, 1fr); }
-            .infra-grid { grid-template-columns: 1fr; }
-            .network-layout { grid-template-columns: 1fr; }
-            .network-visual { height: 300px; }
-            .node-ring-1 { width: 250px; height: 250px; }
-            .node-ring-2 { width: 170px; height: 170px; }
-            .node-ring-3 { width: 90px; height: 90px; }
-            .use-cases-grid { grid-template-columns: 1fr; }
-            .depin-layout { grid-template-columns: 1fr; }
-            .oz-layout { grid-template-columns: 1fr; }
-            .cta-box { padding: 3rem 1.5rem; }
-            .footer-inner { flex-direction: column; text-align: center; }
-            .footer-links { justify-content: center; }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ANDD — Fabric</title>
+<script>
+  // Set theme BEFORE paint to avoid a flash. Default = dark.
+  (function(){
+    try {
+      const saved = localStorage.getItem('andd-theme');
+      if (saved === 'light') document.documentElement.setAttribute('data-theme', 'light');
+    } catch(e){}
+  })();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared/system.css?v=4">
+<style>
+  /* Inline light-theme fallback to guarantee it wins over any cached CSS */
+  html[data-theme="light"] {
+    --bg: #f5f2ea; --bg-1: #eae6db; --bg-2: #ddd6c4;
+    --surface: #ffffff; --surface-hi: #f0ece1;
+    --line: rgba(20,40,80,0.10); --line-hi: rgba(20,40,80,0.22); --line-hot: rgba(10,100,160,0.45);
+    --ink-0: #0a1224; --ink-1: #22304a; --ink-2: #55637d; --ink-3: #8691a8;
+    --cyan: #0f7a9a; --cyan-dim: #0a5570;
+    --amber: #c27020; --amber-dim: #8d4a0f;
+    --violet: #6041c7; --lime: #3d7a2c; --rose: #c43a55;
+    --glow-cyan: rgba(15,122,154,0.18);
+  }
+</style>
+<style>
+  /* Direction B — Fabric: abstract 3D mesh sphere. More editorial & typographic. */
+
+  :root { --bg: #050810; --bg-1: #070b16; }
+  [data-theme="light"] { --bg: #f5f2ea; --bg-1: #eae6db; }
+
+  /* NAV */
+  .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; backdrop-filter: blur(18px); background: rgba(5, 8, 16, 0.55); border-bottom: 1px solid var(--line); }
+  [data-theme="light"] .nav { background: rgba(245, 242, 234, 0.75); }
+  .nav-row { display: flex; align-items: center; justify-content: space-between; height: 64px; }
+  .nav-mid { display: flex; gap: 28px; }
+  .nav-mid a { font-family: var(--font-display); font-size: 13px; color: var(--ink-2); transition: color 160ms; }
+  .nav-mid a:hover, .nav-mid a.on { color: var(--ink-0); }
+
+  /* HERO: left headline, right rotatable 3D mesh */
+  .hero { min-height: 100vh; padding-top: 64px; position: relative; overflow: hidden; display: grid; grid-template-rows: 1fr auto; }
+  .hero-bg {
+    position: absolute; inset: 0; pointer-events: none;
+    background:
+      radial-gradient(ellipse 55% 45% at 72% 45%, rgba(94, 227, 255, 0.14), transparent 70%),
+      radial-gradient(ellipse 40% 40% at 20% 85%, rgba(163, 136, 255, 0.06), transparent 70%);
+  }
+  [data-theme="light"] .hero-bg {
+    background:
+      radial-gradient(ellipse 55% 45% at 72% 45%, rgba(15, 122, 154, 0.10), transparent 70%),
+      radial-gradient(ellipse 40% 40% at 20% 85%, rgba(96, 65, 199, 0.05), transparent 70%);
+  }
+  .hero-inner { position: relative; max-width: 1600px; margin: 0 auto; width: 100%; padding: 0 clamp(1.25rem, 3vw, 3rem); display: grid; grid-template-columns: minmax(440px, 1fr) minmax(500px, 1.1fr); gap: 48px; align-items: center; }
+  .hero-left { padding: clamp(3rem, 6vh, 6rem) 0; }
+  .hero-left .pre { display: flex; align-items: center; gap: 12px; margin-bottom: 36px; }
+  .hero-left .pre .dot { width: 8px; height: 8px; background: var(--lime); border-radius: 50%; box-shadow: 0 0 12px var(--lime); }
+  .hero-left .pre .tx { font-family: var(--font-mono); font-size: 11px; color: var(--ink-2); letter-spacing: 0.16em; text-transform: uppercase; }
+  .hero-left h1 { font-size: clamp(2.8rem, 5.8vw, 5.4rem); line-height: 1; letter-spacing: -0.03em; margin-bottom: 32px; }
+  .hero-left h1 .glow { color: var(--cyan); text-shadow: 0 0 40px var(--glow-cyan); }
+  .hero-left h1 .sub { display: block; color: var(--ink-2); font-weight: 300; letter-spacing: -0.01em; margin-top: 14px; font-size: 0.46em; line-height: 1.3; max-width: 22ch; }
+  .hero-left .dek { font-size: 1.1rem; color: var(--ink-1); max-width: 46ch; margin-bottom: 40px; font-weight: 300; }
+  .hero-left .hero-cta { display: flex; gap: 10px; margin-bottom: 48px; }
+
+  .hero-right { position: relative; aspect-ratio: 1/1; max-height: 82vh; display: flex; align-items: center; justify-content: center; }
+  .mesh-stage { width: 100%; height: 100%; position: relative; cursor: grab; }
+  .mesh-stage:active { cursor: grabbing; }
+  .mesh-stage svg { width: 100%; height: 100%; overflow: visible; }
+  .mesh-stage svg .nucleus-near, .mesh-stage svg .nucleus-far { stop-color: var(--cyan); }
+  .mesh-hint { position: absolute; bottom: 12px; left: 12px; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.08em; color: var(--ink-3); text-transform: uppercase; }
+
+  /* Below-the-fold bar with quick stats */
+  .hero-bar {
+    position: relative; max-width: 1600px; margin: 0 auto; width: 100%;
+    padding: 0 clamp(1.25rem, 3vw, 3rem);
+  }
+  .hero-bar .inner {
+    display: grid; grid-template-columns: repeat(6, 1fr); gap: 1px;
+    background: var(--line);
+    border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+  }
+  .hero-bar .s { background: var(--bg); padding: 22px 20px; }
+  .hero-bar .k { font-family: var(--font-mono); font-size: 10px; color: var(--ink-3); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 6px; }
+  .hero-bar .v { font-family: var(--font-display); font-size: 1.4rem; color: var(--ink-0); letter-spacing: -0.02em; }
+  .hero-bar .v .u { font-size: 0.55em; color: var(--ink-2); margin-left: 4px; }
+
+  /* MANIFESTO band */
+  .manifesto { padding: calc(var(--pad-section) * 1.1) 0; border-top: 1px solid var(--line); }
+  .manifesto-grid { display: grid; grid-template-columns: 1fr 2fr; gap: 80px; align-items: start; }
+  .manifesto .lbl { font-family: var(--font-mono); font-size: 22px; color: var(--cyan); letter-spacing: 0.14em; text-transform: uppercase; padding-top: 14px; border-top: 1px solid var(--line-hi); }
+  .manifesto blockquote { font-family: var(--font-display); font-size: clamp(1.6rem, 2.6vw, 2.6rem); line-height: 1.15; color: var(--ink-0); font-weight: 400; letter-spacing: -0.02em; max-width: 26ch; }
+  .manifesto blockquote .dim { color: var(--ink-2); }
+  .manifesto blockquote .hl { color: var(--cyan); }
+
+  /* LAYERS — vertical stack, full bleed */
+  .layers { padding: var(--pad-section) 0; border-top: 1px solid var(--line); background: var(--bg-1); }
+  .sec-head { max-width: 880px; margin-bottom: 64px; }
+  .sec-head .eyebrow { margin-bottom: 16px; display: inline-block; font-size: 22px; letter-spacing: 0.14em; }
+  .sec-head h2 { margin-bottom: 16px; }
+  .sec-head p { color: var(--ink-2); font-size: 1.05rem; max-width: 60ch; }
+
+  .layer-rows { border-top: 1px solid var(--line); }
+  .layer-row {
+    display: grid; grid-template-columns: 80px 1fr 1.3fr 200px;
+    gap: 40px; align-items: center;
+    padding: 44px 0;
+    border-bottom: 1px solid var(--line);
+    transition: background 240ms;
+  }
+  .layer-row:hover { background: color-mix(in srgb, var(--cyan) 4%, transparent); }
+  .layer-row .idx { font-family: var(--font-mono); font-size: 1.8rem; color: var(--cyan); letter-spacing: -0.02em; font-weight: 500; }
+  .layer-row .ttl h3 { font-size: 1.6rem; margin-bottom: 6px; }
+  .layer-row .ttl .k { font-family: var(--font-mono); font-size: 10px; color: var(--ink-3); letter-spacing: 0.12em; text-transform: uppercase; }
+  .layer-row .desc { color: var(--ink-1); font-size: 0.98rem; max-width: 52ch; }
+  .layer-row .specs { display: flex; flex-direction: column; gap: 6px; font-family: var(--font-mono); font-size: 10px; color: var(--ink-2); letter-spacing: 0.06em; text-transform: uppercase; text-align: right; }
+  .layer-row .specs b { color: var(--ink-0); font-weight: 500; }
+
+  /* USES — grid of industry tiles with glowing mini-vis */
+  .uses { padding: var(--pad-section) 0; border-top: 1px solid var(--line); }
+  .use-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); }
+  .use-tile {
+    position: relative; background: var(--bg); padding: 32px 28px 28px; min-height: 320px; display: flex; flex-direction: column;
+    overflow: hidden; transition: background 240ms; cursor: default;
+  }
+  .use-tile::before { content:''; position: absolute; inset: 0; background: radial-gradient(ellipse 80% 60% at 80% 100%, currentColor 0%, transparent 60%); opacity: 0.14; pointer-events: none; transition: opacity 240ms; }
+  .use-tile:hover::before { opacity: 0.28; }
+  .use-tile .idx { font-family: var(--font-mono); font-size: 10px; color: currentColor; letter-spacing: 0.16em; margin-bottom: 16px; }
+  [data-theme="light"] .use-tile .idx { color: var(--ink-1); }
+  [data-theme="light"] .use-tile .facts { color: var(--ink-1); border-top-color: var(--line-hi); }
+  [data-theme="light"] .use-tile .facts .f b { color: var(--ink-0); }
+  [data-theme="light"] .use-tile::before { opacity: 0.08; }
+  [data-theme="light"] .use-tile:hover::before { opacity: 0.18; }
+  .use-tile h3 { color: var(--ink-0); font-size: 1.25rem; margin-bottom: 10px; }
+  .use-tile .desc { color: var(--ink-2); font-size: 0.9rem; flex: 1; margin-bottom: 16px; }
+  .use-tile .facts { display: flex; flex-direction: column; gap: 6px; font-family: var(--font-mono); font-size: 10px; color: var(--ink-2); letter-spacing: 0.04em; border-top: 1px dashed var(--line); padding-top: 12px; }
+  .use-tile .facts .f { display: flex; justify-content: space-between; }
+  .use-tile .facts .f b { color: currentColor; font-weight: 500; }
+  .use-tile .vis { position: absolute; top: 20px; right: 20px; width: 60px; height: 60px; opacity: 0.8; }
+  .use-tile .vis svg { width: 100%; height: 100%; }
+
+  /* Theme toggle */
+  .theme-toggle {
+    width: 36px; height: 36px;
+    display: inline-flex; align-items: center; justify-content: center;
+    border: 1px solid var(--line-hi); border-radius: 999px;
+    background: transparent; color: var(--ink-1);
+    cursor: pointer; transition: background 160ms, border-color 160ms, color 160ms;
+    position: relative; overflow: hidden;
+  }
+  .theme-toggle:hover { border-color: var(--line-hot); color: var(--ink-0); }
+  .theme-toggle .ticon { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; transition: opacity 200ms, transform 280ms cubic-bezier(.5,1.6,.5,1); }
+  .theme-toggle .ticon svg { width: 16px; height: 16px; }
+  /* Dark by default: show moon */
+  .theme-toggle .ticon:not(.moon) { opacity: 0; transform: rotate(-40deg) scale(.7); }
+  .theme-toggle .ticon.moon { opacity: 1; transform: none; }
+  [data-theme="light"] .theme-toggle .ticon:not(.moon) { opacity: 1; transform: none; }
+  [data-theme="light"] .theme-toggle .ticon.moon { opacity: 0; transform: rotate(40deg) scale(.7); }
+
+  /* RESILIENCE — full-width graph */
+  .resilience { padding: var(--pad-section) 0; border-top: 1px solid var(--line); background: var(--bg-1); overflow: hidden; }
+  .res-stage { position: relative; aspect-ratio: 16/9; width: 100%; background: var(--bg); border: 1px solid var(--line); margin-top: 40px; overflow: hidden; }
+  .res-stage svg { width: 100%; height: 100%; display: block; }
+  .res-hud { position: absolute; top: 16px; left: 20px; display: flex; flex-direction: column; gap: 2px; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.08em; color: var(--ink-2); text-transform: uppercase; }
+  .res-hud b { color: var(--lime); }
+  .res-hud.alarm b { color: var(--rose); }
+  .res-hint { position: absolute; bottom: 16px; right: 20px; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.08em; color: var(--ink-3); text-transform: uppercase; }
+
+  /* CTA */
+  .cta { padding: var(--pad-section) 0 calc(var(--pad-section) * 1.4); border-top: 1px solid var(--line); text-align: center; }
+  .cta .eyebrow { margin-bottom: 24px; display: inline-block; font-size: 22px; letter-spacing: 0.14em; }
+  .cta h2 { margin-bottom: 18px; max-width: 22ch; margin-inline: auto; font-size: clamp(2.4rem, 4.2vw, 3.8rem); }
+  .cta p { color: var(--ink-2); font-size: 1.05rem; max-width: 50ch; margin: 0 auto 32px; }
+  .cta .ctas { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+
+  footer { padding: 40px 0; border-top: 1px solid var(--line); }
+  .foot-row { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px; }
+  .foot-row a { font-family: var(--font-mono); font-size: 11px; color: var(--ink-2); letter-spacing: 0.06em; text-transform: uppercase; }
+  .foot-row a:hover { color: var(--ink-0); }
+  .foot-row .cpy { font-family: var(--font-mono); font-size: 11px; color: var(--ink-3); letter-spacing: 0.06em; text-transform: uppercase; }
+  .fl { display: flex; gap: 24px; }
+
+  @media (max-width: 1040px) {
+    .hero-inner { grid-template-columns: 1fr; }
+    .hero-right { max-height: 60vh; }
+    .manifesto-grid, .layer-row { grid-template-columns: 1fr; gap: 16px; }
+    .layer-row .specs { text-align: left; flex-direction: row; gap: 20px; }
+    .use-grid { grid-template-columns: 1fr 1fr; }
+    .hero-bar .inner { grid-template-columns: repeat(3, 1fr); }
+  }
+</style>
 </head>
 <body>
 
-<!-- Navigation -->
-<nav>
-    <div class="nav-inner">
-        <a href="#" class="nav-logo">
-            <img src="andd.png" alt="ANDD">
-        </a>
-        <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu">&#9776;</button>
-        <ul class="nav-links">
-            <li><a href="#infrastructure">Infrastructure</a></li>
-            <li><a href="#network">Network</a></li>
-            <li><a href="#solutions">Solutions</a></li>
-            <li><a href="#depin">DePIN</a></li>
-            <li><a href="#opportunity-zones">OZ</a></li>
-            <li><a href="#contact" class="nav-cta">Get in Touch</a></li>
-        </ul>
+<nav class="nav">
+  <div class="container nav-row">
+    <span class="wm" id="nav-wm"></span>
+    <div class="nav-mid">
+      <a href="#fabric" class="on">Fabric</a>
+      <a href="#layers">Architecture</a>
+      <a href="#uses">Use Cases</a>
+      <a href="#resilience">Resilience</a>
+      <a href="#contact">Contact</a>
     </div>
+    <div style="display:flex;align-items:center;gap:12px">
+      <button id="theme-toggle" class="theme-toggle" aria-label="Toggle light/dark theme" title="Toggle theme">
+        <span class="ticon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 3v1.5M12 19.5V21M3 12h1.5M19.5 12H21M5.4 5.4l1.1 1.1M17.5 17.5l1.1 1.1M5.4 18.6l1.1-1.1M17.5 6.5l1.1-1.1"/></svg></span>
+        <span class="ticon moon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5z"/></svg></span>
+      </button>
+      <a href="#contact" class="btn btn-primary">Join Network</a>
+    </div>
+  </div>
 </nav>
 
-<!-- Hero -->
-<section class="hero">
-    <div class="hero-grid"></div>
-    <div class="hero-content">
-        <img src="andd.png" alt="ANDD" class="hero-logo">
-        <h1>The Distributed Datacenter Network Built for the&nbsp;Edge</h1>
-        <p>AI native data center infrastructure designed to meet you where it matters most.</p>
-        <div class="hero-buttons">
-            <a href="#contact" class="btn-primary">Join the Network</a>
-            <a href="#infrastructure" class="btn-secondary">Learn More</a>
-        </div>
+<section class="hero" id="fabric">
+  <div class="hero-bg"></div>
+  <div class="hero-inner">
+    <div class="hero-left">
+      <h1>The fabric <br>beneath the <span class="glow">next</span><br>internet.
+        <span class="sub">A mesh of AI-native edge datacenters — distributed, sovereign, self-routing.</span>
+      </h1>
+      <p class="dek">ANDD deploys hundreds of sub-2MW edge sites across Opportunity Zones. Every node peers with its neighbors, every workload finds the closest GPU, every dollar of compute lands in the community that hosts it.</p>
+      <div class="hero-cta">
+        <a href="#contact" class="btn btn-primary">Join the network →</a>
+        <a href="#layers" class="btn">Read the architecture</a>
+      </div>
     </div>
+
+    <div class="hero-right">
+      <div class="mesh-stage" id="mesh-stage">
+        <svg viewBox="-200 -200 400 400" preserveAspectRatio="xMidYMid meet">
+          <defs>
+            <radialGradient id="nucleus" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" class="nucleus-near" stop-opacity="0.35"/>
+              <stop offset="100%" class="nucleus-far" stop-opacity="0"/>
+            </radialGradient>
+            <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation="2"/>
+              <feComponentTransfer><feFuncA type="linear" slope="1.8"/></feComponentTransfer>
+              <feComposite in2="SourceGraphic" operator="over"/>
+            </filter>
+          </defs>
+          <circle cx="0" cy="0" r="200" fill="url(#nucleus)"/>
+          <g id="mesh-sphere"></g>
+        </svg>
+        <div class="mesh-hint">↳ drag to rotate</div>
+      </div>
+    </div>
+  </div>
+
 </section>
 
-<!-- Stats -->
-<div class="stats">
-    <div class="stats-grid">
-        <div>
-            <div class="stat-number">&lt;2MW</div>
-            <div class="stat-label">Per Datacenter</div>
-        </div>
-        <div>
-            <div class="stat-number">100s</div>
-            <div class="stat-label">Edge Locations</div>
-        </div>
-        <div>
-            <div class="stat-number">4</div>
-            <div class="stat-label">Hardware Domains</div>
-        </div>
-        <div>
-            <div class="stat-number">US+</div>
-            <div class="stat-label">Coverage</div>
-        </div>
-    </div>
-</div>
-
-<!-- Infrastructure -->
-<section id="infrastructure">
-    <div class="section-header">
-        <div class="section-label">Infrastructure</div>
-        <h2>Four Pillars of Edge&nbsp;Power</h2>
-        <p>Each ANDD datacenter hosts a tailored mix of hardware optimized for local demand and network-wide orchestration.</p>
-    </div>
-    <div class="infra-grid">
-        <div class="infra-card">
-            <div class="infra-icon">&#9881;</div>
-            <h3>Compute</h3>
-            <p>High-density compute nodes delivering low-latency processing at the edge. From general workloads to specialized HPC tasks, right where your users are.</p>
-        </div>
-        <div class="infra-card">
-            <div class="infra-icon">&#9907;</div>
-            <h3>Storage</h3>
-            <p>Distributed storage infrastructure with redundancy across the network. Data stays close to where it's consumed, with global availability when needed.</p>
-        </div>
-        <div class="infra-card">
-            <div class="infra-icon">&#8644;</div>
-            <h3>Connectivity</h3>
-            <p>Each facility interconnects with telcos, service providers, and specialized networks, creating a mesh that improves delivery and reduces single points of failure.</p>
-        </div>
-        <div class="infra-card">
-            <div class="infra-icon">&#10070;</div>
-            <h3>AI Hardware</h3>
-            <p>Purpose-built accelerators for inference and training workloads. Run AI models at the edge without round-tripping to centralized hyperscale facilities.</p>
-        </div>
-    </div>
+<section class="manifesto">
+  <div class="container manifesto-grid">
+    <div class="lbl">/ The thesis</div>
+    <blockquote>
+      <span class="dim">Fewer than thirty campuses in the U.S. run the country's AI, its markets, and its emergency comms.</span> That concentration is a <span class="hl">national vulnerability</span> — and an economic missed opportunity for every community that sits outside a 50-millisecond radius.
+    </blockquote>
+  </div>
 </section>
 
-<!-- Network -->
-<section class="network" id="network">
-    <div class="network-layout">
-        <div class="network-visual">
-            <div class="node-ring node-ring-1"></div>
-            <div class="node-ring node-ring-2"></div>
-            <div class="node-ring node-ring-3"></div>
-            <div class="node-center">A&D</div>
-            <div class="node-dot"></div>
-            <div class="node-dot"></div>
-            <div class="node-dot"></div>
-            <div class="node-dot"></div>
-            <div class="node-dot"></div>
-            <div class="node-dot"></div>
-            <div class="node-dot"></div>
-            <div class="node-dot"></div>
-        </div>
-        <div class="network-info">
-            <h2>An Interconnected Edge Fabric</h2>
-            <p>ANDD datacenters don't operate in isolation. Every facility is connected to the broader network, creating a distributed fabric that routes workloads intelligently and sustains operations even when individual nodes go offline.</p>
-            <ul class="network-features">
-                <li>Resilient mesh architecture — no single point of failure</li>
-                <li>Intelligent workload routing across the network</li>
-                <li>Telco and service provider interconnection</li>
-                <li>Defense and specialized network compatibility</li>
-                <li>Scales from hundreds to thousands of locations</li>
-                <li>US-first rollout with global expansion planned</li>
-            </ul>
-        </div>
+<section class="layers" id="layers">
+  <div class="container">
+    <div class="sec-head">
+      <span class="eyebrow">/ architecture</span>
+      <h2>Four hardware domains. One programmable mesh.</h2>
+      <p>Each ANDD site is a configurable mix. The AI control plane decides the ratio — and rebalances it quarterly as demand shifts across the network.</p>
     </div>
+
+    <div class="layer-rows">
+      <div class="layer-row">
+        <div class="idx">01</div>
+        <div class="ttl"><h3>Compute</h3><div class="k">// dense · general · 20-40kW per rack</div></div>
+        <div class="desc">High-density 1U/2U servers across ARM and x86. Carries the broad base of containerized workloads, APIs, databases, and CI/CD pipelines at every site.</div>
+        <div class="specs"><div>EPYC · Xeon · Altra <b></b></div><div>256GB – 1TB DDR5 <b></b></div><div>20–40 <b>kW/rack</b></div></div>
+      </div>
+      <div class="layer-row">
+        <div class="idx">02</div>
+        <div class="ttl"><h3>Storage</h3><div class="k">// erasure-coded · cross-site · 11 nines</div></div>
+        <div class="desc">NVMe hot tier plus QLC warm tier, chunked and spread across ≥3 geographically distinct sites. No single node ever holds a complete copy of your data.</div>
+        <div class="specs"><div>Hot <b>100 – 500 TB</b></div><div>Warm <b>0.5 – 2 PB</b></div><div>Durability <b>11 nines</b></div></div>
+      </div>
+      <div class="layer-row">
+        <div class="idx">03</div>
+        <div class="ttl"><h3>Connectivity</h3><div class="k">// carrier-neutral · micro-IXP · gov-capable</div></div>
+        <div class="desc">Each site is a miniature exchange point. Direct peering with regional ISPs, CDNs, and cloud on-ramps. Defense-adjacent sites gateway to SIPRNet/NIPRNet through cross-domain solutions.</div>
+        <div class="specs"><div>Internal <b>100 / 400 GbE</b></div><div>Backhaul <b>10 – 100 Gbps</b></div><div>Redundant <b>fiber · 5G · LEO</b></div></div>
+      </div>
+      <div class="layer-row">
+        <div class="idx">04</div>
+        <div class="ttl"><h3>AI Hardware</h3><div class="k">// inference at edge · training at hub</div></div>
+        <div class="desc">L4 · L40S · MI300X at the edge for real-time inference. H100 · H200 · B200 concentrated at regional hubs for training and the largest models. Direct liquid cooling is mandatory for GPU racks.</div>
+        <div class="specs"><div>Edge <b>L4 · L40S · MI300X</b></div><div>Hub <b>H100 · H200 · B200</b></div><div>Cooling <b>DLC + immersion</b></div></div>
+      </div>
+    </div>
+  </div>
 </section>
 
-<!-- Solutions / Use Cases -->
-<section id="solutions">
-    <div class="section-header">
-        <div class="section-label">Solutions</div>
-        <h2>Built for Builders, Operators &amp;&nbsp;Governments</h2>
-        <p>From startups to federal agencies, ANDD provides infrastructure that meets you where you are.</p>
+<section class="uses" id="uses">
+  <div class="container">
+    <div class="sec-head">
+      <span class="eyebrow">/ served domains</span>
+      <h2>Seven domains where the round-trip is the problem.</h2>
+      <p>Every tile is a customer profile — latency budget, compliance posture, and hardware mix all pre-scoped.</p>
     </div>
-    <div class="use-cases-grid">
-        <div class="use-case">
-            <div class="use-case-icon">&#127970;</div>
-            <h3>Communities &amp; Local Government</h3>
-            <p>Bring compute, connectivity, and AI capabilities directly into communities. Power smart-city initiatives, public safety systems, and local digital services.</p>
-        </div>
-        <div class="use-case">
-            <div class="use-case-icon">&#128640;</div>
-            <h3>Startups &amp; Developers</h3>
-            <p>Access edge infrastructure without building your own. Deploy AI models, run latency-sensitive applications, and scale with the network as you grow.</p>
-        </div>
-        <div class="use-case">
-            <div class="use-case-icon">&#9981;</div>
-            <h3>Blockchain &amp; Web3</h3>
-            <p>Host validators, run nodes, and power DePIN projects on distributed, high-quality hardware purpose-built for decentralized infrastructure.</p>
-        </div>
-        <div class="use-case">
-            <div class="use-case-icon">&#127974;</div>
-            <h3>Regional Fintech</h3>
-            <p>Meet data residency and latency requirements with edge compute that keeps financial data and processing close to the markets you serve.</p>
-        </div>
-        <div class="use-case">
-            <div class="use-case-icon">&#127963;</div>
-            <h3>State &amp; Federal Government</h3>
-            <p>Secure, distributed infrastructure for government workloads. Supports compliance requirements and integrates with defense and specialized networks.</p>
-        </div>
-        <div class="use-case">
-            <div class="use-case-icon">&#128225;</div>
-            <h3>Telcos &amp; Service Providers</h3>
-            <p>Extend your reach with edge facilities that provide last-mile compute, CDN offload, and network function hosting across the ANDD footprint.</p>
-        </div>
-    </div>
+    <div class="use-grid" id="use-grid"></div>
+  </div>
 </section>
 
-<!-- DePIN -->
-<section class="depin" id="depin">
-    <div class="depin-layout">
-        <div class="depin-content">
-            <div class="section-label">DePIN Ready</div>
-            <h2>Purpose-Built for Decentralized Infrastructure</h2>
-            <p>ANDD is designed from the ground up to support DePIN projects. Our network of high-quality edge datacenters provides the physical backbone that decentralized physical infrastructure networks need to deliver real-world performance.</p>
-            <p>Unlike repurposed consumer hardware or retrofitted facilities, every ANDD datacenter is built to commercial standards with redundant power, cooling, and connectivity — giving DePIN projects enterprise-grade reliability.</p>
-        </div>
-        <div class="depin-visual">
-            <div class="depin-stat">
-                <div class="number">99.99%</div>
-                <div class="label">Target Uptime</div>
-            </div>
-            <div class="depin-stat">
-                <div class="number">N+1</div>
-                <div class="label">Redundancy</div>
-            </div>
-            <div class="depin-stat">
-                <div class="number">&lt;5ms</div>
-                <div class="label">Edge Latency</div>
-            </div>
-            <div class="depin-stat">
-                <div class="number">1000s</div>
-                <div class="label">Planned Sites</div>
-            </div>
-        </div>
+<section class="resilience" id="resilience">
+  <div class="container">
+    <div class="sec-head">
+      <span class="eyebrow">/ resilience</span>
+      <h2>A graph, not a spoke.</h2>
+      <p>Every edge node peers with its neighbors and at least two hubs. Watch the mesh re-route in real time as nodes drop and rejoin.</p>
     </div>
+    <div class="res-stage" id="res-stage">
+      <div class="res-hud" id="res-hud">
+        <div>// LIVE SIM</div>
+        <div>nodes online: <b id="res-alive">18</b>/18</div>
+        <div>routes healthy: <b id="res-routes">6</b>/6</div>
+      </div>
+      <div class="res-hint">↳ click any node to toggle it offline</div>
+    </div>
+  </div>
 </section>
 
-<!-- Opportunity Zones -->
-<section id="opportunity-zones">
-    <div class="section-header">
-        <div class="section-label">Strategic Deployment</div>
-        <h2>Opportunity Zone Aligned</h2>
-        <p>ANDD targets federally designated Opportunity Zones — placing infrastructure where it creates the most impact and unlocking powerful tax incentives for investors.</p>
-    </div>
-    <div class="oz-layout">
-        <div class="oz-content">
-            <h3>What Are Opportunity Zones?</h3>
-            <p>Established by the 2017 Tax Cuts and Jobs Act and made permanent by the One Big Beautiful Bill Act in 2025, Opportunity Zones are <strong>8,764 designated census tracts</strong> across all 50 states and U.S. territories where new investment qualifies for preferential tax treatment.</p>
-            <p>Over <strong>$100 billion in private capital</strong> has been deployed into OZs through approximately 7,800 Qualified Opportunity Funds — and about <strong>25% of datacenter square footage</strong> proposed or under construction is already in designated zones.</p>
-
-            <h3>Why OZs Are Ideal for ANDD</h3>
-            <ul class="network-features">
-                <li>Underserved communities that lack digital infrastructure and connectivity</li>
-                <li>Sub-2MW edge facilities deliver economic benefits without straining local power and water</li>
-                <li>Creates construction and permanent skilled operations jobs in distressed areas</li>
-                <li>Drives local workforce development and technology training programs</li>
-                <li>Generates tax revenue supporting schools, roads, and public services</li>
-                <li>Bridges the digital divide by placing compute closer to end users</li>
-            </ul>
-        </div>
-        <div class="oz-incentives">
-            <h3>Investor Tax Incentives</h3>
-            <div class="oz-card">
-                <div class="oz-card-header">Capital Gains Deferral</div>
-                <p>Defer tax on eligible capital gains by reinvesting into a Qualified Opportunity Fund with a rolling 5-year deferral window.</p>
-            </div>
-            <div class="oz-card">
-                <div class="oz-card-header">Basis Step-Up</div>
-                <p>Receive a <strong>10% step-up in basis</strong> at 5 years — or up to <strong>30% for rural OZ investments</strong> through Qualified Rural Opportunity Funds.</p>
-            </div>
-            <div class="oz-card highlight">
-                <div class="oz-card-header">10-Year Exclusion</div>
-                <p>Hold for 10+ years and <strong>pay zero tax on all appreciation</strong> of the new investment. Datacenter infrastructure naturally aligns with this long-term hold period.</p>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- CTA -->
 <section class="cta" id="contact">
-    <div class="cta-box">
-        <h2>Ready to Build on the Edge?</h2>
-        <p>Whether you're a startup, a government agency, or a DePIN project — we'd love to talk about how ANDD can power your infrastructure.</p>
-        <div class="cta-buttons">
-            <a href="mailto:contact@andd.network" class="btn-primary">Contact Us</a>
-            <a href="#infrastructure" class="btn-secondary">Explore Infrastructure</a>
-        </div>
+  <div class="container">
+    <span class="eyebrow">/ join</span>
+    <h2>Put compute where the signal starts.</h2>
+    <p>Whether you're a carrier, a DePIN project, a county CIO, or an AI model provider — tell us the workload, region and SLO. We'll come back with a site plan.</p>
+    <div class="ctas">
+      <a class="btn btn-primary" href="mailto:contact@andd.network">Start a conversation →</a>
+      <a class="btn" href="#fabric">Back to the fabric</a>
     </div>
+  </div>
 </section>
 
-<!-- Footer -->
 <footer>
-    <div class="footer-inner">
-        <div class="footer-brand">
-            <img src="andd.png" alt="ANDD">
-            <span>ANDD</span>
-        </div>
-        <ul class="footer-links">
-            <li><a href="#infrastructure">Infrastructure</a></li>
-            <li><a href="#network">Network</a></li>
-            <li><a href="#solutions">Solutions</a></li>
-            <li><a href="#depin">DePIN</a></li>
-            <li><a href="#opportunity-zones">OZ</a></li>
-            <li><a href="#contact">Contact</a></li>
-        </ul>
-        <div class="footer-copy">&copy; 2026 ANDD — AI Native Distributed Datacenters. All rights reserved.</div>
+  <div class="container foot-row">
+    <span class="wm" id="foot-wm"></span>
+    <div class="fl">
+      <a href="#fabric">Fabric</a>
+      <a href="#layers">Architecture</a>
+      <a href="#uses">Use Cases</a>
+      <a href="#resilience">Resilience</a>
+      <a href="#contact">Contact</a>
     </div>
+    <div class="cpy">© 2026 ANDD Network</div>
+  </div>
 </footer>
 
+<script src="shared/wordmark.js"></script>
+<script src="shared/us-map.js"></script>
+<script>
+renderWordmark(document.getElementById('nav-wm'));
+renderWordmark(document.getElementById('foot-wm'));
+
+// ============ 3D MESH SPHERE ============
+// Generate ~50 points on a unit sphere via Fibonacci spiral, project orthographically,
+// add rotation via drag + gentle auto-rotate.
+(function(){
+  const stage = document.getElementById('mesh-stage');
+  const mount = document.getElementById('mesh-sphere');
+  const N = 52;
+  const R = 170;
+  const pts = [];
+  const gr = (1 + Math.sqrt(5)) / 2;
+  for (let i = 0; i < N; i++) {
+    const t = i / N;
+    const inc = Math.acos(1 - 2 * t);
+    const az = 2 * Math.PI * i / gr;
+    pts.push({
+      x0: Math.sin(inc) * Math.cos(az),
+      y0: Math.sin(inc) * Math.sin(az),
+      z0: Math.cos(inc),
+      // random assignment to industry for color variance
+      use: INDUSTRIES[1 + (i % (INDUSTRIES.length-1))].id,
+      hub: i % 8 === 0,
+    });
+  }
+  // precompute edges — each point to its 3 nearest
+  const edges = [];
+  for (let i = 0; i < N; i++) {
+    const nearest = [];
+    for (let j = 0; j < N; j++) {
+      if (i === j) continue;
+      const d = Math.hypot(pts[i].x0-pts[j].x0, pts[i].y0-pts[j].y0, pts[i].z0-pts[j].z0);
+      nearest.push({ j, d });
+    }
+    nearest.sort((a,b)=>a.d-b.d);
+    nearest.slice(0, 3).forEach(n => {
+      if (i < n.j) edges.push([i, n.j]);
+    });
+  }
+
+  let rx = -0.25, ry = 0;
+  let auto = 0.003;
+  let dragging = false;
+  let lastX = 0, lastY = 0;
+
+  function project() {
+    const cosX = Math.cos(rx), sinX = Math.sin(rx);
+    const cosY = Math.cos(ry), sinY = Math.sin(ry);
+    return pts.map(p => {
+      // rotate around Y then X
+      let x = p.x0 * cosY + p.z0 * sinY;
+      let z = -p.x0 * sinY + p.z0 * cosY;
+      let y = p.y0 * cosX - z * sinX;
+      z = p.y0 * sinX + z * cosX;
+      return { x: x * R, y: y * R, z, use: p.use, hub: p.hub };
+    });
+  }
+
+  function useColor(use) {
+    const ind = INDUSTRIES.find(i => i.id === use);
+    return ind ? ind.color : '#5ee3ff';
+  }
+
+  function render() {
+    const P = project();
+    const meshCol = getComputedStyle(document.documentElement).getPropertyValue('--cyan').trim() || '#5ee3ff';
+    const hubStroke = getComputedStyle(document.documentElement).getPropertyValue('--ink-0').trim() || '#f4f7ff';
+    // edges (sorted back-to-front)
+    const edgeEls = edges.map(([a,b]) => {
+      const A = P[a], B = P[b];
+      const avgZ = (A.z + B.z) / 2;
+      const opacity = 0.15 + 0.55 * ((avgZ + 1) / 2);
+      const width = 0.6 + 0.8 * ((avgZ + 1) / 2);
+      return { svg: `<line x1="${A.x}" y1="${A.y}" x2="${B.x}" y2="${B.y}" stroke="${meshCol}" stroke-width="${width}" opacity="${opacity}"/>`, z: avgZ };
+    }).sort((a,b) => a.z - b.z).map(e => e.svg).join('');
+
+    const dotEls = P.map((p, i) => {
+      const opacity = 0.35 + 0.65 * ((p.z + 1) / 2);
+      const r = p.hub ? 3.6 : 1.8 + 1.2 * ((p.z + 1) / 2);
+      const c = useColor(p.use);
+      return { svg: `<circle cx="${p.x}" cy="${p.y}" r="${r}" fill="${c}" opacity="${opacity}"${p.hub ? ` stroke="${hubStroke}" stroke-width="0.6"` : ''}/>`, z: p.z };
+    }).sort((a,b) => a.z - b.z).map(e => e.svg).join('');
+
+    // animated routing arc: pick 4 great-circle arcs between hubs
+    const hubs = P.map((p,i) => ({...p, i})).filter(p => p.hub);
+    const arcs = [];
+    for (let i = 0; i < Math.min(4, hubs.length-1); i++) {
+      const a = hubs[i], b = hubs[(i+2) % hubs.length];
+      const mx = (a.x+b.x)/2, my = (a.y+b.y)/2;
+      const dist = Math.hypot(a.x-b.x, a.y-b.y);
+      const bulge = dist * 0.4;
+      const mz = (a.z+b.z)/2;
+      // offset perpendicular
+      const dx = b.x-a.x, dy = b.y-a.y;
+      const px = -dy / dist, py = dx / dist;
+      const cx = mx + px * bulge, cy = my + py * bulge;
+      const opa = 0.4 + 0.5 * ((mz+1)/2);
+      arcs.push(`
+        <path d="M ${a.x},${a.y} Q ${cx},${cy} ${b.x},${b.y}" fill="none" stroke="${meshCol}" stroke-width="1.2" opacity="${opa*0.3}"/>
+        <path d="M ${a.x},${a.y} Q ${cx},${cy} ${b.x},${b.y}" fill="none" stroke="${meshCol}" stroke-width="1.8" stroke-linecap="round" stroke-dasharray="3 80" opacity="${opa}">
+          <animate attributeName="stroke-dashoffset" from="83" to="0" dur="${2 + i*0.5}s" repeatCount="indefinite" begin="${i*0.3}s"/>
+        </path>
+      `);
+    }
+
+    mount.innerHTML = edgeEls + arcs.join('') + dotEls;
+  }
+
+  // pointer events
+  stage.addEventListener('pointerdown', e => {
+    dragging = true; lastX = e.clientX; lastY = e.clientY; auto = 0;
+    stage.setPointerCapture(e.pointerId);
+  });
+  stage.addEventListener('pointermove', e => {
+    if (!dragging) return;
+    ry += (e.clientX - lastX) * 0.006;
+    rx += (e.clientY - lastY) * 0.006;
+    rx = Math.max(-1.3, Math.min(1.3, rx));
+    lastX = e.clientX; lastY = e.clientY;
+    render();
+  });
+  stage.addEventListener('pointerup', () => { dragging = false; auto = 0.002; });
+  stage.addEventListener('pointercancel', () => { dragging = false; auto = 0.002; });
+
+  function tick() {
+    if (!dragging) ry += auto;
+    render();
+    requestAnimationFrame(tick);
+  }
+  tick();
+})();
+
+// ============ USE TILES ============
+const USES = [
+  { id:'mobility', idx:'01', name:'Mobility & V2X', desc:'Sub-10ms vehicle-to-infrastructure. Cloud round-trips are physically impossible at highway speed.', facts:[['Response','<8 ms'],['Corridors live','9']], color:'var(--ind-mobility)' },
+  { id:'public-safety', idx:'02', name:'Public Safety', desc:'NG911 call routing, FirstNet body-cam ingest, multi-agency video retention — all survive backhaul partition.', facts:[['Survival','100% local'],['Compliance','CJIS']], color:'var(--ind-public-safety)' },
+  { id:'power', idx:'03', name:'Power & Utilities', desc:'Substation-adjacent compute for SCADA, smart-meter aggregation, demand response, and grid-edge forecasting.', facts:[['SCADA loop','<15 ms'],['Meters / site','10⁶']], color:'var(--ind-power)' },
+  { id:'health', idx:'04', name:'Healthcare', desc:'HIPAA-compliant infrastructure placed next to regional health systems — telemedicine, imaging AI, EHR edge cache.', facts:[['Imaging AI','<1 s'],['Residency','In-state']], color:'var(--ind-health)' },
+  { id:'ai', idx:'05', name:'AI Inference', desc:'Inference-optimized GPUs where your users are. 7-13B at the edge; 70B+ at the regional hub; sub-100ms either way.', facts:[['7-13B','20-100ms/tok'],['Hub','H100·H200·B200']], color:'var(--ind-ai)' },
+  { id:'depin', idx:'06', name:'DePIN / Validators', desc:'Enterprise-grade physical backbone. Validator hosting and settlement compute with N+1 redundancy on the same rails.', facts:[['Uptime','99.99%'],['Planned sites','1,000+']], color:'var(--ind-depin)' },
+  { id:'civic', idx:'07', name:'Smart City', desc:'Municipal compute inside the jurisdictions that need it. Sensor fusion, transit, traffic, local permitting AI.', facts:[['Fusion loop','<20 ms'],['OZ','Aligned']], color:'var(--ind-civic)' },
+  { id:'oz', idx:'08', name:'Opportunity Zones', desc:'8,764 eligible census tracts. Capital-gains deferral, basis step-up, and zero tax on appreciation after 10 years.', facts:[['Tracts','8,764'],['10-yr tax','0%']], color:'var(--amber)' },
+];
+
+const grid = document.getElementById('use-grid');
+USES.forEach(u => {
+  const el = document.createElement('div');
+  el.className = 'use-tile';
+  el.style.color = u.color;
+  el.innerHTML = `
+    <div class="idx">${u.idx} / ${u.name.toUpperCase()}</div>
+    <div class="vis">
+      <svg viewBox="0 0 60 60">
+        <circle cx="30" cy="30" r="22" fill="none" stroke="currentColor" stroke-width="0.6" opacity="0.3"/>
+        <circle cx="30" cy="30" r="12" fill="none" stroke="currentColor" stroke-width="0.6" opacity="0.5"/>
+        ${Array.from({length: 8}, (_, i) => {
+          const a = (i/8) * Math.PI*2;
+          const x = 30 + Math.cos(a)*22, y = 30 + Math.sin(a)*22;
+          return `<circle cx="${x}" cy="${y}" r="1.4" fill="currentColor" opacity="${0.4 + (i%3)*0.2}"/>`;
+        }).join('')}
+        <circle cx="30" cy="30" r="3" fill="currentColor"/>
+      </svg>
+    </div>
+    <h3>${u.name}</h3>
+    <div class="desc">${u.desc}</div>
+    <div class="facts">
+      ${u.facts.map(f => `<div class="f"><span>${f[0]}</span><b>${f[1]}</b></div>`).join('')}
+    </div>
+  `;
+  grid.appendChild(el);
+});
+
+// ============ Resilience widescreen simulator ============
+(function(){
+  const stage = document.getElementById('res-stage');
+  // 18 nodes scattered across a 1000x560 viewport, with 3 hubs
+  const rng = (seed => () => (seed = (seed*9301 + 49297) % 233280) / 233280)(7);
+  const nodes = [];
+  const W = 1600, H = 900;
+  const hubPos = [[200, 460], [800, 280], [1400, 500]];
+  hubPos.forEach((p, i) => nodes.push({ id: 'h'+i, x: p[0], y: p[1], alive: true, hub: true }));
+  for (let i = 0; i < 18; i++) {
+    nodes.push({ id: 'e'+i, x: 80 + rng()*1440, y: 80 + rng()*740, alive: true });
+  }
+  // edges: each edge to nearest 2 nodes + nearest hub
+  const hubs = nodes.filter(n => n.hub);
+  const pairs = [];
+  nodes.forEach(n => {
+    if (n.hub) return;
+    const sorted = nodes.filter(m => m !== n && !m.hub).map(m => ({m, d: Math.hypot(m.x-n.x, m.y-n.y)})).sort((a,b)=>a.d-b.d);
+    sorted.slice(0,2).forEach(({m}) => {
+      if (n.id < m.id) pairs.push([n, m, 'mesh']);
+    });
+    const [h1] = hubs.map(h => ({h, d: Math.hypot(h.x-n.x, h.y-n.y)})).sort((a,b)=>a.d-b.d);
+    pairs.push([n, h1.h, 'backhaul']);
+  });
+  // hub-hub backbone
+  for (let i = 0; i < hubs.length; i++) {
+    for (let j = i+1; j < hubs.length; j++) pairs.push([hubs[i], hubs[j], 'backbone']);
+  }
+  // 6 "flows" (src -> dst routes through graph)
+  const flowsSpec = [
+    ['e0','h1'], ['e4','h2'], ['e8','h0'], ['e12','h1'], ['e15','h2'], ['e3','h0']
+  ];
+  const byId = Object.fromEntries(nodes.map(n => [n.id, n]));
+
+  function findRoute(srcId, dstId) {
+    // BFS using only alive nodes and alive edges
+    const aliveNodes = new Set(nodes.filter(n=>n.alive).map(n=>n.id));
+    if (!aliveNodes.has(srcId) || !aliveNodes.has(dstId)) return null;
+    const adj = {};
+    pairs.forEach(([a,b]) => {
+      if (!a.alive || !b.alive) return;
+      (adj[a.id] = adj[a.id] || []).push(b.id);
+      (adj[b.id] = adj[b.id] || []).push(a.id);
+    });
+    const q = [[srcId, [srcId]]];
+    const seen = new Set([srcId]);
+    while (q.length) {
+      const [cur, path] = q.shift();
+      if (cur === dstId) return path.map(id => byId[id]);
+      (adj[cur] || []).forEach(n => {
+        if (!seen.has(n)) { seen.add(n); q.push([n, [...path, n]]); }
+      });
+    }
+    return null;
+  }
+
+  function render() {
+    const aliveEdges = nodes.filter(n => n.alive && !n.hub).length;
+    const totalEdges = nodes.filter(n => !n.hub).length;
+    document.getElementById('res-alive').textContent = aliveEdges;
+
+    const flows = flowsSpec.map(([s,d]) => findRoute(s, d));
+    const healthy = flows.filter(Boolean).length;
+    document.getElementById('res-routes').textContent = healthy;
+    document.getElementById('res-hud').classList.toggle('alarm', healthy < flowsSpec.length);
+
+    const linkSvg = pairs.map(([a,b,type]) => {
+      if (!a.alive || !b.alive) return '';
+        const cs = getComputedStyle(document.documentElement);
+        const backbone = cs.getPropertyValue('--cyan-dim').trim() || '#2b9fc4';
+        const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+        const color = type === 'backbone' ? backbone : (isLight ? 'rgba(20,40,80,0.25)' : 'rgba(120,170,255,0.25)');
+        const width = type === 'backbone' ? 2.2 : 1.1;
+      return `<line x1="${a.x}" y1="${a.y}" x2="${b.x}" y2="${b.y}" stroke="${color}" stroke-width="${width}" />`;
+    }).join('');
+
+    const flowSvg = flows.filter(Boolean).map((path, i) => {
+      const d = path.map((p,idx) => (idx===0?'M':'L') + ` ${p.x},${p.y}`).join(' ');
+      return `
+        <path d="${d}" fill="none" stroke="var(--cyan)" stroke-width="3.6" opacity="0.15"/>
+          <path d="${d}" fill="none" stroke="var(--cyan)" stroke-width="2.8" stroke-dasharray="5 32" stroke-linecap="round">
+            <animate attributeName="stroke-dashoffset" from="37" to="0" dur="${1.2 + (i%3)*0.3}s" repeatCount="indefinite"/>
+        </path>
+      `;
+    }).join('');
+
+    const nodeSvg = nodes.map(n => {
+      if (!n.alive) {
+        return `<g data-id="${n.id}" style="cursor:pointer">
+          <circle cx="${n.x}" cy="${n.y}" r="18" fill="none" stroke="var(--rose)" stroke-width="1.6" opacity="0.6"/>
+          <line x1="${n.x-9}" y1="${n.y-9}" x2="${n.x+9}" y2="${n.y+9}" stroke="var(--rose)" stroke-width="2.4"/>
+          <line x1="${n.x+9}" y1="${n.y-9}" x2="${n.x-9}" y2="${n.y+9}" stroke="var(--rose)" stroke-width="2.4"/>
+        </g>`;
+      }
+      if (n.hub) {
+        return `<g data-id="${n.id}" style="cursor:pointer">
+          <circle cx="${n.x}" cy="${n.y}" r="28" fill="none" stroke="var(--cyan)" stroke-width="1.4" opacity="0.25"/>
+          <circle cx="${n.x}" cy="${n.y}" r="12" fill="var(--cyan)"/>
+          <text x="${n.x}" y="${n.y+42}" fill="var(--ink-2)" font-family="ui-monospace,monospace" font-size="18" text-anchor="middle">HUB</text>
+        </g>`;
+      }
+      return `<g data-id="${n.id}" style="cursor:pointer">
+        <circle cx="${n.x}" cy="${n.y}" r="7" fill="var(--cyan)" opacity="0.85"/>
+      </g>`;
+    }).join('');
+
+    stage.querySelectorAll('svg').forEach(s => s.remove());
+    stage.insertAdjacentHTML('afterbegin', `
+      <svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet">
+        <g>${linkSvg}</g>
+        <g>${flowSvg}</g>
+        <g>${nodeSvg}</g>
+      </svg>
+    `);
+    stage.querySelectorAll('[data-id]').forEach(el => {
+      el.addEventListener('click', () => {
+        const n = byId[el.dataset.id];
+        if (!n) return;
+        n.alive = !n.alive;
+        render();
+      });
+    });
+  }
+  render();
+  window.addEventListener('anddThemeChange', render);
+})();
+
+// Nav active state
+const navLinks = document.querySelectorAll('.nav-mid a');
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const id = e.target.id;
+      navLinks.forEach(a => a.classList.toggle('on', a.getAttribute('href') === '#' + id));
+    }
+  });
+}, { rootMargin: '-40% 0px -50% 0px' });
+['fabric','layers','uses','resilience','contact'].forEach(id => {
+  const el = document.getElementById(id);
+  if (el) io.observe(el);
+});
+
+// Theme toggle
+(function(){
+  const btn = document.getElementById('theme-toggle');
+  if (!btn) return;
+  btn.addEventListener('click', () => {
+    const cur = document.documentElement.getAttribute('data-theme');
+    const next = cur === 'light' ? null : 'light';
+    if (next) document.documentElement.setAttribute('data-theme', next);
+    else document.documentElement.removeAttribute('data-theme');
+    try { localStorage.setItem('andd-theme', next || 'dark'); } catch(e){}
+    // Fire event so widgets can re-render
+    window.dispatchEvent(new CustomEvent('anddThemeChange', { detail: { theme: next || 'dark' }}));
+  });
+})();
+</script>
 </body>
 </html>
