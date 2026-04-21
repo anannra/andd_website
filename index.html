@@ -37,7 +37,7 @@
   [data-theme="light"] { --bg: #f5f2ea; --bg-1: #eae6db; }
 
   /* NAV */
-  .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; backdrop-filter: blur(18px); background: rgba(5, 8, 16, 0.55); border-bottom: 1px solid var(--line); }
+  .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; -webkit-backdrop-filter: blur(18px); backdrop-filter: blur(18px); background: rgba(5, 8, 16, 0.55); border-bottom: 1px solid var(--line); }
   [data-theme="light"] .nav { background: rgba(245, 242, 234, 0.75); }
   .nav-row { display: flex; align-items: center; justify-content: space-between; height: 64px; }
   .nav-mid { display: flex; gap: 28px; }
@@ -192,6 +192,18 @@
     .layer-row .specs { text-align: left; flex-direction: row; gap: 20px; }
     .use-grid { grid-template-columns: 1fr 1fr; }
     .hero-bar .inner { grid-template-columns: repeat(3, 1fr); }
+  }
+
+  /* Phone portrait: collapse section-link row so wordmark + theme toggle + CTA stay on one line */
+  @media (max-width: 720px) {
+    .nav-mid { display: none; }
+    .nav-row { gap: 12px; }
+    .nav-row > div:last-child { flex-shrink: 0; }
+    .wm { font-size: 18px; }
+    .nav .btn-primary { padding: 8px 14px; font-size: 12px; }
+    .use-grid { grid-template-columns: 1fr; }
+    .hero-bar .inner { grid-template-columns: repeat(2, 1fr); }
+    .foot-row .fl { gap: 14px; flex-wrap: wrap; }
   }
 </style>
 </head>
