@@ -171,6 +171,48 @@
   .res-hud.alarm b { color: var(--rose); }
   .res-hint { position: absolute; bottom: 16px; right: 20px; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.08em; color: var(--ink-3); text-transform: uppercase; }
 
+  /* TEAM */
+  .team { padding: var(--pad-section) 0; border-top: 1px solid var(--line); }
+  .team-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+  .member {
+    display: flex; flex-direction: column;
+    background: var(--bg-1); border: 1px solid var(--line);
+    transition: border-color 240ms, transform 240ms;
+  }
+  .member[hidden] { display: none; }
+  .member:hover { border-color: var(--line-hi); transform: translateY(-2px); }
+  .member-photo {
+    width: 100%; aspect-ratio: 1 / 1; overflow: hidden;
+    background: var(--bg-2);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .member-photo img { width: 100%; height: 100%; object-fit: cover; display: block; filter: saturate(0.92) contrast(1.03); }
+  .member-meta { padding: 22px 22px 26px; display: flex; flex-direction: column; gap: 10px; }
+  .member-meta .role {
+    font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--cyan);
+  }
+  .member-meta h3 { font-size: 1.3rem; letter-spacing: -0.02em; margin: 0; }
+  .member-meta p { color: var(--ink-2); font-size: 0.9rem; line-height: 1.5; }
+  .member-meta p b { color: var(--ink-0); font-weight: 500; }
+  .member-open { border-style: dashed; background: transparent; }
+  .member-open .member-photo {
+    background:
+      repeating-linear-gradient(45deg, var(--line) 0 8px, transparent 8px 16px),
+      var(--bg-1);
+    color: var(--ink-3);
+    font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase;
+  }
+  .member-open .member-photo::before {
+    content: '+ hiring';
+    padding: 10px 18px;
+    border: 1px dashed var(--line-hi);
+    color: var(--cyan);
+    background: var(--bg);
+  }
+  [data-theme="light"] .member { background: #fff; }
+  [data-theme="light"] .member-open { background: transparent; }
+
   /* CTA */
   .cta { padding: var(--pad-section) 0 calc(var(--pad-section) * 1.4); border-top: 1px solid var(--line); text-align: center; }
   .cta .eyebrow { margin-bottom: 24px; display: inline-block; font-size: 22px; letter-spacing: 0.14em; }
@@ -192,6 +234,7 @@
     .layer-row .specs { text-align: left; flex-direction: row; gap: 20px; }
     .use-grid { grid-template-columns: 1fr 1fr; }
     .hero-bar .inner { grid-template-columns: repeat(3, 1fr); }
+    .team-grid { grid-template-columns: repeat(2, 1fr); }
   }
 
   /* Phone portrait: collapse section-link row so wordmark + theme toggle + CTA stay on one line */
@@ -204,6 +247,7 @@
     .use-grid { grid-template-columns: 1fr; }
     .hero-bar .inner { grid-template-columns: repeat(2, 1fr); }
     .foot-row .fl { gap: 14px; flex-wrap: wrap; }
+    .team-grid { grid-template-columns: 1fr; }
   }
 </style>
 </head>
@@ -217,6 +261,7 @@
       <a href="#layers">Architecture</a>
       <a href="#uses">Use Cases</a>
       <a href="#resilience">Resilience</a>
+      <a href="#team">Team</a>
       <a href="#contact">Contact</a>
     </div>
     <div style="display:flex;align-items:center;gap:12px">
@@ -342,6 +387,64 @@
   </div>
 </section>
 
+<section class="team" id="team">
+  <div class="container">
+    <div class="sec-head">
+      <span class="eyebrow">/ team</span>
+      <h2>The team building this.</h2>
+      <p>Building ANDD requires expertise across datacenter infrastructure, AI/ML systems, telecommunications, real estate, federal compliance, and financial structuring.</p>
+    </div>
+    <div class="team-grid">
+
+      <article class="member">
+        <div class="member-photo"><img src="images/team/william-tolpegin.jpg" alt="William Tolpegin" loading="lazy"></div>
+        <div class="member-meta">
+          <span class="role">CEO</span>
+          <h3>William Tolpegin</h3>
+          <p>35+ yrs executive experience. Former CEO of <b>C-Band Alliance</b> — the Intelsat/SES/Eutelsat/Telesat consortium that reallocated U.S. mid-band spectrum for 5G. Former CEO of <b>OTA Broadcasting</b>; co-founder of <b>AURA Networks</b> (deterministic wireless for drone C2).</p>
+        </div>
+      </article>
+
+      <article class="member">
+        <div class="member-photo"><img src="images/team/chris-stark.jpg" alt="Chris Stark" loading="lazy"></div>
+        <div class="member-meta">
+          <span class="role">President</span>
+          <h3>Chris Stark</h3>
+          <p>35+ yrs across Fortune 1000 and technology ventures with deep expertise in telecom, spectrum, and large-scale infrastructure deployment. Chairman and co-founder <b>CBRS Alliance</b>; long-time operator of complex multi-stakeholder programs.</p>
+        </div>
+      </article>
+
+      <article class="member">
+        <div class="member-photo"><img src="images/team/anoop-nannra.jpg" alt="Anoop Nannra" loading="lazy"></div>
+        <div class="member-meta">
+          <span class="role">CTO</span>
+          <h3>Anoop Nannra</h3>
+          <p>CEO &amp; co-founder of <b>Trugard Labs</b>. Previously led blockchain and cloud initiatives at <b>AWS</b> and <b>Cisco</b>; co-founded &amp; chaired the <b>Trusted IoT Alliance</b>. Hands-on background in distributed systems, photonics, chip design, video infrastructure, and cybersecurity.</p>
+        </div>
+      </article>
+
+      <article class="member">
+        <div class="member-photo"><img src="images/team/brian-hendricks.jpg?v=6" alt="Brian Hendricks" loading="lazy"></div>
+        <div class="member-meta">
+          <span class="role">CLO</span>
+          <h3>Brian Hendricks</h3>
+          <p>Chief Public Policy &amp; Government Affairs Officer at <b>Nokia</b> (13+ yrs). Former <b>General Counsel &amp; Staff Director</b>, U.S. Senate Committee on Commerce, Science &amp; Transportation; FCC Enforcement Bureau attorney; AT&amp;T policy. J.D. / MPP, William &amp; Mary.</p>
+        </div>
+      </article>
+
+      <article class="member member-open" hidden>
+        <div class="member-photo"></div>
+        <div class="member-meta">
+          <span class="role">EVP Operations · Open Role</span>
+          <h3>Head of Deployment &amp; Operations</h3>
+          <p>Seeking a 20+ yr operator from hyperscale or towerco — <b>Equinix / Digital Realty / Crown Castle / American Tower</b>. Must own multi-site prefab rollout at 50+ sites/yr, utility interconnect &amp; DLC commissioning, NOC automation, SOC 2 / FedRAMP compliance, and 24/7 field ops across a distributed footprint.</p>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
 <section class="cta" id="contact">
   <div class="container">
     <span class="eyebrow">/ join</span>
@@ -362,6 +465,7 @@
       <a href="#layers">Architecture</a>
       <a href="#uses">Use Cases</a>
       <a href="#resilience">Resilience</a>
+      <a href="#team">Team</a>
       <a href="#contact">Contact</a>
     </div>
     <div class="cpy">© 2026 ANDD Network</div>
@@ -681,7 +785,7 @@ const io = new IntersectionObserver(entries => {
     }
   });
 }, { rootMargin: '-40% 0px -50% 0px' });
-['fabric','layers','uses','resilience','contact'].forEach(id => {
+['fabric','layers','uses','resilience','team','contact'].forEach(id => {
   const el = document.getElementById(id);
   if (el) io.observe(el);
 });
