@@ -3,7 +3,23 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ANDD — Fabric</title>
+<title>ANDD — AI-Native Distributed Datacenters</title>
+<meta name="description" content="ANDD is a mesh of AI-native edge datacenters across U.S. Opportunity Zones — distributed, sovereign, and self-routing. Put compute where the signal starts.">
+<link rel="canonical" href="https://www.andd.ai/">
+<meta name="theme-color" content="#060912">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ANDD">
+<meta property="og:url" content="https://www.andd.ai/">
+<meta property="og:title" content="ANDD — AI-Native Distributed Datacenters">
+<meta property="og:description" content="A mesh of AI-native edge datacenters across U.S. Opportunity Zones — distributed, sovereign, and self-routing. Put compute where the signal starts.">
+<meta property="og:image" content="https://www.andd.ai/andd.png">
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="ANDD — AI-Native Distributed Datacenters">
+<meta name="twitter:description" content="A mesh of AI-native edge datacenters across U.S. Opportunity Zones — distributed, sovereign, and self-routing.">
+<meta name="twitter:image" content="https://www.andd.ai/andd.png">
 <script>
   // Set theme BEFORE paint to avoid a flash. Default = dark.
   (function(){
@@ -171,54 +187,52 @@
   .res-hud.alarm b { color: var(--rose); }
   .res-hint { position: absolute; bottom: 16px; right: 20px; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.08em; color: var(--ink-3); text-transform: uppercase; }
 
-  /* TEAM */
-  .team { padding: var(--pad-section) 0; border-top: 1px solid var(--line); }
-  .team-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
-  .member {
-    display: flex; flex-direction: column;
-    background: var(--bg-1); border: 1px solid var(--line);
-    transition: border-color 240ms, transform 240ms;
-  }
-  .member[hidden] { display: none; }
-  .member:hover { border-color: var(--line-hi); transform: translateY(-2px); }
-  .member-photo {
-    width: 100%; aspect-ratio: 1 / 1; overflow: hidden;
-    background: var(--bg-2);
-    display: flex; align-items: center; justify-content: center;
-  }
-  .member-photo img { width: 100%; height: 100%; object-fit: cover; display: block; filter: saturate(0.92) contrast(1.03); }
-  .member-meta { padding: 22px 22px 26px; display: flex; flex-direction: column; gap: 10px; }
-  .member-meta .role {
-    font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.18em;
-    text-transform: uppercase; color: var(--cyan);
-  }
-  .member-meta h3 { font-size: 1.3rem; letter-spacing: -0.02em; margin: 0; }
-  .member-meta p { color: var(--ink-2); font-size: 0.9rem; line-height: 1.5; }
-  .member-meta p b { color: var(--ink-0); font-weight: 500; }
-  .member-open { border-style: dashed; background: transparent; }
-  .member-open .member-photo {
-    background:
-      repeating-linear-gradient(45deg, var(--line) 0 8px, transparent 8px 16px),
-      var(--bg-1);
-    color: var(--ink-3);
-    font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase;
-  }
-  .member-open .member-photo::before {
-    content: '+ hiring';
-    padding: 10px 18px;
-    border: 1px dashed var(--line-hi);
-    color: var(--cyan);
-    background: var(--bg);
-  }
-  [data-theme="light"] .member { background: #fff; }
-  [data-theme="light"] .member-open { background: transparent; }
-
   /* CTA */
   .cta { padding: var(--pad-section) 0 calc(var(--pad-section) * 1.4); border-top: 1px solid var(--line); text-align: center; }
   .cta .eyebrow { margin-bottom: 24px; display: inline-block; font-size: 22px; letter-spacing: 0.14em; }
   .cta h2 { margin-bottom: 18px; max-width: 22ch; margin-inline: auto; font-size: clamp(2.4rem, 4.2vw, 3.8rem); }
   .cta p { color: var(--ink-2); font-size: 1.05rem; max-width: 50ch; margin: 0 auto 32px; }
   .cta .ctas { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+
+  /* LEAD FORM */
+  .lead-form { max-width: 680px; margin: 44px auto 0; text-align: left; display: grid; gap: 20px; }
+  .lead-form .frow { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .lead-form .field { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+  .lead-form .field.full { grid-column: 1 / -1; }
+  .lead-form label { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-2); }
+  .lead-form label .req { color: var(--cyan); margin-left: 2px; }
+  .lead-form input, .lead-form select, .lead-form textarea {
+    width: 100%; background: var(--surface); border: 1px solid var(--line-hi); border-radius: var(--r-md);
+    color: var(--ink-0); font-family: var(--font-body); font-size: 0.95rem; line-height: 1.4;
+    padding: 12px 14px; transition: border-color 160ms, background 160ms;
+  }
+  .lead-form input::placeholder, .lead-form textarea::placeholder { color: var(--ink-3); }
+  .lead-form textarea { resize: vertical; min-height: 120px; }
+  .lead-form input:focus, .lead-form select:focus, .lead-form textarea:focus {
+    outline: none; border-color: var(--line-hot); background: var(--surface-hi);
+  }
+  .lead-form select {
+    appearance: none; -webkit-appearance: none; cursor: pointer; padding-right: 38px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238696b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 14px center;
+  }
+  .lead-form .actions { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; margin-top: 4px; }
+  .lead-form .privacy { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.04em; color: var(--ink-3); max-width: 34ch; }
+  .lead-form .hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+  .form-sink { display: none; }
+  .form-success {
+    display: none; max-width: 680px; margin: 44px auto 0; text-align: left;
+    background: var(--bg-1); border: 1px solid var(--line-hi); border-radius: var(--r-lg);
+    padding: 32px 34px;
+  }
+  .form-success .ok { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--lime); margin-bottom: 12px; }
+  .form-success h3 { font-size: 1.5rem; margin-bottom: 8px; }
+  .form-success p { color: var(--ink-2); font-size: 0.98rem; margin: 0; }
+  [data-theme="light"] .form-success { background: #fff; }
+
+  @media (max-width: 640px) {
+    .lead-form .frow { grid-template-columns: 1fr; }
+  }
 
   footer { padding: 40px 0; border-top: 1px solid var(--line); }
   .foot-row { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px; }
@@ -234,7 +248,6 @@
     .layer-row .specs { text-align: left; flex-direction: row; gap: 20px; }
     .use-grid { grid-template-columns: 1fr 1fr; }
     .hero-bar .inner { grid-template-columns: repeat(3, 1fr); }
-    .team-grid { grid-template-columns: repeat(2, 1fr); }
   }
 
   /* Phone portrait: collapse section-link row so wordmark + theme toggle + CTA stay on one line */
@@ -247,7 +260,6 @@
     .use-grid { grid-template-columns: 1fr; }
     .hero-bar .inner { grid-template-columns: repeat(2, 1fr); }
     .foot-row .fl { gap: 14px; flex-wrap: wrap; }
-    .team-grid { grid-template-columns: 1fr; }
   }
 </style>
 </head>
@@ -260,9 +272,7 @@
       <a href="#fabric" class="on">Fabric</a>
       <a href="#layers">Architecture</a>
       <a href="#uses">Use Cases</a>
-      <a href="#resilience">Resilience</a>
-      <a href="#team">Team</a>
-      <a href="#contact">Contact</a>
+      <a href="#resilience">Resilience</a>      <a href="#contact">Contact</a>
     </div>
     <div style="display:flex;align-items:center;gap:12px">
       <button id="theme-toggle" class="theme-toggle" aria-label="Toggle light/dark theme" title="Toggle theme">
@@ -350,9 +360,9 @@
       </div>
       <div class="layer-row">
         <div class="idx">04</div>
-        <div class="ttl"><h3>AI Hardware</h3><div class="k">// inference at edge · training at hub</div></div>
-        <div class="desc">L4 · L40S · MI300X at the edge for real-time inference. H100 · H200 · B200 concentrated at regional hubs for training and the largest models. Direct liquid cooling is mandatory for GPU racks.</div>
-        <div class="specs"><div>Edge <b>L4 · L40S · MI300X</b></div><div>Hub <b>H100 · H200 · B200</b></div><div>Cooling <b>DLC + immersion</b></div></div>
+        <div class="ttl"><h3>AI Hardware</h3><div class="k">// silicon-agnostic · Grace Blackwell today</div></div>
+        <div class="desc">Silicon-agnostic by design. ANDD runs NVIDIA Grace Blackwell–class accelerators today and keeps complete flexibility to deploy alternative silicon — AMD Instinct, inference-specific accelerators, or custom ASICs — as those products mature. Direct liquid cooling is standard for accelerator racks.</div>
+        <div class="specs"><div>Today <b>NVIDIA Grace Blackwell</b></div><div>Roadmap <b>AMD · ASIC · custom</b></div><div>Cooling <b>DLC + immersion</b></div></div>
       </div>
     </div>
   </div>
@@ -362,7 +372,7 @@
   <div class="container">
     <div class="sec-head">
       <span class="eyebrow">/ served domains</span>
-      <h2>Seven domains where the round-trip is the problem.</h2>
+      <h2>Eight domains where the round-trip is the problem.</h2>
       <p>Every tile is a customer profile — latency budget, compliance posture, and hardware mix all pre-scoped.</p>
     </div>
     <div class="use-grid" id="use-grid"></div>
@@ -387,73 +397,82 @@
   </div>
 </section>
 
-<section class="team" id="team">
-  <div class="container">
-    <div class="sec-head">
-      <span class="eyebrow">/ team</span>
-      <h2>The team building this.</h2>
-      <p>Building ANDD requires expertise across datacenter infrastructure, AI/ML systems, telecommunications, real estate, federal compliance, and financial structuring.</p>
-    </div>
-    <div class="team-grid">
-
-      <article class="member">
-        <div class="member-photo"><img src="images/team/william-tolpegin.jpg" alt="William Tolpegin" loading="lazy"></div>
-        <div class="member-meta">
-          <span class="role">CEO</span>
-          <h3>William Tolpegin</h3>
-          <p>35+ yrs executive experience. Former CEO of <b>C-Band Alliance</b> — the Intelsat/SES/Eutelsat/Telesat consortium that reallocated U.S. mid-band spectrum for 5G. Former CEO of <b>OTA Broadcasting</b>; co-founder of <b>AURA Networks</b> (deterministic wireless for drone C2).</p>
-        </div>
-      </article>
-
-      <article class="member">
-        <div class="member-photo"><img src="images/team/chris-stark.jpg" alt="Chris Stark" loading="lazy"></div>
-        <div class="member-meta">
-          <span class="role">President</span>
-          <h3>Chris Stark</h3>
-          <p>35+ yrs across Fortune 1000 and technology ventures with deep expertise in telecom, spectrum, and large-scale infrastructure deployment. Chairman and co-founder <b>CBRS Alliance</b>; long-time operator of complex multi-stakeholder programs.</p>
-        </div>
-      </article>
-
-      <article class="member">
-        <div class="member-photo"><img src="images/team/anoop-nannra.jpg" alt="Anoop Nannra" loading="lazy"></div>
-        <div class="member-meta">
-          <span class="role">CPO</span>
-          <h3>Anoop Nannra</h3>
-          <p>Former CEO &amp; co-founder of <b>Trugard Labs</b> (acquired). Previously led blockchain and cloud initiatives at <b>AWS</b> and <b>Cisco</b>, and intelligent infrastructure research at <b>Nortel</b>; co-founded &amp; chaired the <b>Trusted IoT Alliance</b>. Hands-on background in ML/AI, distributed systems, photonics, chip design, and cybersecurity.</p>
-        </div>
-      </article>
-
-      <article class="member">
-        <div class="member-photo"><img src="images/team/brian-hendricks.jpg?v=6" alt="Brian Hendricks" loading="lazy"></div>
-        <div class="member-meta">
-          <span class="role">CLO</span>
-          <h3>Brian Hendricks</h3>
-          <p>Chief Public Policy &amp; Government Affairs Officer at <b>Nokia</b> (13+ yrs). Former <b>General Counsel &amp; Staff Director</b>, U.S. Senate Committee on Commerce, Science &amp; Transportation; FCC Enforcement Bureau attorney; AT&amp;T policy. J.D. / MPP, William &amp; Mary.</p>
-        </div>
-      </article>
-
-      <article class="member member-open" hidden>
-        <div class="member-photo"></div>
-        <div class="member-meta">
-          <span class="role">EVP Operations · Open Role</span>
-          <h3>Head of Deployment &amp; Operations</h3>
-          <p>Seeking a 20+ yr operator from hyperscale or towerco — <b>Equinix / Digital Realty / Crown Castle / American Tower</b>. Must own multi-site prefab rollout at 50+ sites/yr, utility interconnect &amp; DLC commissioning, NOC automation, SOC 2 / FedRAMP compliance, and 24/7 field ops across a distributed footprint.</p>
-        </div>
-      </article>
-
-    </div>
-  </div>
-</section>
-
 <section class="cta" id="contact">
   <div class="container">
     <span class="eyebrow">/ join</span>
     <h2>Put compute where the signal starts.</h2>
     <p>Whether you're a carrier, a DePIN project, a county CIO, or an AI model provider — tell us the workload, region and SLO. We'll come back with a site plan.</p>
-    <div class="ctas">
-      <a class="btn btn-primary" href="mailto:contact@andd.network">Start a conversation →</a>
-      <a class="btn" href="#fabric">Back to the fabric</a>
+
+    <!-- Lead form → Google Forms backend (form 1FAIpQLSfHtd4u5kRASwOWJgg4-gr2M3eRRhZLNxL5clJcXSxOrmuCtw).
+         Responses land in the linked Sheet; enable response-email notifications to reach contact@andd.ai. -->
+    <form id="lead-form" class="lead-form" action="https://docs.google.com/forms/d/e/1FAIpQLSfHtd4u5kRASwOWJgg4-gr2M3eRRhZLNxL5clJcXSxOrmuCtw/formResponse" method="POST" target="andd-form-sink" novalidate>
+      <div class="frow">
+        <div class="field">
+          <label for="lf-name">Full name <span class="req">*</span></label>
+          <input id="lf-name" name="entry.761505288" type="text" autocomplete="name" required placeholder="Jane Rivera">
+        </div>
+        <div class="field">
+          <label for="lf-email">Work email <span class="req">*</span></label>
+          <input id="lf-email" name="entry.906364280" type="email" autocomplete="email" required placeholder="jane@company.com">
+        </div>
+      </div>
+      <div class="frow">
+        <div class="field">
+          <label for="lf-org">Organization</label>
+          <input id="lf-org" name="entry.528269525" type="text" autocomplete="organization" placeholder="Company / agency">
+        </div>
+        <div class="field">
+          <label for="lf-audience">I am a <span class="req">*</span></label>
+          <select id="lf-audience" name="entry.445405568" required>
+            <option value="" selected disabled>Select one…</option>
+            <option>Customer</option>
+            <option>Partner</option>
+            <option>Developer</option>
+            <option>Investor</option>
+          </select>
+        </div>
+      </div>
+      <div class="frow">
+        <div class="field">
+          <label for="lf-region">Region / market</label>
+          <input id="lf-region" name="entry.936819366" type="text" placeholder="e.g. Pacific NW, Texas, Mid-Atlantic">
+        </div>
+        <div class="field">
+          <label for="lf-workload">Workload / use case</label>
+          <select id="lf-workload" name="entry.496908603">
+            <option value="" selected disabled>Select one…</option>
+            <option>AI inference</option>
+            <option>Public safety</option>
+            <option>Mobility &amp; V2X</option>
+            <option>Power &amp; Utilities</option>
+            <option>Healthcare</option>
+            <option>DePIN / validators</option>
+            <option>Smart city</option>
+            <option>Other</option>
+          </select>
+        </div>
+      </div>
+      <div class="field full">
+        <label for="lf-message">What are you looking to do? <span class="req">*</span></label>
+        <textarea id="lf-message" name="entry.1983684791" required placeholder="Tell us the workload, region, and any latency or compliance requirements (SLO, HIPAA, CJIS, FedRAMP…)."></textarea>
+      </div>
+      <!-- Google Forms plumbing: emailAddress is required because the form collects email (responder input); set from Work email on submit. -->
+      <input type="hidden" name="emailAddress" value="">
+      <input type="hidden" name="fvv" value="1">
+      <input type="hidden" name="pageHistory" value="0">
+      <input class="hp" type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <div class="actions">
+        <button type="submit" class="btn btn-primary">Send inquiry →</button>
+        <span class="privacy">We reply within two business days. No lists, no spam.</span>
+      </div>
+    </form>
+
+    <div id="form-success" class="form-success" role="status" aria-live="polite">
+      <div class="ok">✓ Received</div>
+      <h3>Thanks — we've got it.</h3>
+      <p>Your inquiry is in. The ANDD team will review your workload and region and come back to you within two business days at the email you provided.</p>
     </div>
+    <iframe name="andd-form-sink" class="form-sink" title="form submission target"></iframe>
   </div>
 </section>
 
@@ -464,9 +483,7 @@
       <a href="#fabric">Fabric</a>
       <a href="#layers">Architecture</a>
       <a href="#uses">Use Cases</a>
-      <a href="#resilience">Resilience</a>
-      <a href="#team">Team</a>
-      <a href="#contact">Contact</a>
+      <a href="#resilience">Resilience</a>      <a href="#contact">Contact</a>
     </div>
     <div class="cpy">© 2026 ANDD Network</div>
   </div>
@@ -614,7 +631,7 @@ const USES = [
   { id:'public-safety', idx:'02', name:'Public Safety', desc:'NG911 call routing, FirstNet body-cam ingest, multi-agency video retention — all survive backhaul partition.', facts:[['Survival','100% local'],['Compliance','CJIS']], color:'var(--ind-public-safety)' },
   { id:'power', idx:'03', name:'Power & Utilities', desc:'Substation-adjacent compute for SCADA, smart-meter aggregation, demand response, and grid-edge forecasting.', facts:[['SCADA loop','<15 ms'],['Meters / site','10⁶']], color:'var(--ind-power)' },
   { id:'health', idx:'04', name:'Healthcare', desc:'HIPAA-compliant infrastructure placed next to regional health systems — telemedicine, imaging AI, EHR edge cache.', facts:[['Imaging AI','<1 s'],['Residency','In-state']], color:'var(--ind-health)' },
-  { id:'ai', idx:'05', name:'AI Inference', desc:'Inference-optimized GPUs where your users are. 7-13B at the edge; 70B+ at the regional hub; sub-100ms either way.', facts:[['7-13B','20-100ms/tok'],['Hub','H100·H200·B200']], color:'var(--ind-ai)' },
+  { id:'ai', idx:'05', name:'AI Inference', desc:'Accelerators where your users are, on silicon-agnostic infrastructure. 7-13B at the edge; 70B+ at the regional hub; sub-100ms either way.', facts:[['7-13B','20-100ms/tok'],['Silicon','Vendor-neutral']], color:'var(--ind-ai)' },
   { id:'depin', idx:'06', name:'DePIN / Validators', desc:'Enterprise-grade physical backbone. Validator hosting and settlement compute with N+1 redundancy on the same rails.', facts:[['Uptime','99.99%'],['Planned sites','1,000+']], color:'var(--ind-depin)' },
   { id:'civic', idx:'07', name:'Smart City', desc:'Municipal compute inside the jurisdictions that need it. Sensor fusion, transit, traffic, local permitting AI.', facts:[['Fusion loop','<20 ms'],['OZ','Aligned']], color:'var(--ind-civic)' },
   { id:'oz', idx:'08', name:'Opportunity Zones', desc:'8,764 eligible census tracts. Capital-gains deferral, basis step-up, and zero tax on appreciation after 10 years.', facts:[['Tracts','8,764'],['10-yr tax','0%']], color:'var(--amber)' },
@@ -785,7 +802,7 @@ const io = new IntersectionObserver(entries => {
     }
   });
 }, { rootMargin: '-40% 0px -50% 0px' });
-['fabric','layers','uses','resilience','team','contact'].forEach(id => {
+['fabric','layers','uses','resilience','contact'].forEach(id => {
   const el = document.getElementById(id);
   if (el) io.observe(el);
 });
@@ -802,6 +819,34 @@ const io = new IntersectionObserver(entries => {
     try { localStorage.setItem('andd-theme', next || 'dark'); } catch(e){}
     // Fire event so widgets can re-render
     window.dispatchEvent(new CustomEvent('anddThemeChange', { detail: { theme: next || 'dark' }}));
+  });
+})();
+
+// Lead form — submit handling + on-brand success state
+(function(){
+  const form = document.getElementById('lead-form');
+  const success = document.getElementById('form-success');
+  if (!form || !success) return;
+  const wired = form.getAttribute('action').indexOf('__GOOGLE') === -1;
+  form.addEventListener('submit', function(e){
+    // Honeypot: silently drop bot submissions
+    const hp = form.querySelector('.hp');
+    if (hp && hp.value) { e.preventDefault(); return; }
+    // Let the browser enforce required fields first
+    if (!form.checkValidity()) { e.preventDefault(); form.reportValidity(); return; }
+    // The Google Form collects email (responder input) → the special emailAddress
+    // field is required, or the submission is rejected. Populate it from Work email.
+    const emailField = document.getElementById('lf-email');
+    const emailAddr = form.querySelector('input[name="emailAddress"]');
+    if (emailField && emailAddr) emailAddr.value = emailField.value;
+    // Until the Google Form action is wired in, don't POST to the placeholder URL
+    if (!wired) { e.preventDefault(); }
+    // Optimistic success (cross-origin submit into the hidden frame is opaque)
+    setTimeout(function(){
+      form.style.display = 'none';
+      success.style.display = 'block';
+      success.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 120);
   });
 })();
 </script>
