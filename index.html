@@ -3,852 +3,361 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ANDD — AI-Native Distributed Datacenters</title>
-<meta name="description" content="ANDD is a mesh of AI-native edge datacenters across U.S. Opportunity Zones — distributed, sovereign, and self-routing. Put compute where the signal starts.">
+<title>Native Networks — Distributed AI Datacenters</title>
+<meta name="description" content="Native Networks builds and operates small modular AI datacenters, 500 kW to 20 MW, sited where power and fiber already exist. Inference runs locally instead of round-tripping to a distant cloud.">
 <link rel="canonical" href="https://www.andd.ai/">
-<meta name="theme-color" content="#060912">
+<meta name="theme-color" content="#0A0E1A">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <!-- Open Graph -->
 <meta property="og:type" content="website">
-<meta property="og:site_name" content="ANDD">
+<meta property="og:site_name" content="Native Networks">
 <meta property="og:url" content="https://www.andd.ai/">
-<meta property="og:title" content="ANDD — AI-Native Distributed Datacenters">
-<meta property="og:description" content="A mesh of AI-native edge datacenters across U.S. Opportunity Zones — distributed, sovereign, and self-routing. Put compute where the signal starts.">
-<meta property="og:image" content="https://www.andd.ai/andd.png">
+<meta property="og:title" content="Native Networks — Distributed AI Datacenters">
+<meta property="og:description" content="Small modular AI datacenters, 500 kW to 20 MW, sited where power and fiber already exist. The distributed layer between the hyperscale core and the device.">
+<meta property="og:image" content="https://www.andd.ai/og.png">
 <!-- Twitter -->
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="ANDD — AI-Native Distributed Datacenters">
-<meta name="twitter:description" content="A mesh of AI-native edge datacenters across U.S. Opportunity Zones — distributed, sovereign, and self-routing.">
-<meta name="twitter:image" content="https://www.andd.ai/andd.png">
-<script>
-  // Set theme BEFORE paint to avoid a flash. Default = dark.
-  (function(){
-    try {
-      const saved = localStorage.getItem('andd-theme');
-      if (saved === 'light') document.documentElement.setAttribute('data-theme', 'light');
-    } catch(e){}
-  })();
-</script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="shared/system.css?v=4">
+<meta name="twitter:title" content="Native Networks — Distributed AI Datacenters">
+<meta name="twitter:description" content="Small modular AI datacenters, 500 kW to 20 MW, sited where power and fiber already exist.">
+<meta name="twitter:image" content="https://www.andd.ai/og.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
 <style>
-  /* Inline light-theme fallback to guarantee it wins over any cached CSS */
-  html[data-theme="light"] {
-    --bg: #f5f2ea; --bg-1: #eae6db; --bg-2: #ddd6c4;
-    --surface: #ffffff; --surface-hi: #f0ece1;
-    --line: rgba(20,40,80,0.10); --line-hi: rgba(20,40,80,0.22); --line-hot: rgba(10,100,160,0.45);
-    --ink-0: #0a1224; --ink-1: #22304a; --ink-2: #55637d; --ink-3: #8691a8;
-    --cyan: #0f7a9a; --cyan-dim: #0a5570;
-    --amber: #c27020; --amber-dim: #8d4a0f;
-    --violet: #6041c7; --lime: #3d7a2c; --rose: #c43a55;
-    --glow-cyan: rgba(15,122,154,0.18);
-  }
+:root {
+  --bg: #0A0E1A; --surface: #0E1426;
+  --line: #1E2F72; --line-soft: #172250;
+  --indigo: #4C6FFF; --indigo-hi: #6383FF; --sky: #38BDF8; --navy: #1E2F72;
+  --ink-0: #FFFFFF; --ink-1: #C8CEE0; --ink-2: #9AA4BD; --ink-3: #6B7488;
+  --radius: 4px; --font: 'Schibsted Grotesk', 'Helvetica Neue', Arial, sans-serif;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--bg); color: var(--ink-1); font-family: var(--font); font-size: 17px; line-height: 1.55; -webkit-font-smoothing: antialiased; }
+a { color: inherit; text-decoration: none; }
+h1, h2, h3 { color: var(--ink-0); margin: 0; font-weight: 500; letter-spacing: -0.025em; text-wrap: balance; }
+p { margin: 0; }
+.wrap { width: min(1240px, calc(100% - 2 * clamp(1.25rem, 5vw, 4rem))); margin-inline: auto; }
+
+.nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 80px; }
+.logo { display: inline-flex; align-items: center; gap: 12px; }
+.logo .mark { width: 42px; height: 36px; }
+.wordmark { font-weight: 700; font-size: 1.15rem; color: var(--ink-0); white-space: nowrap; }
+.nav-links { display: flex; gap: 32px; font-size: 0.95rem; color: var(--ink-2); }
+.nav-links a:hover { color: var(--ink-0); }
+
+.hero { padding: clamp(2rem, 6vw, 5rem) 0 clamp(3rem, 7vw, 6rem); }
+.hero .wrap { display: grid; grid-template-columns: minmax(0, 1fr) minmax(280px, 0.8fr); gap: clamp(2rem, 6vw, 6rem); align-items: center; }
+.hero h1 { font-size: clamp(2.6rem, 5.4vw, 4.8rem); line-height: 1.02; max-width: 13ch; }
+.hero .dek { margin-top: 30px; font-size: 1.2rem; color: var(--ink-2); max-width: 44ch; }
+.hero .dek a { color: var(--sky); border-bottom: 1px solid currentColor; }
+.hero-mark { width: 100%; max-width: 540px; margin-inline: auto; }
+.hero-mark .mark { width: 100%; height: auto; display: block; }
+.hero-mark .signal.draw { stroke-dasharray: 320; stroke-dashoffset: 320; animation: draw 1.4s cubic-bezier(.4,0,.2,1) 0.2s forwards; }
+@keyframes draw { to { stroke-dashoffset: 0; } }
+@media (prefers-reduced-motion: reduce) { .hero-mark .signal.draw { animation: none; stroke-dashoffset: 0; } }
+
+.rule { border: 0; border-top: 1px solid var(--line-soft); margin: 0; }
+.row { display: grid; grid-template-columns: 240px minmax(0, 1fr); gap: 40px; padding: clamp(3rem, 6vw, 5.5rem) 0; }
+.row .k { color: var(--sky); font-size: 1rem; font-weight: 500; padding-top: 0.45em; }
+.row h2 { font-size: clamp(1.8rem, 3.4vw, 2.9rem); line-height: 1.1; max-width: 22ch; }
+.row .body { margin-top: 26px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px 40px; }
+.row .body p { color: var(--ink-2); max-width: 46ch; }
+.row .body p b { color: var(--ink-0); font-weight: 500; display: block; margin-bottom: 4px; }
+.row .body.one { grid-template-columns: minmax(0, 1fr); }
+
+/* Numbers as type, not tiles */
+.numbers { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; margin-top: 34px; }
+.numbers div { border-top: 1px solid var(--line); padding-top: 14px; }
+.numbers b { display: block; color: var(--ink-0); font-size: clamp(1.6rem, 2.6vw, 2.2rem); font-weight: 500; letter-spacing: -0.03em; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.numbers span { color: var(--ink-2); font-size: 0.95rem; }
+
+/* Scale rail: EC500 -> EC1000 -> 20 MW */
+.rail { margin-top: 36px; }
+.rail svg { width: 100%; height: auto; display: block; overflow: visible; }
+.rail text { font-family: var(--font); fill: var(--ink-2); font-size: 13px; }
+.rail text.big { fill: var(--ink-0); font-size: 16px; font-weight: 500; }
+
+.tiers { display: grid; gap: 0; margin-top: 26px; }
+.tier { display: grid; grid-template-columns: 240px 1fr; gap: 24px; padding: 20px 0; border-top: 1px solid var(--line-soft); }
+.tier:last-child { border-bottom: 1px solid var(--line-soft); }
+.tier h3 { font-size: 1.1rem; font-weight: 500; }
+.tier .term { color: var(--sky); font-size: 0.9rem; display: block; margin-top: 2px; }
+.tier p { color: var(--ink-2); max-width: 60ch; }
+
+.team-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 36px 32px; margin-top: 34px; }
+.member img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: var(--radius); display: block; }
+.member .role { display: block; color: var(--sky); font-size: 0.9rem; font-weight: 500; margin-top: 16px; }
+.member h3 { font-size: 1.1rem; font-weight: 500; margin-top: 2px; }
+.member p { color: var(--ink-2); font-size: 0.9rem; line-height: 1.5; margin-top: 8px; }
+
+.contact-wrap { max-width: 720px; }
+.contact-wrap .mail { color: var(--sky); border-bottom: 1px solid currentColor; }
+.contact-wrap .lead-form { margin-top: 30px; }
+
+footer .wrap { display: flex; justify-content: space-between; align-items: center; gap: 20px; flex-wrap: wrap; padding: 36px 0; color: var(--ink-3); font-size: 0.9rem; }
+footer nav { display: flex; gap: 22px; }
+footer nav a:hover { color: var(--ink-0); }
+
+.lead-form { display: grid; gap: 22px; }
+.lead-form .frow { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+.field { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.field.full { grid-column: 1 / -1; }
+.field label { font-size: 0.85rem; color: var(--ink-2); }
+.field input, .field select, .field textarea {
+  width: 100%; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+  color: var(--ink-0); font: inherit; font-size: 0.95rem; line-height: 1.4; padding: 12px 14px;
+  transition: border-color 160ms;
+}
+.field input::placeholder, .field textarea::placeholder { color: var(--ink-3); }
+.field textarea { resize: vertical; min-height: 120px; }
+.field input:focus, .field select:focus, .field textarea:focus { outline: none; border-color: var(--sky); }
+.field select { appearance: none; -webkit-appearance: none; cursor: pointer; padding-right: 38px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%239AA4BD' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 14px center; }
+.lead-form .actions { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+.lead-form .privacy { font-size: 0.85rem; color: var(--ink-3); }
+.lead-form .hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+.form-sink { display: none; }
+.form-success { border: 1px solid var(--line); border-radius: var(--radius); padding: 28px 30px; }
+.form-success h3 { margin: 0 0 6px; font-size: 1.3rem; color: var(--ink-0); }
+.form-success p { margin: 0; color: var(--ink-2); }
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 20px; border-radius: var(--radius); border: 1px solid var(--line); color: var(--ink-0); font: inherit; font-weight: 500; font-size: 0.95rem; cursor: pointer; background: transparent; transition: border-color 160ms, background 160ms; }
+.btn:hover { border-color: var(--sky); }
+.btn-primary { background: var(--indigo); border-color: var(--indigo); color: #fff; }
+.btn-primary:hover { background: var(--indigo-hi); border-color: var(--indigo-hi); }
+:focus-visible { outline: 2px solid var(--sky); outline-offset: 3px; }
+@media (max-width: 640px) { .lead-form .frow { grid-template-columns: 1fr; } }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+
+@media (max-width: 900px) {
+  .nav-links { display: none; }
+  .hero .wrap { grid-template-columns: 1fr; }
+  .hero-mark { max-width: 360px; margin: 0; }
+  .row { grid-template-columns: 1fr; gap: 14px; }
+  .row .body, .numbers { grid-template-columns: 1fr 1fr; }
+  .team-grid { grid-template-columns: 1fr 1fr; }
+  .tier { grid-template-columns: 1fr; gap: 6px; }
+}
+@media (max-width: 560px) { .row .body, .numbers, .team-grid { grid-template-columns: 1fr; } }
 </style>
-<style>
-  /* Direction B — Fabric: abstract 3D mesh sphere. More editorial & typographic. */
 
-  :root { --bg: #050810; --bg-1: #070b16; }
-  [data-theme="light"] { --bg: #f5f2ea; --bg-1: #eae6db; }
-
-  /* NAV */
-  .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; -webkit-backdrop-filter: blur(18px); backdrop-filter: blur(18px); background: rgba(5, 8, 16, 0.55); border-bottom: 1px solid var(--line); }
-  [data-theme="light"] .nav { background: rgba(245, 242, 234, 0.75); }
-  .nav-row { display: flex; align-items: center; justify-content: space-between; height: 64px; }
-  .nav-mid { display: flex; gap: 28px; }
-  .nav-mid a { font-family: var(--font-display); font-size: 13px; color: var(--ink-2); transition: color 160ms; }
-  .nav-mid a:hover, .nav-mid a.on { color: var(--ink-0); }
-
-  /* HERO: left headline, right rotatable 3D mesh */
-  .hero { min-height: 100vh; padding-top: 64px; position: relative; overflow: hidden; display: grid; grid-template-rows: 1fr auto; }
-  .hero-bg {
-    position: absolute; inset: 0; pointer-events: none;
-    background:
-      radial-gradient(ellipse 55% 45% at 72% 45%, rgba(94, 227, 255, 0.14), transparent 70%),
-      radial-gradient(ellipse 40% 40% at 20% 85%, rgba(163, 136, 255, 0.06), transparent 70%);
-  }
-  [data-theme="light"] .hero-bg {
-    background:
-      radial-gradient(ellipse 55% 45% at 72% 45%, rgba(15, 122, 154, 0.10), transparent 70%),
-      radial-gradient(ellipse 40% 40% at 20% 85%, rgba(96, 65, 199, 0.05), transparent 70%);
-  }
-  .hero-inner { position: relative; max-width: 1600px; margin: 0 auto; width: 100%; padding: 0 clamp(1.25rem, 3vw, 3rem); display: grid; grid-template-columns: minmax(440px, 1fr) minmax(500px, 1.1fr); gap: 48px; align-items: center; }
-  .hero-left { padding: clamp(3rem, 6vh, 6rem) 0; }
-  .hero-left .pre { display: flex; align-items: center; gap: 12px; margin-bottom: 36px; }
-  .hero-left .pre .dot { width: 8px; height: 8px; background: var(--lime); border-radius: 50%; box-shadow: 0 0 12px var(--lime); }
-  .hero-left .pre .tx { font-family: var(--font-mono); font-size: 11px; color: var(--ink-2); letter-spacing: 0.16em; text-transform: uppercase; }
-  .hero-left h1 { font-size: clamp(2.8rem, 5.8vw, 5.4rem); line-height: 1; letter-spacing: -0.03em; margin-bottom: 32px; }
-  .hero-left h1 .glow { color: var(--cyan); text-shadow: 0 0 40px var(--glow-cyan); }
-  .hero-left h1 .sub { display: block; color: var(--ink-2); font-weight: 300; letter-spacing: -0.01em; margin-top: 14px; font-size: 0.46em; line-height: 1.3; max-width: 22ch; }
-  .hero-left .dek { font-size: 1.1rem; color: var(--ink-1); max-width: 46ch; margin-bottom: 40px; font-weight: 300; }
-  .hero-left .hero-cta { display: flex; gap: 10px; margin-bottom: 48px; }
-
-  .hero-right { position: relative; aspect-ratio: 1/1; max-height: 82vh; display: flex; align-items: center; justify-content: center; }
-  .mesh-stage { width: 100%; height: 100%; position: relative; cursor: grab; }
-  .mesh-stage:active { cursor: grabbing; }
-  .mesh-stage svg { width: 100%; height: 100%; overflow: visible; }
-  .mesh-stage svg .nucleus-near, .mesh-stage svg .nucleus-far { stop-color: var(--cyan); }
-  .mesh-hint { position: absolute; bottom: 12px; left: 12px; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.08em; color: var(--ink-3); text-transform: uppercase; }
-
-  /* Below-the-fold bar with quick stats */
-  .hero-bar {
-    position: relative; max-width: 1600px; margin: 0 auto; width: 100%;
-    padding: 0 clamp(1.25rem, 3vw, 3rem);
-  }
-  .hero-bar .inner {
-    display: grid; grid-template-columns: repeat(6, 1fr); gap: 1px;
-    background: var(--line);
-    border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
-  }
-  .hero-bar .s { background: var(--bg); padding: 22px 20px; }
-  .hero-bar .k { font-family: var(--font-mono); font-size: 10px; color: var(--ink-3); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 6px; }
-  .hero-bar .v { font-family: var(--font-display); font-size: 1.4rem; color: var(--ink-0); letter-spacing: -0.02em; }
-  .hero-bar .v .u { font-size: 0.55em; color: var(--ink-2); margin-left: 4px; }
-
-  /* MANIFESTO band */
-  .manifesto { padding: calc(var(--pad-section) * 1.1) 0; border-top: 1px solid var(--line); }
-  .manifesto-grid { display: grid; grid-template-columns: 1fr 2fr; gap: 80px; align-items: start; }
-  .manifesto .lbl { font-family: var(--font-mono); font-size: 22px; color: var(--cyan); letter-spacing: 0.14em; text-transform: uppercase; padding-top: 14px; border-top: 1px solid var(--line-hi); }
-  .manifesto blockquote { font-family: var(--font-display); font-size: clamp(1.6rem, 2.6vw, 2.6rem); line-height: 1.15; color: var(--ink-0); font-weight: 400; letter-spacing: -0.02em; max-width: 26ch; }
-  .manifesto blockquote .dim { color: var(--ink-2); }
-  .manifesto blockquote .hl { color: var(--cyan); }
-
-  /* LAYERS — vertical stack, full bleed */
-  .layers { padding: var(--pad-section) 0; border-top: 1px solid var(--line); background: var(--bg-1); }
-  .sec-head { max-width: 880px; margin-bottom: 64px; }
-  .sec-head .eyebrow { margin-bottom: 16px; display: inline-block; font-size: 22px; letter-spacing: 0.14em; }
-  .sec-head h2 { margin-bottom: 16px; }
-  .sec-head p { color: var(--ink-2); font-size: 1.05rem; max-width: 60ch; }
-
-  .layer-rows { border-top: 1px solid var(--line); }
-  .layer-row {
-    display: grid; grid-template-columns: 80px 1fr 1.3fr 200px;
-    gap: 40px; align-items: center;
-    padding: 44px 0;
-    border-bottom: 1px solid var(--line);
-    transition: background 240ms;
-  }
-  .layer-row:hover { background: color-mix(in srgb, var(--cyan) 4%, transparent); }
-  .layer-row .idx { font-family: var(--font-mono); font-size: 1.8rem; color: var(--cyan); letter-spacing: -0.02em; font-weight: 500; }
-  .layer-row .ttl h3 { font-size: 1.6rem; margin-bottom: 6px; }
-  .layer-row .ttl .k { font-family: var(--font-mono); font-size: 10px; color: var(--ink-3); letter-spacing: 0.12em; text-transform: uppercase; }
-  .layer-row .desc { color: var(--ink-1); font-size: 0.98rem; max-width: 52ch; }
-  .layer-row .specs { display: flex; flex-direction: column; gap: 6px; font-family: var(--font-mono); font-size: 10px; color: var(--ink-2); letter-spacing: 0.06em; text-transform: uppercase; text-align: right; }
-  .layer-row .specs b { color: var(--ink-0); font-weight: 500; }
-
-  /* USES — grid of industry tiles with glowing mini-vis */
-  .uses { padding: var(--pad-section) 0; border-top: 1px solid var(--line); }
-  .use-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); }
-  .use-tile {
-    position: relative; background: var(--bg); padding: 32px 28px 28px; min-height: 320px; display: flex; flex-direction: column;
-    overflow: hidden; transition: background 240ms; cursor: default;
-  }
-  .use-tile::before { content:''; position: absolute; inset: 0; background: radial-gradient(ellipse 80% 60% at 80% 100%, currentColor 0%, transparent 60%); opacity: 0.14; pointer-events: none; transition: opacity 240ms; }
-  .use-tile:hover::before { opacity: 0.28; }
-  .use-tile .idx { font-family: var(--font-mono); font-size: 10px; color: currentColor; letter-spacing: 0.16em; margin-bottom: 16px; }
-  [data-theme="light"] .use-tile .idx { color: var(--ink-1); }
-  [data-theme="light"] .use-tile .facts { color: var(--ink-1); border-top-color: var(--line-hi); }
-  [data-theme="light"] .use-tile .facts .f b { color: var(--ink-0); }
-  [data-theme="light"] .use-tile::before { opacity: 0.08; }
-  [data-theme="light"] .use-tile:hover::before { opacity: 0.18; }
-  .use-tile h3 { color: var(--ink-0); font-size: 1.25rem; margin-bottom: 10px; }
-  .use-tile .desc { color: var(--ink-2); font-size: 0.9rem; flex: 1; margin-bottom: 16px; }
-  .use-tile .facts { display: flex; flex-direction: column; gap: 6px; font-family: var(--font-mono); font-size: 10px; color: var(--ink-2); letter-spacing: 0.04em; border-top: 1px dashed var(--line); padding-top: 12px; }
-  .use-tile .facts .f { display: flex; justify-content: space-between; }
-  .use-tile .facts .f b { color: currentColor; font-weight: 500; }
-  .use-tile .vis { position: absolute; top: 20px; right: 20px; width: 60px; height: 60px; opacity: 0.8; }
-  .use-tile .vis svg { width: 100%; height: 100%; }
-
-  /* Theme toggle */
-  .theme-toggle {
-    width: 36px; height: 36px;
-    display: inline-flex; align-items: center; justify-content: center;
-    border: 1px solid var(--line-hi); border-radius: 999px;
-    background: transparent; color: var(--ink-1);
-    cursor: pointer; transition: background 160ms, border-color 160ms, color 160ms;
-    position: relative; overflow: hidden;
-  }
-  .theme-toggle:hover { border-color: var(--line-hot); color: var(--ink-0); }
-  .theme-toggle .ticon { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; transition: opacity 200ms, transform 280ms cubic-bezier(.5,1.6,.5,1); }
-  .theme-toggle .ticon svg { width: 16px; height: 16px; }
-  /* Dark by default: show moon */
-  .theme-toggle .ticon:not(.moon) { opacity: 0; transform: rotate(-40deg) scale(.7); }
-  .theme-toggle .ticon.moon { opacity: 1; transform: none; }
-  [data-theme="light"] .theme-toggle .ticon:not(.moon) { opacity: 1; transform: none; }
-  [data-theme="light"] .theme-toggle .ticon.moon { opacity: 0; transform: rotate(40deg) scale(.7); }
-
-  /* RESILIENCE — full-width graph */
-  .resilience { padding: var(--pad-section) 0; border-top: 1px solid var(--line); background: var(--bg-1); overflow: hidden; }
-  .res-stage { position: relative; aspect-ratio: 16/9; width: 100%; background: var(--bg); border: 1px solid var(--line); margin-top: 40px; overflow: hidden; }
-  .res-stage svg { width: 100%; height: 100%; display: block; }
-  .res-hud { position: absolute; top: 16px; left: 20px; display: flex; flex-direction: column; gap: 2px; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.08em; color: var(--ink-2); text-transform: uppercase; }
-  .res-hud b { color: var(--lime); }
-  .res-hud.alarm b { color: var(--rose); }
-  .res-hint { position: absolute; bottom: 16px; right: 20px; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.08em; color: var(--ink-3); text-transform: uppercase; }
-
-  /* CTA */
-  .cta { padding: var(--pad-section) 0 calc(var(--pad-section) * 1.4); border-top: 1px solid var(--line); text-align: center; }
-  .cta .eyebrow { margin-bottom: 24px; display: inline-block; font-size: 22px; letter-spacing: 0.14em; }
-  .cta h2 { margin-bottom: 18px; max-width: 22ch; margin-inline: auto; font-size: clamp(2.4rem, 4.2vw, 3.8rem); }
-  .cta p { color: var(--ink-2); font-size: 1.05rem; max-width: 50ch; margin: 0 auto 32px; }
-  .cta .ctas { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
-
-  /* LEAD FORM */
-  .lead-form { max-width: 680px; margin: 44px auto 0; text-align: left; display: grid; gap: 20px; }
-  .lead-form .frow { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-  .lead-form .field { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
-  .lead-form .field.full { grid-column: 1 / -1; }
-  .lead-form label { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-2); }
-  .lead-form label .req { color: var(--cyan); margin-left: 2px; }
-  .lead-form input, .lead-form select, .lead-form textarea {
-    width: 100%; background: var(--surface); border: 1px solid var(--line-hi); border-radius: var(--r-md);
-    color: var(--ink-0); font-family: var(--font-body); font-size: 0.95rem; line-height: 1.4;
-    padding: 12px 14px; transition: border-color 160ms, background 160ms;
-  }
-  .lead-form input::placeholder, .lead-form textarea::placeholder { color: var(--ink-3); }
-  .lead-form textarea { resize: vertical; min-height: 120px; }
-  .lead-form input:focus, .lead-form select:focus, .lead-form textarea:focus {
-    outline: none; border-color: var(--line-hot); background: var(--surface-hi);
-  }
-  .lead-form select {
-    appearance: none; -webkit-appearance: none; cursor: pointer; padding-right: 38px;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238696b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
-    background-repeat: no-repeat; background-position: right 14px center;
-  }
-  .lead-form .actions { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; margin-top: 4px; }
-  .lead-form .privacy { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.04em; color: var(--ink-3); max-width: 34ch; }
-  .lead-form .hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
-  .form-sink { display: none; }
-  .form-success {
-    display: none; max-width: 680px; margin: 44px auto 0; text-align: left;
-    background: var(--bg-1); border: 1px solid var(--line-hi); border-radius: var(--r-lg);
-    padding: 32px 34px;
-  }
-  .form-success .ok { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--lime); margin-bottom: 12px; }
-  .form-success h3 { font-size: 1.5rem; margin-bottom: 8px; }
-  .form-success p { color: var(--ink-2); font-size: 0.98rem; margin: 0; }
-  [data-theme="light"] .form-success { background: #fff; }
-
-  @media (max-width: 640px) {
-    .lead-form .frow { grid-template-columns: 1fr; }
-  }
-
-  footer { padding: 40px 0; border-top: 1px solid var(--line); }
-  .foot-row { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px; }
-  .foot-row a { font-family: var(--font-mono); font-size: 11px; color: var(--ink-2); letter-spacing: 0.06em; text-transform: uppercase; }
-  .foot-row a:hover { color: var(--ink-0); }
-  .foot-row .cpy { font-family: var(--font-mono); font-size: 11px; color: var(--ink-3); letter-spacing: 0.06em; text-transform: uppercase; }
-  .fl { display: flex; gap: 24px; }
-
-  @media (max-width: 1040px) {
-    .hero-inner { grid-template-columns: 1fr; }
-    .hero-right { max-height: 60vh; }
-    .manifesto-grid, .layer-row { grid-template-columns: 1fr; gap: 16px; }
-    .layer-row .specs { text-align: left; flex-direction: row; gap: 20px; }
-    .use-grid { grid-template-columns: 1fr 1fr; }
-    .hero-bar .inner { grid-template-columns: repeat(3, 1fr); }
-  }
-
-  /* Phone portrait: collapse section-link row so wordmark + theme toggle + CTA stay on one line */
-  @media (max-width: 720px) {
-    .nav-mid { display: none; }
-    .nav-row { gap: 12px; }
-    .nav-row > div:last-child { flex-shrink: 0; }
-    .wm { font-size: 18px; }
-    .nav .btn-primary { padding: 8px 14px; font-size: 12px; }
-    .use-grid { grid-template-columns: 1fr; }
-    .hero-bar .inner { grid-template-columns: repeat(2, 1fr); }
-    .foot-row .fl { gap: 14px; flex-wrap: wrap; }
-  }
-</style>
 </head>
 <body>
+<a id="top"></a>
+<header class="nav"><div class="wrap">
+  <a class="logo" href="#top" aria-label="Native Networks home"><svg class="mark" viewBox="-8 -8 246 206" fill="none" aria-hidden="true">
+  <g stroke="#1E2F72" stroke-width="2" stroke-linecap="round">
+    <path d="M77 9 L43.5 94.5 M77 9 L111.5 94.5 M77 9 L77 179 M43.5 94.5 L77 179 M111.5 94.5 L77 179 M111.5 94.5 L145 179 M9.5 179.5 L145 179"/>
+    <path d="M179 9 L179 179 M179 9 L221 50 M221 50 L221 140 M179.5 94.5 L221 140 M221 140 L179 179"/>
+  </g>
+  <path class="signal" d="M9.5 179.5 L43.5 94.5 L179.5 94.5 L221 50" stroke="#38BDF8" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  <g fill="#4C6FFF"><circle cx="77" cy="9" r="5.5"/><circle cx="179" cy="9" r="5.5"/><circle cx="77" cy="179" r="5.5"/><circle cx="145" cy="179" r="5.5"/><circle cx="179" cy="179" r="5.5"/><circle cx="221" cy="140" r="5.5"/></g>
+  <g fill="#38BDF8"><circle cx="9.5" cy="179.5" r="7.5"/><circle cx="43.5" cy="94.5" r="7.5"/><circle cx="111.5" cy="94.5" r="7.5"/><circle cx="179.5" cy="94.5" r="7.5"/></g>
+  <circle cx="221" cy="50" r="7" fill="#0A0E1A" stroke="#38BDF8" stroke-width="5"/>
+</svg><span class="wordmark">Native Networks</span></a>
+  <nav class="nav-links"><a href="#why">Why now</a><a href="#build">What we build</a><a href="#buy">How you buy</a><a href="#team">Team</a><a href="#contact">Contact</a></nav>
+</div></header>
 
-<nav class="nav">
-  <div class="container nav-row">
-    <span class="wm" id="nav-wm"></span>
-    <div class="nav-mid">
-      <a href="#fabric" class="on">Fabric</a>
-      <a href="#layers">Architecture</a>
-      <a href="#uses">Use Cases</a>
-      <a href="#resilience">Resilience</a>      <a href="#contact">Contact</a>
-    </div>
-    <div style="display:flex;align-items:center;gap:12px">
-      <button id="theme-toggle" class="theme-toggle" aria-label="Toggle light/dark theme" title="Toggle theme">
-        <span class="ticon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 3v1.5M12 19.5V21M3 12h1.5M19.5 12H21M5.4 5.4l1.1 1.1M17.5 17.5l1.1 1.1M5.4 18.6l1.1-1.1M17.5 6.5l1.1-1.1"/></svg></span>
-        <span class="ticon moon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5z"/></svg></span>
-      </button>
-      <a href="#contact" class="btn btn-primary">Join Network</a>
+<section class="hero"><div class="wrap">
+  <div>
+    <h1>The distributed layer between the hyperscale core and the device.</h1>
+    <p class="dek">Small modular AI datacenters, 500 kW to 20 MW, sited where power and fiber already exist. Inference runs locally instead of round-tripping to a distant cloud. <a href="#contact">Talk to us</a></p>
+  </div>
+  <div class="hero-mark"><svg class="mark" viewBox="-8 -8 246 206" fill="none" aria-hidden="true">
+  <g stroke="#1E2F72" stroke-width="2" stroke-linecap="round">
+    <path d="M77 9 L43.5 94.5 M77 9 L111.5 94.5 M77 9 L77 179 M43.5 94.5 L77 179 M111.5 94.5 L77 179 M111.5 94.5 L145 179 M9.5 179.5 L145 179"/>
+    <path d="M179 9 L179 179 M179 9 L221 50 M221 50 L221 140 M179.5 94.5 L221 140 M221 140 L179 179"/>
+  </g>
+  <path class="signal" d="M9.5 179.5 L43.5 94.5 L179.5 94.5 L221 50" stroke="#38BDF8" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  <g fill="#4C6FFF"><circle cx="77" cy="9" r="5.5"/><circle cx="179" cy="9" r="5.5"/><circle cx="77" cy="179" r="5.5"/><circle cx="145" cy="179" r="5.5"/><circle cx="179" cy="179" r="5.5"/><circle cx="221" cy="140" r="5.5"/></g>
+  <g fill="#38BDF8"><circle cx="9.5" cy="179.5" r="7.5"/><circle cx="43.5" cy="94.5" r="7.5"/><circle cx="111.5" cy="94.5" r="7.5"/><circle cx="179.5" cy="94.5" r="7.5"/></g>
+  <circle cx="221" cy="50" r="7" fill="#0A0E1A" stroke="#38BDF8" stroke-width="5"/>
+</svg></div>
+</div></section>
+
+<hr class="rule">
+<section id="why"><div class="wrap row">
+  <div class="k">Why now</div>
+  <div>
+    <h2>Inference is moving to the edge, and latency tolerance is gone.</h2>
+    <div class="body">
+      <p><b>Inference dominates compute.</b> It is now the majority of AI compute and growing faster than training. The shift from building models to deploying them is structural.</p>
+      <p><b>Real time cannot round-trip.</b> Voice, agentic sessions, inline security, and physical AI need local, sub-20 ms response. A distant cloud cannot deliver it.</p>
+      <p><b>Hyperscale is the wrong shape.</b> It was engineered for centralized, batch-oriented training. Repurposing it for distributed inference is a rebuild, not a retrofit.</p>
+      <p><b>And it is stalled.</b> Power and water scarcity, permitting backlogs, and community opposition hold large builds for years. The distributed inference layer remains unowned.</p>
     </div>
   </div>
-</nav>
+</div></section>
 
-<section class="hero" id="fabric">
-  <div class="hero-bg"></div>
-  <div class="hero-inner">
-    <div class="hero-left">
-      <h1>The fabric <br>beneath the <span class="glow">next</span><br>internet.
-        <span class="sub">A mesh of AI-native edge datacenters — distributed, sovereign, self-routing.</span>
-      </h1>
-      <p class="dek">ANDD deploys hundreds of sub-20MW edge sites across Opportunity Zones. Every node peers with its neighbors, every workload finds the closest GPU, every dollar of compute lands in the community that hosts it.</p>
-      <div class="hero-cta">
-        <a href="#contact" class="btn btn-primary">Join the network →</a>
-        <a href="#layers" class="btn">Read the architecture</a>
-      </div>
+<hr class="rule">
+<section id="build"><div class="wrap row">
+  <div class="k">What we build</div>
+  <div>
+    <h2>Two modules. One site that grows from 500 kW to 20 MW.</h2>
+    <div class="body">
+      <p><b>EC500 and EC1000.</b> Pre-engineered 500 kW and 1 MW blocks on relocatable precast foundations. A facility starts with one and expands as demand is contracted. Capital follows commitment.</p>
+      <p><b>Sited on existing power.</b> Co-ops, municipals, cell sites, investor-owned utilities, and RTOs where capacity already exists. Rates locked and interconnect expedited before a rack ships.</p>
+      <p><b>Nothing the neighbors object to.</b> No community water draw. Minimal noise. Permitting expedited because the structure is relocatable.</p>
+      <p><b>Carrier-adjacent.</b> Siting next to the carrier removes the backhaul hop. Bonded fiber with Starlink as diverse backup.</p>
     </div>
-
-    <div class="hero-right">
-      <div class="mesh-stage" id="mesh-stage">
-        <svg viewBox="-200 -200 400 400" preserveAspectRatio="xMidYMid meet">
-          <defs>
-            <radialGradient id="nucleus" cx="50%" cy="50%" r="50%">
-              <stop offset="0%" class="nucleus-near" stop-opacity="0.35"/>
-              <stop offset="100%" class="nucleus-far" stop-opacity="0"/>
-            </radialGradient>
-            <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
-              <feGaussianBlur stdDeviation="2"/>
-              <feComponentTransfer><feFuncA type="linear" slope="1.8"/></feComponentTransfer>
-              <feComposite in2="SourceGraphic" operator="over"/>
-            </filter>
-          </defs>
-          <circle cx="0" cy="0" r="200" fill="url(#nucleus)"/>
-          <g id="mesh-sphere"></g>
-        </svg>
-        <div class="mesh-hint">↳ drag to rotate</div>
-      </div>
+    <div class="rail" aria-label="Site scale from EC500 to a 20 MW facility">
+      <svg viewBox="0 0 1000 110">
+        <line x1="20" y1="60" x2="980" y2="60" stroke="#1E2F72" stroke-width="2"/>
+        <line x1="20" y1="60" x2="180" y2="60" stroke="#38BDF8" stroke-width="6" stroke-linecap="round"/>
+        <circle cx="20" cy="60" r="8" fill="#38BDF8"/><circle cx="180" cy="60" r="8" fill="#38BDF8"/>
+        <circle cx="500" cy="60" r="6" fill="#4C6FFF"/><circle cx="740" cy="60" r="6" fill="#4C6FFF"/>
+        <circle cx="980" cy="60" r="8" fill="#0A0E1A" stroke="#38BDF8" stroke-width="5"/>
+        <text x="20" y="34" class="big">EC500</text><text x="20" y="92">500 kW · first module</text>
+        <text x="180" y="34" class="big">EC1000</text><text x="180" y="92">1 MW block</text>
+        <text x="500" y="34" text-anchor="middle" class="big">5 MW</text><text x="500" y="92" text-anchor="middle">anchor offtake expansion</text>
+        <text x="740" y="34" text-anchor="middle" class="big">10 MW</text>
+        <text x="980" y="34" text-anchor="end" class="big">20 MW</text><text x="980" y="92" text-anchor="end">full site envelope</text>
+      </svg>
+    </div>
+    <div class="numbers">
+      <div><b>90–180 days</b><span>to live</span></div>
+      <div><b>Under 30 ms</b><span>at the edge</span></div>
+      <div><b>Zero</b><span>community water draw</span></div>
+      <div><b>1 GW+</b><span>land-to-power pipeline</span></div>
     </div>
   </div>
+</div></section>
 
-</section>
-
-<section class="manifesto">
-  <div class="container manifesto-grid">
-    <div class="lbl">/ The thesis</div>
-    <blockquote>
-      <span class="dim">Fewer than thirty campuses in the U.S. run the country's AI, its markets, and its emergency comms.</span> That concentration is a <span class="hl">national vulnerability</span> — and an economic missed opportunity for every community that sits outside a 50-millisecond radius.
-    </blockquote>
-  </div>
-</section>
-
-<section class="layers" id="layers">
-  <div class="container">
-    <div class="sec-head">
-      <span class="eyebrow">/ architecture</span>
-      <h2>Four hardware domains. One programmable mesh.</h2>
-      <p>Each ANDD site is a configurable mix. The AI control plane decides the ratio — and rebalances it quarterly as demand shifts across the network.</p>
-    </div>
-
-    <div class="layer-rows">
-      <div class="layer-row">
-        <div class="idx">01</div>
-        <div class="ttl"><h3>Compute</h3><div class="k">// dense · general · 20-40kW per rack</div></div>
-        <div class="desc">High-density 1U/2U servers across ARM and x86. Carries the broad base of containerized workloads, APIs, databases, and CI/CD pipelines at every site.</div>
-        <div class="specs"><div>EPYC · Xeon · Altra <b></b></div><div>256GB – 1TB DDR5 <b></b></div><div>20–40 <b>kW/rack</b></div></div>
-      </div>
-      <div class="layer-row">
-        <div class="idx">02</div>
-        <div class="ttl"><h3>Storage</h3><div class="k">// erasure-coded · cross-site · 11 nines</div></div>
-        <div class="desc">NVMe hot tier plus QLC warm tier, chunked and spread across ≥3 geographically distinct sites. No single node ever holds a complete copy of your data.</div>
-        <div class="specs"><div>Hot <b>100 – 500 TB</b></div><div>Warm <b>0.5 – 2 PB</b></div><div>Durability <b>11 nines</b></div></div>
-      </div>
-      <div class="layer-row">
-        <div class="idx">03</div>
-        <div class="ttl"><h3>Connectivity</h3><div class="k">// carrier-neutral · micro-IXP · gov-capable</div></div>
-        <div class="desc">Each site is a miniature exchange point. Direct peering with regional ISPs, CDNs, and cloud on-ramps.</div>
-        <div class="specs"><div>Internal <b>100 / 400 GbE</b></div><div>Backhaul <b>10 – 100 Gbps</b></div><div>Redundant <b>fiber · 5G · LEO</b></div></div>
-      </div>
-      <div class="layer-row">
-        <div class="idx">04</div>
-        <div class="ttl"><h3>AI Hardware</h3><div class="k">// silicon-agnostic · Grace Blackwell today</div></div>
-        <div class="desc">Silicon-agnostic by design. ANDD runs NVIDIA Grace Blackwell–class accelerators today and keeps complete flexibility to deploy alternative silicon — AMD Instinct, inference-specific accelerators, or custom ASICs — as those products mature. Direct liquid cooling is standard for accelerator racks.</div>
-        <div class="specs"><div>Today <b>NVIDIA Grace Blackwell</b></div><div>Roadmap <b>AMD · ASIC · custom</b></div><div>Cooling <b>DLC + immersion</b></div></div>
-      </div>
+<hr class="rule">
+<section id="buy"><div class="wrap row">
+  <div class="k">How you buy</div>
+  <div>
+    <h2>Anchor, reserve, or spot.</h2>
+    <div class="tiers">
+      <div class="tier"><div><h3>Anchor offtake</h3><span class="term">5 years and longer, take-or-pay</span></div><p>Dedicated capacity under a long-term NNN agreement. Covers the facility's fixed costs before a single spot GPU hour is sold.</p></div>
+      <div class="tier"><div><h3>Reserved capacity</h3><span class="term">2 years, fractional</span></div><p>Reserve blocks at mid-tier pricing without committing to 100% utilization.</p></div>
+      <div class="tier"><div><h3>Spot and preemptible</h3><span class="term">On demand</span></div><p>GPU time on idle capacity at spot rates. For batch inference, evaluation, and bursty work.</p></div>
     </div>
   </div>
-</section>
+</div></section>
 
-<section class="uses" id="uses">
-  <div class="container">
-    <div class="sec-head">
-      <span class="eyebrow">/ served domains</span>
-      <h2>Eight domains where the round-trip is the problem.</h2>
-      <p>Every tile is a customer profile — latency budget, compliance posture, and hardware mix all pre-scoped.</p>
-    </div>
-    <div class="use-grid" id="use-grid"></div>
+<hr class="rule">
+<section id="where"><div class="wrap row">
+  <div class="k">Where</div>
+  <div>
+    <h2>Thousands of sites across the continental U.S.</h2>
+    <div class="body one" style="margin-top:22px"><p>Our land-to-power pipeline spans thousands of sites across the continental United States, with more than 1 GW of total aggregate capacity — each one where power and fiber already exist. An orchestration layer routes work across sites and fails over between them. And we are actively expanding our footprint globally — if you have power, land, or demand in your market, <a href="#contact" style="color:var(--sky);border-bottom:1px solid currentColor">talk to us</a>.</p></div>
   </div>
-</section>
+</div></section>
 
-<section class="resilience" id="resilience">
-  <div class="container">
-    <div class="sec-head">
-      <span class="eyebrow">/ resilience</span>
-      <h2>A graph, not a spoke.</h2>
-      <p>Every edge node peers with its neighbors and at least two hubs. Watch the mesh re-route in real time as nodes drop and rejoin.</p>
-    </div>
-    <div class="res-stage" id="res-stage">
-      <div class="res-hud" id="res-hud">
-        <div>// LIVE SIM</div>
-        <div>nodes online: <b id="res-alive">18</b>/18</div>
-        <div>routes healthy: <b id="res-routes">6</b>/6</div>
-      </div>
-      <div class="res-hint">↳ click any node to toggle it offline</div>
+<hr class="rule">
+<section id="team"><div class="wrap row">
+  <div class="k">Team</div>
+  <div>
+    <h2>The team building this.</h2>
+    <div class="team-grid">
+      <article class="member">
+        <img src="images/team/william-tolpegin.jpg" alt="William Tolpegin" loading="lazy">
+        <span class="role">CEO</span>
+        <h3>William Tolpegin</h3>
+        <p>35+ yrs executive experience. Former CEO of C-Band Alliance — the Intelsat/SES/Eutelsat/Telesat consortium that reallocated U.S. mid-band spectrum for 5G. Former CEO of OTA Broadcasting; co-founder of AURA Networks.</p>
+      </article>
+      <article class="member">
+        <img src="images/team/chris-stark.jpg" alt="Chris Stark" loading="lazy">
+        <span class="role">President</span>
+        <h3>Chris Stark</h3>
+        <p>35+ yrs across Fortune 1000 and technology ventures in telecom, spectrum, and large-scale infrastructure deployment. Chairman and co-founder of the CBRS Alliance; long-time operator of complex multi-stakeholder programs.</p>
+      </article>
+      <article class="member">
+        <img src="images/team/anoop-nannra.jpg" alt="Anoop Nannra" loading="lazy">
+        <span class="role">CPO</span>
+        <h3>Anoop Nannra</h3>
+        <p>Former CEO &amp; co-founder of Trugard Labs (acquired). Previously led blockchain and cloud initiatives at AWS and Cisco, and intelligent infrastructure research at Nortel; co-founded &amp; chaired the Trusted IoT Alliance.</p>
+      </article>
+      <article class="member">
+        <img src="images/team/brian-hendricks.jpg" alt="Brian Hendricks" loading="lazy">
+        <span class="role">CLO</span>
+        <h3>Brian Hendricks</h3>
+        <p>Chief Public Policy &amp; Government Affairs Officer at Nokia (13+ yrs). Former General Counsel &amp; Staff Director, U.S. Senate Committee on Commerce, Science &amp; Transportation; FCC Enforcement Bureau attorney. J.D. / MPP, William &amp; Mary.</p>
+      </article>
     </div>
   </div>
-</section>
+</div></section>
 
-<section class="cta" id="contact">
-  <div class="container">
-    <span class="eyebrow">/ join</span>
-    <h2>Put compute where the signal starts.</h2>
-    <p>Whether you're a carrier, a DePIN project, a county CIO, or an AI model provider — tell us the workload, region and SLO. We'll come back with a site plan.</p>
-
-    <!-- Lead form → Google Forms backend (form 1FAIpQLSfHtd4u5kRASwOWJgg4-gr2M3eRRhZLNxL5clJcXSxOrmuCtw).
-         Responses land in the linked Sheet; enable response-email notifications to reach contact@andd.ai. -->
-    <form id="lead-form" class="lead-form" action="https://docs.google.com/forms/d/e/1FAIpQLSfHtd4u5kRASwOWJgg4-gr2M3eRRhZLNxL5clJcXSxOrmuCtw/formResponse" method="POST" target="andd-form-sink" novalidate>
-      <div class="frow">
-        <div class="field">
-          <label for="lf-name">Full name <span class="req">*</span></label>
-          <input id="lf-name" name="entry.761505288" type="text" autocomplete="name" required placeholder="Jane Rivera">
-        </div>
-        <div class="field">
-          <label for="lf-email">Work email <span class="req">*</span></label>
-          <input id="lf-email" name="entry.906364280" type="email" autocomplete="email" required placeholder="jane@company.com">
-        </div>
-      </div>
-      <div class="frow">
-        <div class="field">
-          <label for="lf-org">Organization</label>
-          <input id="lf-org" name="entry.528269525" type="text" autocomplete="organization" placeholder="Company / agency">
-        </div>
-        <div class="field">
-          <label for="lf-audience">I am a <span class="req">*</span></label>
-          <select id="lf-audience" name="entry.445405568" required>
-            <option value="" selected disabled>Select one…</option>
-            <option>Customer</option>
-            <option>Partner</option>
-            <option>Developer</option>
-            <option>Investor</option>
-          </select>
-        </div>
-      </div>
-      <div class="frow">
-        <div class="field">
-          <label for="lf-region">Region / market</label>
-          <input id="lf-region" name="entry.936819366" type="text" placeholder="e.g. Pacific NW, Texas, Mid-Atlantic">
-        </div>
-        <div class="field">
-          <label for="lf-workload">Workload / use case</label>
-          <select id="lf-workload" name="entry.496908603">
-            <option value="" selected disabled>Select one…</option>
-            <option>AI inference</option>
-            <option>Public safety</option>
-            <option>Mobility &amp; V2X</option>
-            <option>Power &amp; Utilities</option>
-            <option>Healthcare</option>
-            <option>DePIN / validators</option>
-            <option>Smart city</option>
-            <option>Other</option>
-          </select>
-        </div>
-      </div>
-      <div class="field full">
-        <label for="lf-message">What are you looking to do? <span class="req">*</span></label>
-        <textarea id="lf-message" name="entry.1983684791" required placeholder="Tell us the workload, region, and any latency or compliance requirements (SLO, HIPAA, CJIS, FedRAMP…)."></textarea>
-      </div>
-      <!-- Google Forms plumbing: emailAddress is required because the form collects email (responder input); set from Work email on submit. -->
-      <input type="hidden" name="emailAddress" value="">
-      <input type="hidden" name="fvv" value="1">
-      <input type="hidden" name="pageHistory" value="0">
-      <input class="hp" type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true">
-      <div class="actions">
-        <button type="submit" class="btn btn-primary">Send inquiry →</button>
-        <span class="privacy">We reply within two business days. No lists, no spam.</span>
-      </div>
-    </form>
-
-    <div id="form-success" class="form-success" role="status" aria-live="polite">
-      <div class="ok">✓ Received</div>
-      <h3>Thanks — we've got it.</h3>
-      <p>Your inquiry is in. The ANDD team will review your workload and region and come back to you within two business days at the email you provided.</p>
-    </div>
-    <iframe name="andd-form-sink" class="form-sink" title="form submission target"></iframe>
+<hr class="rule">
+<section id="contact"><div class="wrap row">
+  <div class="k">Contact</div>
+  <div class="contact-wrap">
+    <h2>Tell us the workload, the region, and the latency budget.</h2>
+    <p style="margin-top:18px;color:var(--ink-2)">Or write to <a class="mail" href="mailto:contact@andd.ai">contact@andd.ai</a>.</p>
+    
+<form id="lead-form" class="lead-form" action="https://docs.google.com/forms/d/e/1FAIpQLSfHtd4u5kRASwOWJgg4-gr2M3eRRhZLNxL5clJcXSxOrmuCtw/formResponse" method="POST" target="nn-form-sink" novalidate>
+  <div class="frow">
+    <div class="field"><label for="lf-name">Full name</label><input id="lf-name" name="entry.761505288" type="text" autocomplete="name" required></div>
+    <div class="field"><label for="lf-email">Work email</label><input id="lf-email" name="entry.906364280" type="email" autocomplete="email" required></div>
   </div>
-</section>
-
-<footer>
-  <div class="container foot-row">
-    <span class="wm" id="foot-wm"></span>
-    <div class="fl">
-      <a href="#fabric">Fabric</a>
-      <a href="#layers">Architecture</a>
-      <a href="#uses">Use Cases</a>
-      <a href="#resilience">Resilience</a>      <a href="#contact">Contact</a>
-    </div>
-    <div class="cpy">© 2026 ANDD Network</div>
+  <div class="frow">
+    <div class="field"><label for="lf-org">Organization</label><input id="lf-org" name="entry.528269525" type="text" autocomplete="organization"></div>
+    <div class="field"><label for="lf-audience">I am a</label>
+      <select id="lf-audience" name="entry.445405568" required>
+        <option value="" selected disabled>Choose one</option>
+        <option>Customer</option><option>Partner</option><option>Developer</option><option>Investor</option>
+      </select></div>
   </div>
-</footer>
+  <div class="frow">
+    <div class="field"><label for="lf-region">Region or market</label><input id="lf-region" name="entry.936819366" type="text" placeholder="Texas, North East England, Arizona"></div>
+    <div class="field"><label for="lf-workload">Workload</label>
+      <select id="lf-workload" name="entry.496908603">
+        <option value="" selected disabled>Choose one</option>
+        <option>AI inference</option><option>Public safety</option><option>Mobility &amp; V2X</option><option>Power &amp; Utilities</option><option>Healthcare</option><option>DePIN / validators</option><option>Smart city</option><option>Other</option>
+      </select></div>
+  </div>
+  <div class="field full"><label for="lf-message">What do you need to run, and where?</label><textarea id="lf-message" name="entry.1983684791" required placeholder="Workload, region, latency budget, and any compliance requirements."></textarea></div>
+  <input type="hidden" name="emailAddress" value=""><input type="hidden" name="fvv" value="1"><input type="hidden" name="pageHistory" value="0">
+  <input class="hp" type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true">
+  <div class="actions"><button type="submit" class="btn btn-primary">Send inquiry</button><span class="privacy">We reply within two business days.</span></div>
+</form>
+<div id="form-success" class="form-success" role="status" aria-live="polite">
+  <h3>Inquiry sent</h3>
+  <p>We'll review the workload and region and reply within two business days at the address you gave.</p>
+</div>
+<iframe name="nn-form-sink" class="form-sink" title="form submission target"></iframe>
 
-<script src="shared/wordmark.js"></script>
-<script src="shared/us-map.js"></script>
+  </div>
+</div></section>
+
+<hr class="rule">
+<footer><div class="wrap">
+  <a class="logo" href="#top" aria-label="Native Networks home"><svg class="mark" viewBox="-8 -8 246 206" fill="none" aria-hidden="true">
+  <g stroke="#1E2F72" stroke-width="2" stroke-linecap="round">
+    <path d="M77 9 L43.5 94.5 M77 9 L111.5 94.5 M77 9 L77 179 M43.5 94.5 L77 179 M111.5 94.5 L77 179 M111.5 94.5 L145 179 M9.5 179.5 L145 179"/>
+    <path d="M179 9 L179 179 M179 9 L221 50 M221 50 L221 140 M179.5 94.5 L221 140 M221 140 L179 179"/>
+  </g>
+  <path class="signal" d="M9.5 179.5 L43.5 94.5 L179.5 94.5 L221 50" stroke="#38BDF8" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  <g fill="#4C6FFF"><circle cx="77" cy="9" r="5.5"/><circle cx="179" cy="9" r="5.5"/><circle cx="77" cy="179" r="5.5"/><circle cx="145" cy="179" r="5.5"/><circle cx="179" cy="179" r="5.5"/><circle cx="221" cy="140" r="5.5"/></g>
+  <g fill="#38BDF8"><circle cx="9.5" cy="179.5" r="7.5"/><circle cx="43.5" cy="94.5" r="7.5"/><circle cx="111.5" cy="94.5" r="7.5"/><circle cx="179.5" cy="94.5" r="7.5"/></g>
+  <circle cx="221" cy="50" r="7" fill="#0A0E1A" stroke="#38BDF8" stroke-width="5"/>
+</svg><span class="wordmark">Native Networks</span></a>
+  <nav><a href="#why">Why now</a><a href="#build">What we build</a><a href="#buy">How you buy</a><a href="#team">Team</a><a href="#contact">Contact</a></nav>
+  <span>© 2026 Native Networks · andd.ai</span>
+</div></footer>
 <script>
-renderWordmark(document.getElementById('nav-wm'));
-renderWordmark(document.getElementById('foot-wm'));
-
-// ============ 3D MESH SPHERE ============
-// Generate ~50 points on a unit sphere via Fibonacci spiral, project orthographically,
-// add rotation via drag + gentle auto-rotate.
-(function(){
-  const stage = document.getElementById('mesh-stage');
-  const mount = document.getElementById('mesh-sphere');
-  const N = 52;
-  const R = 170;
-  const pts = [];
-  const gr = (1 + Math.sqrt(5)) / 2;
-  for (let i = 0; i < N; i++) {
-    const t = i / N;
-    const inc = Math.acos(1 - 2 * t);
-    const az = 2 * Math.PI * i / gr;
-    pts.push({
-      x0: Math.sin(inc) * Math.cos(az),
-      y0: Math.sin(inc) * Math.sin(az),
-      z0: Math.cos(inc),
-      // random assignment to industry for color variance
-      use: INDUSTRIES[1 + (i % (INDUSTRIES.length-1))].id,
-      hub: i % 8 === 0,
-    });
-  }
-  // precompute edges — each point to its 3 nearest
-  const edges = [];
-  for (let i = 0; i < N; i++) {
-    const nearest = [];
-    for (let j = 0; j < N; j++) {
-      if (i === j) continue;
-      const d = Math.hypot(pts[i].x0-pts[j].x0, pts[i].y0-pts[j].y0, pts[i].z0-pts[j].z0);
-      nearest.push({ j, d });
-    }
-    nearest.sort((a,b)=>a.d-b.d);
-    nearest.slice(0, 3).forEach(n => {
-      if (i < n.j) edges.push([i, n.j]);
-    });
-  }
-
-  let rx = -0.25, ry = 0;
-  let auto = 0.003;
-  let dragging = false;
-  let lastX = 0, lastY = 0;
-
-  function project() {
-    const cosX = Math.cos(rx), sinX = Math.sin(rx);
-    const cosY = Math.cos(ry), sinY = Math.sin(ry);
-    return pts.map(p => {
-      // rotate around Y then X
-      let x = p.x0 * cosY + p.z0 * sinY;
-      let z = -p.x0 * sinY + p.z0 * cosY;
-      let y = p.y0 * cosX - z * sinX;
-      z = p.y0 * sinX + z * cosX;
-      return { x: x * R, y: y * R, z, use: p.use, hub: p.hub };
-    });
-  }
-
-  function useColor(use) {
-    const ind = INDUSTRIES.find(i => i.id === use);
-    return ind ? ind.color : '#5ee3ff';
-  }
-
-  function render() {
-    const P = project();
-    const meshCol = getComputedStyle(document.documentElement).getPropertyValue('--cyan').trim() || '#5ee3ff';
-    const hubStroke = getComputedStyle(document.documentElement).getPropertyValue('--ink-0').trim() || '#f4f7ff';
-    // edges (sorted back-to-front)
-    const edgeEls = edges.map(([a,b]) => {
-      const A = P[a], B = P[b];
-      const avgZ = (A.z + B.z) / 2;
-      const opacity = 0.15 + 0.55 * ((avgZ + 1) / 2);
-      const width = 0.6 + 0.8 * ((avgZ + 1) / 2);
-      return { svg: `<line x1="${A.x}" y1="${A.y}" x2="${B.x}" y2="${B.y}" stroke="${meshCol}" stroke-width="${width}" opacity="${opacity}"/>`, z: avgZ };
-    }).sort((a,b) => a.z - b.z).map(e => e.svg).join('');
-
-    const dotEls = P.map((p, i) => {
-      const opacity = 0.35 + 0.65 * ((p.z + 1) / 2);
-      const r = p.hub ? 3.6 : 1.8 + 1.2 * ((p.z + 1) / 2);
-      const c = useColor(p.use);
-      return { svg: `<circle cx="${p.x}" cy="${p.y}" r="${r}" fill="${c}" opacity="${opacity}"${p.hub ? ` stroke="${hubStroke}" stroke-width="0.6"` : ''}/>`, z: p.z };
-    }).sort((a,b) => a.z - b.z).map(e => e.svg).join('');
-
-    // animated routing arc: pick 4 great-circle arcs between hubs
-    const hubs = P.map((p,i) => ({...p, i})).filter(p => p.hub);
-    const arcs = [];
-    for (let i = 0; i < Math.min(4, hubs.length-1); i++) {
-      const a = hubs[i], b = hubs[(i+2) % hubs.length];
-      const mx = (a.x+b.x)/2, my = (a.y+b.y)/2;
-      const dist = Math.hypot(a.x-b.x, a.y-b.y);
-      const bulge = dist * 0.4;
-      const mz = (a.z+b.z)/2;
-      // offset perpendicular
-      const dx = b.x-a.x, dy = b.y-a.y;
-      const px = -dy / dist, py = dx / dist;
-      const cx = mx + px * bulge, cy = my + py * bulge;
-      const opa = 0.4 + 0.5 * ((mz+1)/2);
-      arcs.push(`
-        <path d="M ${a.x},${a.y} Q ${cx},${cy} ${b.x},${b.y}" fill="none" stroke="${meshCol}" stroke-width="1.2" opacity="${opa*0.3}"/>
-        <path d="M ${a.x},${a.y} Q ${cx},${cy} ${b.x},${b.y}" fill="none" stroke="${meshCol}" stroke-width="1.8" stroke-linecap="round" stroke-dasharray="3 80" opacity="${opa}">
-          <animate attributeName="stroke-dashoffset" from="83" to="0" dur="${2 + i*0.5}s" repeatCount="indefinite" begin="${i*0.3}s"/>
-        </path>
-      `);
-    }
-
-    mount.innerHTML = edgeEls + arcs.join('') + dotEls;
-  }
-
-  // pointer events
-  stage.addEventListener('pointerdown', e => {
-    dragging = true; lastX = e.clientX; lastY = e.clientY; auto = 0;
-    stage.setPointerCapture(e.pointerId);
-  });
-  stage.addEventListener('pointermove', e => {
-    if (!dragging) return;
-    ry += (e.clientX - lastX) * 0.006;
-    rx += (e.clientY - lastY) * 0.006;
-    rx = Math.max(-1.3, Math.min(1.3, rx));
-    lastX = e.clientX; lastY = e.clientY;
-    render();
-  });
-  stage.addEventListener('pointerup', () => { dragging = false; auto = 0.002; });
-  stage.addEventListener('pointercancel', () => { dragging = false; auto = 0.002; });
-
-  function tick() {
-    if (!dragging) ry += auto;
-    render();
-    requestAnimationFrame(tick);
-  }
-  tick();
-})();
-
-// ============ USE TILES ============
-const USES = [
-  { id:'mobility', idx:'01', name:'Mobility & V2X', desc:'Sub-10ms vehicle-to-infrastructure. Cloud round-trips are physically impossible at highway speed.', facts:[['Response','<8 ms'],['Corridors live','9']], color:'var(--ind-mobility)' },
-  { id:'public-safety', idx:'02', name:'Public Safety', desc:'NG911 call routing, FirstNet body-cam ingest, multi-agency video retention — all survive backhaul partition.', facts:[['Survival','100% local'],['Compliance','CJIS']], color:'var(--ind-public-safety)' },
-  { id:'power', idx:'03', name:'Power & Utilities', desc:'Substation-adjacent compute for SCADA, smart-meter aggregation, demand response, and grid-edge forecasting.', facts:[['SCADA loop','<15 ms'],['Meters / site','10⁶']], color:'var(--ind-power)' },
-  { id:'health', idx:'04', name:'Healthcare', desc:'HIPAA-compliant infrastructure placed next to regional health systems — telemedicine, imaging AI, EHR edge cache.', facts:[['Imaging AI','<1 s'],['Residency','In-state']], color:'var(--ind-health)' },
-  { id:'ai', idx:'05', name:'AI Inference', desc:'Accelerators where your users are, on silicon-agnostic infrastructure. 7-13B at the edge; 70B+ at the regional hub; sub-100ms either way.', facts:[['7-13B','20-100ms/tok'],['Silicon','Vendor-neutral']], color:'var(--ind-ai)' },
-  { id:'depin', idx:'06', name:'DePIN / Validators', desc:'Enterprise-grade physical backbone. Validator hosting and settlement compute with N+1 redundancy on the same rails.', facts:[['Uptime','99.99%'],['Planned sites','1,000+']], color:'var(--ind-depin)' },
-  { id:'civic', idx:'07', name:'Smart City', desc:'Municipal compute inside the jurisdictions that need it. Sensor fusion, transit, traffic, local permitting AI.', facts:[['Fusion loop','<20 ms'],['OZ','Aligned']], color:'var(--ind-civic)' },
-  { id:'oz', idx:'08', name:'Opportunity Zones', desc:'8,764 eligible census tracts. Capital-gains deferral, basis step-up, and zero tax on appreciation after 10 years.', facts:[['Tracts','8,764'],['10-yr tax','0%']], color:'var(--amber)' },
-];
-
-const grid = document.getElementById('use-grid');
-USES.forEach(u => {
-  const el = document.createElement('div');
-  el.className = 'use-tile';
-  el.style.color = u.color;
-  el.innerHTML = `
-    <div class="idx">${u.idx} / ${u.name.toUpperCase()}</div>
-    <div class="vis">
-      <svg viewBox="0 0 60 60">
-        <circle cx="30" cy="30" r="22" fill="none" stroke="currentColor" stroke-width="0.6" opacity="0.3"/>
-        <circle cx="30" cy="30" r="12" fill="none" stroke="currentColor" stroke-width="0.6" opacity="0.5"/>
-        ${Array.from({length: 8}, (_, i) => {
-          const a = (i/8) * Math.PI*2;
-          const x = 30 + Math.cos(a)*22, y = 30 + Math.sin(a)*22;
-          return `<circle cx="${x}" cy="${y}" r="1.4" fill="currentColor" opacity="${0.4 + (i%3)*0.2}"/>`;
-        }).join('')}
-        <circle cx="30" cy="30" r="3" fill="currentColor"/>
-      </svg>
-    </div>
-    <h3>${u.name}</h3>
-    <div class="desc">${u.desc}</div>
-    <div class="facts">
-      ${u.facts.map(f => `<div class="f"><span>${f[0]}</span><b>${f[1]}</b></div>`).join('')}
-    </div>
-  `;
-  grid.appendChild(el);
-});
-
-// ============ Resilience widescreen simulator ============
-(function(){
-  const stage = document.getElementById('res-stage');
-  // 18 nodes scattered across a 1000x560 viewport, with 3 hubs
-  const rng = (seed => () => (seed = (seed*9301 + 49297) % 233280) / 233280)(7);
-  const nodes = [];
-  const W = 1600, H = 900;
-  const hubPos = [[200, 460], [800, 280], [1400, 500]];
-  hubPos.forEach((p, i) => nodes.push({ id: 'h'+i, x: p[0], y: p[1], alive: true, hub: true }));
-  for (let i = 0; i < 18; i++) {
-    nodes.push({ id: 'e'+i, x: 80 + rng()*1440, y: 80 + rng()*740, alive: true });
-  }
-  // edges: each edge to nearest 2 nodes + nearest hub
-  const hubs = nodes.filter(n => n.hub);
-  const pairs = [];
-  nodes.forEach(n => {
-    if (n.hub) return;
-    const sorted = nodes.filter(m => m !== n && !m.hub).map(m => ({m, d: Math.hypot(m.x-n.x, m.y-n.y)})).sort((a,b)=>a.d-b.d);
-    sorted.slice(0,2).forEach(({m}) => {
-      if (n.id < m.id) pairs.push([n, m, 'mesh']);
-    });
-    const [h1] = hubs.map(h => ({h, d: Math.hypot(h.x-n.x, h.y-n.y)})).sort((a,b)=>a.d-b.d);
-    pairs.push([n, h1.h, 'backhaul']);
-  });
-  // hub-hub backbone
-  for (let i = 0; i < hubs.length; i++) {
-    for (let j = i+1; j < hubs.length; j++) pairs.push([hubs[i], hubs[j], 'backbone']);
-  }
-  // 6 "flows" (src -> dst routes through graph)
-  const flowsSpec = [
-    ['e0','h1'], ['e4','h2'], ['e8','h0'], ['e12','h1'], ['e15','h2'], ['e3','h0']
-  ];
-  const byId = Object.fromEntries(nodes.map(n => [n.id, n]));
-
-  function findRoute(srcId, dstId) {
-    // BFS using only alive nodes and alive edges
-    const aliveNodes = new Set(nodes.filter(n=>n.alive).map(n=>n.id));
-    if (!aliveNodes.has(srcId) || !aliveNodes.has(dstId)) return null;
-    const adj = {};
-    pairs.forEach(([a,b]) => {
-      if (!a.alive || !b.alive) return;
-      (adj[a.id] = adj[a.id] || []).push(b.id);
-      (adj[b.id] = adj[b.id] || []).push(a.id);
-    });
-    const q = [[srcId, [srcId]]];
-    const seen = new Set([srcId]);
-    while (q.length) {
-      const [cur, path] = q.shift();
-      if (cur === dstId) return path.map(id => byId[id]);
-      (adj[cur] || []).forEach(n => {
-        if (!seen.has(n)) { seen.add(n); q.push([n, [...path, n]]); }
-      });
-    }
-    return null;
-  }
-
-  function render() {
-    const aliveEdges = nodes.filter(n => n.alive && !n.hub).length;
-    const totalEdges = nodes.filter(n => !n.hub).length;
-    document.getElementById('res-alive').textContent = aliveEdges;
-
-    const flows = flowsSpec.map(([s,d]) => findRoute(s, d));
-    const healthy = flows.filter(Boolean).length;
-    document.getElementById('res-routes').textContent = healthy;
-    document.getElementById('res-hud').classList.toggle('alarm', healthy < flowsSpec.length);
-
-    const linkSvg = pairs.map(([a,b,type]) => {
-      if (!a.alive || !b.alive) return '';
-        const cs = getComputedStyle(document.documentElement);
-        const backbone = cs.getPropertyValue('--cyan-dim').trim() || '#2b9fc4';
-        const isLight = document.documentElement.getAttribute('data-theme') === 'light';
-        const color = type === 'backbone' ? backbone : (isLight ? 'rgba(20,40,80,0.25)' : 'rgba(120,170,255,0.25)');
-        const width = type === 'backbone' ? 2.2 : 1.1;
-      return `<line x1="${a.x}" y1="${a.y}" x2="${b.x}" y2="${b.y}" stroke="${color}" stroke-width="${width}" />`;
-    }).join('');
-
-    const flowSvg = flows.filter(Boolean).map((path, i) => {
-      const d = path.map((p,idx) => (idx===0?'M':'L') + ` ${p.x},${p.y}`).join(' ');
-      return `
-        <path d="${d}" fill="none" stroke="var(--cyan)" stroke-width="3.6" opacity="0.15"/>
-          <path d="${d}" fill="none" stroke="var(--cyan)" stroke-width="2.8" stroke-dasharray="5 32" stroke-linecap="round">
-            <animate attributeName="stroke-dashoffset" from="37" to="0" dur="${1.2 + (i%3)*0.3}s" repeatCount="indefinite"/>
-        </path>
-      `;
-    }).join('');
-
-    const nodeSvg = nodes.map(n => {
-      if (!n.alive) {
-        return `<g data-id="${n.id}" style="cursor:pointer">
-          <circle cx="${n.x}" cy="${n.y}" r="18" fill="none" stroke="var(--rose)" stroke-width="1.6" opacity="0.6"/>
-          <line x1="${n.x-9}" y1="${n.y-9}" x2="${n.x+9}" y2="${n.y+9}" stroke="var(--rose)" stroke-width="2.4"/>
-          <line x1="${n.x+9}" y1="${n.y-9}" x2="${n.x-9}" y2="${n.y+9}" stroke="var(--rose)" stroke-width="2.4"/>
-        </g>`;
-      }
-      if (n.hub) {
-        return `<g data-id="${n.id}" style="cursor:pointer">
-          <circle cx="${n.x}" cy="${n.y}" r="28" fill="none" stroke="var(--cyan)" stroke-width="1.4" opacity="0.25"/>
-          <circle cx="${n.x}" cy="${n.y}" r="12" fill="var(--cyan)"/>
-          <text x="${n.x}" y="${n.y+42}" fill="var(--ink-2)" font-family="ui-monospace,monospace" font-size="18" text-anchor="middle">HUB</text>
-        </g>`;
-      }
-      return `<g data-id="${n.id}" style="cursor:pointer">
-        <circle cx="${n.x}" cy="${n.y}" r="7" fill="var(--cyan)" opacity="0.85"/>
-      </g>`;
-    }).join('');
-
-    stage.querySelectorAll('svg').forEach(s => s.remove());
-    stage.insertAdjacentHTML('afterbegin', `
-      <svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet">
-        <g>${linkSvg}</g>
-        <g>${flowSvg}</g>
-        <g>${nodeSvg}</g>
-      </svg>
-    `);
-    stage.querySelectorAll('[data-id]').forEach(el => {
-      el.addEventListener('click', () => {
-        const n = byId[el.dataset.id];
-        if (!n) return;
-        n.alive = !n.alive;
-        render();
-      });
-    });
-  }
-  render();
-  window.addEventListener('anddThemeChange', render);
-})();
-
-// Nav active state
-const navLinks = document.querySelectorAll('.nav-mid a');
-const io = new IntersectionObserver(entries => {
-  entries.forEach(e => {
-    if (e.isIntersecting) {
-      const id = e.target.id;
-      navLinks.forEach(a => a.classList.toggle('on', a.getAttribute('href') === '#' + id));
-    }
-  });
-}, { rootMargin: '-40% 0px -50% 0px' });
-['fabric','layers','uses','resilience','contact'].forEach(id => {
-  const el = document.getElementById(id);
-  if (el) io.observe(el);
-});
-
-// Theme toggle
-(function(){
-  const btn = document.getElementById('theme-toggle');
-  if (!btn) return;
-  btn.addEventListener('click', () => {
-    const cur = document.documentElement.getAttribute('data-theme');
-    const next = cur === 'light' ? null : 'light';
-    if (next) document.documentElement.setAttribute('data-theme', next);
-    else document.documentElement.removeAttribute('data-theme');
-    try { localStorage.setItem('andd-theme', next || 'dark'); } catch(e){}
-    // Fire event so widgets can re-render
-    window.dispatchEvent(new CustomEvent('anddThemeChange', { detail: { theme: next || 'dark' }}));
-  });
-})();
-
-// Lead form — submit handling + on-brand success state
 (function(){
   const form = document.getElementById('lead-form');
   const success = document.getElementById('form-success');
   if (!form || !success) return;
-  const wired = form.getAttribute('action').indexOf('__GOOGLE') === -1;
   form.addEventListener('submit', function(e){
-    // Honeypot: silently drop bot submissions
     const hp = form.querySelector('.hp');
     if (hp && hp.value) { e.preventDefault(); return; }
-    // Let the browser enforce required fields first
     if (!form.checkValidity()) { e.preventDefault(); form.reportValidity(); return; }
-    // The Google Form collects email (responder input) → the special emailAddress
-    // field is required, or the submission is rejected. Populate it from Work email.
     const emailField = document.getElementById('lf-email');
     const emailAddr = form.querySelector('input[name="emailAddress"]');
     if (emailField && emailAddr) emailAddr.value = emailField.value;
-    // Until the Google Form action is wired in, don't POST to the placeholder URL
-    if (!wired) { e.preventDefault(); }
-    // Optimistic success (cross-origin submit into the hidden frame is opaque)
     setTimeout(function(){
-      form.style.display = 'none';
-      success.style.display = 'block';
+      form.hidden = true;
+      success.hidden = false;
       success.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }, 120);
   });
 })();
-</script>
+document.getElementById('form-success').hidden = true;
+(function(){ const p = document.querySelector('.hero-mark .signal'); if (!p) return; if (matchMedia('(prefers-reduced-motion: reduce)').matches) return; p.classList.add('draw'); })();</script>
+
 </body>
 </html>
