@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-8 -8 246 206" fill="none">
+  <!-- Native Networks mark, vector reconstruction of the brand PNG -->
+  <g stroke="#1E2F72" stroke-width="2" stroke-linecap="round">
+    <path d="M77 9 L43.5 94.5 M77 9 L111.5 94.5 M77 9 L77 179 M43.5 94.5 L77 179 M111.5 94.5 L77 179 M111.5 94.5 L145 179 M9.5 179.5 L145 179"/>
+    <path d="M179 9 L179 179 M179 9 L221 50 M221 50 L221 140 M179.5 94.5 L221 140 M221 140 L179 179"/>
+  </g>
+  <path d="M9.5 179.5 L43.5 94.5 L179.5 94.5 L221 50" stroke="#38BDF8" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  <g fill="#4C6FFF">
+    <circle cx="77" cy="9" r="5.5"/><circle cx="179" cy="9" r="5.5"/>
+    <circle cx="77" cy="179" r="5.5"/><circle cx="145" cy="179" r="5.5"/><circle cx="179" cy="179" r="5.5"/>
+    <circle cx="221" cy="140" r="5.5"/>
+  </g>
+  <g fill="#38BDF8">
+    <circle cx="9.5" cy="179.5" r="7.5"/><circle cx="43.5" cy="94.5" r="7.5"/>
+    <circle cx="111.5" cy="94.5" r="7.5"/><circle cx="179.5" cy="94.5" r="7.5"/>
+  </g>
+  <circle cx="221" cy="50" r="7" fill="#0A0E1A" stroke="#38BDF8" stroke-width="5"/>
+</svg>

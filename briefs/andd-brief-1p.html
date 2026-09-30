@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>ANDD Product Brief · One Pager</title>
+<style>
+@font-face {
+  font-family: "Space Grotesk";
+  src: url("fonts/SpaceGrotesk-var.woff2") format("woff2");
+  font-weight: 300 700;
+}
+:root {
+  --paper: #f5f2ea;
+  --card: #ffffff;
+  --ink0: #0a1224;
+  --ink1: #22304a;
+  --ink2: #55637d;
+  --ink3: #8691a8;
+  --cyan: #0f7a9a;
+  --cyan-dim: #0a5570;
+  --amber: #c27020;
+  --violet: #6041c7;
+  --lime: #3d7a2c;
+  --rose: #c43a55;
+  --line: rgba(20,40,80,0.12);
+  --line-hi: rgba(20,40,80,0.26);
+  --disp: "Space Grotesk", "Geist", "Liberation Sans", sans-serif;
+  --body: "Inter", "Liberation Sans", sans-serif;
+  --mono: "JetBrains Mono", "Geist Mono", monospace;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+@page { size: letter; margin: 0; }
+html, body { background: var(--paper); }
+body { font-family: var(--body); color: var(--ink0); }
+.sheet {
+  width: 8.5in; height: 11in; overflow: hidden; position: relative;
+  padding: 0.46in 0.52in 0.42in;
+  display: flex; flex-direction: column;
+  page-break-after: always; background: var(--paper);
+}
+.sheet:last-child { page-break-after: auto; }
+
+/* masthead */
+.mast { display: flex; align-items: baseline; justify-content: space-between; border-bottom: 2px solid var(--ink0); padding-bottom: 8px; }
+.mast .wordmark { display: flex; align-items: baseline; gap: 9px; }
+.wordmark svg { position: relative; top: 1px; }
+.wordmark .name { font-family: var(--disp); font-weight: 700; font-size: 19px; letter-spacing: 0.04em; }
+.wordmark .co { font-family: var(--mono); font-size: 7.5px; letter-spacing: 0.18em; color: var(--ink2); text-transform: uppercase; }
+.mast .doc { text-align: right; font-family: var(--mono); font-size: 7.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink2); line-height: 1.7; }
+.mast .doc b { color: var(--cyan-dim); font-weight: 500; }
+
+/* headline */
+.head { padding: 14px 0 12px; border-bottom: 1px solid var(--line); }
+.eyebrow { font-family: var(--mono); font-size: 8px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--cyan); margin-bottom: 7px; }
+h1 { font-family: var(--disp); font-weight: 600; font-size: 25px; line-height: 1.14; letter-spacing: -0.012em; max-width: 44ch; text-wrap: balance; }
+.dek { margin-top: 8px; font-size: 10px; line-height: 1.5; color: var(--ink1); max-width: 98ch; }
+.dek b { font-weight: 600; color: var(--ink0); }
+
+/* three assets */
+.assets { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; padding: 11px 0 12px; border-bottom: 1px solid var(--line); }
+.asset { border-left: 2px solid var(--cyan); padding-left: 9px; }
+.asset .k { font-family: var(--disp); font-weight: 600; font-size: 10.5px; margin-bottom: 3px; }
+.asset .v { font-size: 8.5px; line-height: 1.45; color: var(--ink1); }
+
+/* section headers */
+.sec { display: flex; align-items: baseline; gap: 8px; margin: 11px 0 7px; }
+.sec .t { font-family: var(--mono); font-size: 8px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink0); font-weight: 500; }
+.sec .rule { flex: 1; height: 1px; background: var(--line-hi); position: relative; top: -2px; }
+.sec .n { font-family: var(--mono); font-size: 8px; color: var(--ink3); }
+
+/* offer map */
+.offers { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 12px; }
+.offer { background: var(--card); border: 1px solid var(--line); border-top: 2px solid var(--key, var(--cyan)); padding: 6px 8px 6px; }
+.offer .row1 { display: flex; justify-content: space-between; align-items: baseline; }
+.offer .nm { font-family: var(--disp); font-weight: 600; font-size: 9px; }
+.offer .cd { font-family: var(--mono); font-size: 6.8px; letter-spacing: 0.12em; color: var(--ink3); }
+.offer .ds { font-size: 7.9px; color: var(--ink1); line-height: 1.4; margin-top: 2px; }
+
+/* journey strip */
+.journey { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+.jstep { position: relative; padding-left: 9px; border-left: 2px solid var(--line-hi); }
+.jstep .jt { font-family: var(--disp); font-weight: 600; font-size: 9.5px; margin-bottom: 2px; }
+.jstep .jd { font-size: 8.1px; line-height: 1.45; color: var(--ink1); }
+.jstep .jm { margin-top: 4px; font-family: var(--mono); font-size: 7px; letter-spacing: 0.08em; color: var(--cyan-dim); }
+
+/* two-col band: sla + billing */
+.band2 { display: grid; grid-template-columns: 1.15fr 1fr; gap: 12px; }
+.mini p { font-size: 8.2px; line-height: 1.5; color: var(--ink1); }
+.mini p b { color: var(--ink0); font-weight: 600; }
+.slaladder { display: flex; margin-top: 5px; border: 1px solid var(--line); background: var(--card); }
+.slaladder .step { flex: 1; padding: 4px 6px; border-right: 1px solid var(--line); }
+.slaladder .step:last-child { border-right: 0; }
+.slaladder .lv { font-family: var(--mono); font-size: 6.5px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink3); }
+.slaladder .pc { font-family: var(--disp); font-weight: 600; font-size: 10px; font-variant-numeric: tabular-nums; }
+.slaladder .sc { font-size: 6.6px; color: var(--ink2); }
+
+/* roadmap */
+.road { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+.phase { background: var(--card); border: 1px solid var(--line); padding: 7px 9px 8px; }
+.phase .ph { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 1px solid var(--line); padding-bottom: 4px; margin-bottom: 5px; }
+.phase .mo { font-family: var(--mono); font-size: 7px; letter-spacing: 0.14em; color: var(--cyan-dim); }
+.phase .nm { font-family: var(--disp); font-weight: 600; font-size: 9px; }
+.phase ul { list-style: none; }
+.phase li { font-size: 7.7px; line-height: 1.42; color: var(--ink1); padding-left: 8px; position: relative; margin-bottom: 2px; }
+.phase li::before { content: ""; position: absolute; left: 0; top: 4.2px; width: 3px; height: 3px; background: var(--cyan); }
+.phase .tgt { margin-top: 5px; padding-top: 4px; border-top: 1px solid var(--line); font-family: var(--mono); font-size: 7px; color: var(--ink0); }
+
+/* stat rail */
+.stats { display: grid; grid-template-columns: repeat(5, 1fr); border-top: 2px solid var(--ink0); margin-top: auto; }
+.stat { padding: 8px 10px 0 0; }
+.stat + .stat { border-left: 1px solid var(--line); padding-left: 10px; }
+.stat .num { font-family: var(--disp); font-weight: 600; font-size: 17px; letter-spacing: -0.01em; font-variant-numeric: tabular-nums; }
+.stat .num small { font-size: 10px; font-weight: 500; color: var(--ink2); }
+.stat .lab { font-family: var(--mono); font-size: 6.6px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink2); margin-top: 2px; line-height: 1.5; }
+
+/* footer */
+.foot { display: flex; justify-content: space-between; align-items: baseline; border-top: 1px solid var(--line); margin-top: 10px; padding-top: 6px; font-family: var(--mono); font-size: 6.8px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink3); }
+.foot .mid { color: var(--ink3); }
+</style>
+</head>
+<body>
+
+<div class="sheet">
+
+  <div class="mast">
+    <div class="wordmark">
+      <svg width="26" height="16" viewBox="0 0 26 16" fill="none">
+        <line x1="3" y1="12" x2="12" y2="3" stroke="#0f7a9a" stroke-width="0.8"/>
+        <line x1="12" y1="3" x2="22" y2="9" stroke="#0f7a9a" stroke-width="0.8"/>
+        <line x1="3" y1="12" x2="15" y2="13" stroke="#0f7a9a" stroke-width="0.8"/>
+        <line x1="15" y1="13" x2="22" y2="9" stroke="#0f7a9a" stroke-width="0.8"/>
+        <line x1="12" y1="3" x2="15" y2="13" stroke="#0f7a9a" stroke-width="0.8"/>
+        <circle cx="3" cy="12" r="2.1" fill="#0a1224"/>
+        <circle cx="12" cy="3" r="2.1" fill="#0a1224"/>
+        <circle cx="22" cy="9" r="2.1" fill="#0a1224"/>
+        <circle cx="15" cy="13" r="2.1" fill="#0f7a9a"/>
+      </svg>
+      <span class="name">ANDD</span>
+      <span class="co">AI native distributed datacenters</span>
+    </div>
+    <div class="doc"><b>Product brief · one pager</b><br>August 2026 · andd.network</div>
+  </div>
+
+  <div class="head">
+    <div class="eyebrow">The offering in one page</div>
+    <h1>Compute within 10 milliseconds, sovereignty by construction, operated end to end by AI.</h1>
+    <div class="dek">ANDD is a mesh of sub-2MW edge datacenters in Opportunity Zone metros, run by autonomous AI agents at a ratio of one human per 20-50 sites. We sell the three things that don't deflate as token prices fall: <b>milliseconds, jurisdiction, and reliability</b>. Tokens bring customers onto the network; locality, sovereignty, and self-executing SLAs carry the margin.</div>
+  </div>
+
+  <div class="assets">
+    <div class="asset"><div class="k">Proximity</div><div class="v">Heavy GPUs under 10ms from mid-size metros. No provider prices latency by geography today; AWS's 25% Local Zone uplift proves buyers pay for it.</div></div>
+    <div class="asset"><div class="k">Sovereignty</div><div class="v">Jurisdiction-pinned placement is a signup checkbox: attested residency, compliance bundles, survive-in-place autonomy.</div></div>
+    <div class="asset"><div class="k">Zero-touch operations</div><div class="v">The AI that runs the datacenters runs the funnel: quote to provisioned workload in minutes, every deal under $250k TCV closed without a human.</div></div>
+  </div>
+
+  <div class="sec"><span class="t">What we sell</span><div class="rule"></div><span class="n">8 lines · ~40 SKU families</span></div>
+  <div class="offers">
+    <div class="offer" style="--key:#0f7a9a"><div class="row1"><span class="nm">Inference &amp; AI services</span><span class="cd">AI</span></div><div class="ds">OpenAI-compatible serverless tokens in Standard, Metro (latency SLA, +15-40%), Resident (jurisdiction-pinned, +20-30%), and Batch (half price); dedicated endpoints; fine-tuning at hubs.</div></div>
+    <div class="offer" style="--key:#0a5570"><div class="row1"><span class="nm">Compute</span><span class="cd">CMP</span></div><div class="ds">GPU-hours (on-demand, reserved -30-55%, spot -60-75%), managed K8s, VMs, containers, and bare metal aimed at the customers Equinix Metal orphaned in June 2026.</div></div>
+    <div class="offer" style="--key:#3d7a2c"><div class="row1"><span class="nm">Storage</span><span class="cd">STO</span></div><div class="ds">S3-compatible object across 3+ nodes (11-nines durability), attested residency pinning (+25-40%), block, file, archive, backup. Egress at $0.01/GB or less, always.</div></div>
+    <div class="offer" style="--key:#55637d"><div class="row1"><span class="nm">Network</span><span class="cd">NET</span></div><div class="ds">Private interconnect, carrier-neutral peering, metro wavelengths, CDN with semantic AI-response caching, zero-trust mesh VPN.</div></div>
+    <div class="offer" style="--key:#c43a55"><div class="row1"><span class="nm">Sovereign &amp; government</span><span class="cd">SOV</span></div><div class="ds">Secure cages, FedRAMP/CJIS/HIPAA/ITAR bundles (+15-35%), air-gapped survive-in-place nodes, NG911 continuity per PSAP, sovereign model enclaves.</div></div>
+    <div class="offer" style="--key:#6041c7"><div class="row1"><span class="nm">DePIN &amp; Web3</span><span class="cd">DPN</span></div><div class="ds">Anti-correlated validator hosting, verifiable compute with TEE attestations, and programmable SLAs whose stablecoin credits cascade into a protocol's own commitments.</div></div>
+    <div class="offer" style="--key:#c27020"><div class="row1"><span class="nm">Whole-node</span><span class="cd">NOD</span></div><div class="ds">Node leases, private nodes on customer campuses, Node-as-a-Service for telcos (white-label) and municipalities (QOF-financeable, 5-10-year terms), fractional nodes.</div></div>
+    <div class="offer" style="--key:#8691a8"><div class="row1"><span class="nm">Marketplace</span><span class="cd">MKT</span></div><div class="ds">Prepaid credits (card, ACH, USDC; provisioned within one block confirmation), per-call pay-as-you-go with no minimum, a public spot exchange, and a model hub.</div></div>
+  </div>
+
+  <div class="sec"><span class="t">How buying works</span><div class="rule"></div><span class="n">discover · sign up · consume</span></div>
+  <div class="journey">
+    <div class="jstep"><div class="jt">Discover</div><div class="jd">Developers arrive through model hubs, framework adapters, and latency benchmarks. Off-takers and agencies arrive through marketplace private offers, NASPO ValuePoint, and anchor-tenant site launches.</div><div class="jm">List prices public &amp; machine-readable</div></div>
+    <div class="jstep"><div class="jt">Sign up</div><div class="jd">The AI Concierge quotes live prices and runs KYC/KYB in minutes. A binding off-taker term sheet (sites, kW, delivery dates, take-or-pay) is drafted by the negotiation agent in days.</div><div class="jm">Zero-touch under $250k TCV</div></div>
+    <div class="jstep"><div class="jt">Consume</div><div class="jd">One meter, one ledger, many rails: prepaid, NET-30/60 invoicing, or USDC channels settling per epoch. Overage alerts at 50/75/90/100% with hard caps by default on small tiers.</div><div class="jm">TTFW: dev &lt;3 min · DePIN &lt;1 hr · muni 90 days</div></div>
+  </div>
+
+  <div class="sec"><span class="t">SLAs &amp; billing</span><div class="rule"></div><span class="n">gated by physics, enforced by code</span></div>
+  <div class="band2">
+    <div class="mini">
+      <p><b>Every SLA is code.</b> Credits land automatically, with no claims process; breach telemetry is co-signed by an independent probe vendor. Tiers are gated on node density per metro: one node contracts 99.9%, a diversity-audited metro pair 99.99%, and five nines is published as measured, never contracted.</p>
+      <div class="slaladder">
+        <div class="step"><div class="lv">Bronze</div><div class="pc">99.9</div><div class="sc">single node</div></div>
+        <div class="step"><div class="lv">Silver</div><div class="pc">99.95</div><div class="sc">metro failover</div></div>
+        <div class="step"><div class="lv">Gold</div><div class="pc">99.99</div><div class="sc">multi-node metro</div></div>
+        <div class="step"><div class="lv">Platinum</div><div class="pc">99.99+</div><div class="sc">multi-metro mesh</div></div>
+      </div>
+    </div>
+    <div class="mini">
+      <p><b>Commercial engine.</b> Every node launches 40-60% pre-sold to anchor tenants before ground-break; with breakeven near 23-25% utilization, nodes are cash-positive at acceptance. Reserved off-take anchors the balance sheet, vertical commits fund nodes, and spot usage fills the remaining hours. Discounts only ever buy commitment or term: 1-year commits save 25-35%, 3-year 40-50%.</p>
+    </div>
+  </div>
+
+  <div class="sec"><span class="t">Roadmap</span><div class="rule"></div><span class="n">off-take, then verticals, then spot; the last two may swap</span></div>
+  <div class="road">
+    <div class="phase"><div class="ph"><span class="nm">Anchor off-take, prove ops</span><span class="mo">MO 1-12</span></div><ul>
+      <li>3-5 pilot sites; serverless + dedicated GA; classic auto-credit SLAs</li>
+      <li>AI onboarding agent GA; SOC 2 Type I; two strategic anchors (NG911 county, fintech)</li>
+    </ul><div class="tgt">$25-45M run rate · 30-50 nodes</div></div>
+    <div class="phase"><div class="ph"><span class="nm">Verticals: add depth</span><span class="mo">MO 12-24</span></div><ul>
+      <li>Hubs: 70B serving, fine-tuning; stablecoin rail; 99.99% metro SKUs</li>
+      <li>DePIN APIs; marketplace listings; NASPO listing; FedRAMP in assessment</li>
+    </ul><div class="tgt">$120-200M run rate · 100-150 nodes</div></div>
+    <div class="phase"><div class="ph"><span class="nm">Spot: open the market</span><span class="mo">MO 24-36</span></div><ul>
+      <li>Smart-contract SLA GA; micro-channels; confidential computing GA</li>
+      <li>FedRAMP ATO opens federal; whole-node &amp; telco NaaS; capacity-market APIs</li>
+    </ul><div class="tgt">$350-550M run rate · 250-300 nodes</div></div>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><div class="num">23-25<small>%</small></div><div class="lab">Node breakeven utilization</div></div>
+    <div class="stat"><div class="num">40-60<small>%</small></div><div class="lab">Capacity pre-sold at ground-break</div></div>
+    <div class="stat"><div class="num">&lt;3<small> min</small></div><div class="lab">Signup to first workload (dev)</div></div>
+    <div class="stat"><div class="num">60<small>%</small></div><div class="lab">New ARR zero-touch by month 36</div></div>
+    <div class="stat"><div class="num">$1B<small>+</small></div><div class="lab">Contracted backlog target, TCV</div></div>
+  </div>
+
+  <div class="foot">
+    <span>ANDD Network · Anannra</span>
+    <span class="mid">Confidential · planning targets, not forecasts</span>
+    <span>Page 1 of 1</span>
+  </div>
+
+</div>
+
+</body>
+</html>

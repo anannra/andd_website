@@ -1,0 +1,342 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>ANDD Product Brief · Three Pager</title>
+<style>
+@font-face {
+  font-family: "Space Grotesk";
+  src: url("fonts/SpaceGrotesk-var.woff2") format("woff2");
+  font-weight: 300 700;
+}
+:root {
+  --paper: #f5f2ea; --card: #ffffff;
+  --ink0: #0a1224; --ink1: #22304a; --ink2: #55637d; --ink3: #8691a8;
+  --cyan: #0f7a9a; --cyan-dim: #0a5570;
+  --amber: #c27020; --violet: #6041c7; --lime: #3d7a2c; --rose: #c43a55;
+  --line: rgba(20,40,80,0.12); --line-hi: rgba(20,40,80,0.26);
+  --disp: "Space Grotesk", "Geist", "Liberation Sans", sans-serif;
+  --body: "Inter", "Liberation Sans", sans-serif;
+  --mono: "JetBrains Mono", "Geist Mono", monospace;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+@page { size: letter; margin: 0; }
+html, body { background: var(--paper); }
+body { font-family: var(--body); color: var(--ink0); }
+.sheet { width: 8.5in; height: 11in; overflow: hidden; position: relative; padding: 0.46in 0.52in 0.42in; display: flex; flex-direction: column; page-break-after: always; background: var(--paper); }
+.sheet:last-child { page-break-after: auto; }
+
+.mast { display: flex; align-items: baseline; justify-content: space-between; border-bottom: 2px solid var(--ink0); padding-bottom: 8px; }
+.mast .wordmark { display: flex; align-items: baseline; gap: 9px; }
+.wordmark svg { position: relative; top: 1px; }
+.wordmark .name { font-family: var(--disp); font-weight: 700; font-size: 19px; letter-spacing: 0.04em; }
+.wordmark .co { font-family: var(--mono); font-size: 7.5px; letter-spacing: 0.18em; color: var(--ink2); text-transform: uppercase; }
+.mast .doc { text-align: right; font-family: var(--mono); font-size: 7.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink2); line-height: 1.7; }
+.mast .doc b { color: var(--cyan-dim); font-weight: 500; }
+.mast.thin { border-bottom-width: 1px; border-color: var(--line-hi); }
+.mast.thin .name { font-size: 13px; }
+
+.head { padding: 14px 0 12px; border-bottom: 1px solid var(--line); }
+.eyebrow { font-family: var(--mono); font-size: 8px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--cyan); margin-bottom: 7px; }
+h1 { font-family: var(--disp); font-weight: 600; font-size: 25px; line-height: 1.14; letter-spacing: -0.012em; max-width: 44ch; text-wrap: balance; }
+.dek { margin-top: 8px; font-size: 10px; line-height: 1.52; color: var(--ink1); }
+.dek b { font-weight: 600; color: var(--ink0); }
+
+.assets { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; padding: 11px 0 12px; border-bottom: 1px solid var(--line); }
+.asset { border-left: 2px solid var(--cyan); padding-left: 9px; }
+.asset .k { font-family: var(--disp); font-weight: 600; font-size: 10.5px; margin-bottom: 3px; }
+.asset .v { font-size: 8.5px; line-height: 1.45; color: var(--ink1); }
+
+.sec { display: flex; align-items: baseline; gap: 8px; margin: 12px 0 7px; }
+.sec .t { font-family: var(--mono); font-size: 8px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink0); font-weight: 500; }
+.sec .rule { flex: 1; height: 1px; background: var(--line-hi); position: relative; top: -2px; }
+.sec .n { font-family: var(--mono); font-size: 8px; color: var(--ink3); }
+
+table.dt { width: 100%; border-collapse: collapse; background: var(--card); border: 1px solid var(--line); }
+.dt th { font-family: var(--mono); font-size: 6.8px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink2); font-weight: 500; text-align: left; padding: 5px 8px; border-bottom: 1px solid var(--line-hi); background: rgba(20,40,80,0.03); }
+.dt td { font-size: 8px; line-height: 1.4; color: var(--ink1); padding: 5px 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
+.dt tr:last-child td { border-bottom: 0; }
+.dt td.k { font-family: var(--disp); font-weight: 600; font-size: 8.2px; color: var(--ink0); white-space: nowrap; }
+.dt td.m { font-family: var(--mono); font-size: 7.4px; color: var(--cyan-dim); white-space: nowrap; }
+.dt td.num { font-family: var(--mono); font-size: 7.6px; color: var(--ink0); font-variant-numeric: tabular-nums; }
+
+.tiles { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+.tile { background: var(--card); border: 1px solid var(--line); padding: 7px 9px 8px; }
+.tile .num { font-family: var(--disp); font-weight: 600; font-size: 15px; letter-spacing: -0.01em; font-variant-numeric: tabular-nums; }
+.tile .num small { font-size: 9px; font-weight: 500; color: var(--ink2); }
+.tile .lab { font-family: var(--mono); font-size: 6.4px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink2); margin-top: 2px; line-height: 1.5; }
+
+.offers { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 12px; }
+.offer { background: var(--card); border: 1px solid var(--line); border-top: 2px solid var(--key, var(--cyan)); padding: 6px 8px; }
+.offer .row1 { display: flex; justify-content: space-between; align-items: baseline; }
+.offer .nm { font-family: var(--disp); font-weight: 600; font-size: 9px; }
+.offer .cd { font-family: var(--mono); font-size: 6.8px; letter-spacing: 0.12em; color: var(--ink3); }
+.offer .ds { font-size: 7.9px; color: var(--ink1); line-height: 1.42; margin-top: 2px; }
+
+.band2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.mini p { font-size: 8.2px; line-height: 1.52; color: var(--ink1); margin-bottom: 5px; }
+.mini p:last-child { margin-bottom: 0; }
+.mini p b { color: var(--ink0); font-weight: 600; }
+.slaladder { display: flex; margin-top: 2px; border: 1px solid var(--line); background: var(--card); }
+.slaladder .step { flex: 1; padding: 4px 6px; border-right: 1px solid var(--line); }
+.slaladder .step:last-child { border-right: 0; }
+.slaladder .lv { font-family: var(--mono); font-size: 6.5px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink3); }
+.slaladder .pc { font-family: var(--disp); font-weight: 600; font-size: 10px; font-variant-numeric: tabular-nums; }
+.slaladder .sc { font-size: 6.6px; color: var(--ink2); }
+
+.road { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+.phase { background: var(--card); border: 1px solid var(--line); padding: 7px 9px 8px; }
+.phase .ph { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 1px solid var(--line); padding-bottom: 4px; margin-bottom: 5px; }
+.phase .mo { font-family: var(--mono); font-size: 7px; letter-spacing: 0.14em; color: var(--cyan-dim); }
+.phase .nm { font-family: var(--disp); font-weight: 600; font-size: 9px; }
+.phase ul { list-style: none; }
+.phase li { font-size: 7.7px; line-height: 1.45; color: var(--ink1); padding-left: 8px; position: relative; margin-bottom: 2px; }
+.phase li::before { content: ""; position: absolute; left: 0; top: 4.4px; width: 3px; height: 3px; background: var(--cyan); }
+.phase .tgt { margin-top: 5px; padding-top: 4px; border-top: 1px solid var(--line); font-family: var(--mono); font-size: 7px; color: var(--ink0); }
+
+.stats { display: grid; grid-template-columns: repeat(5, 1fr); border-top: 2px solid var(--ink0); margin-top: auto; }
+.stat { padding: 8px 10px 0 0; }
+.stat + .stat { border-left: 1px solid var(--line); padding-left: 10px; }
+.stat .num { font-family: var(--disp); font-weight: 600; font-size: 17px; letter-spacing: -0.01em; font-variant-numeric: tabular-nums; }
+.stat .num small { font-size: 10px; font-weight: 500; color: var(--ink2); }
+.stat .lab { font-family: var(--mono); font-size: 6.6px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink2); margin-top: 2px; line-height: 1.5; }
+
+.foot { display: flex; justify-content: space-between; align-items: baseline; border-top: 1px solid var(--line); margin-top: 10px; padding-top: 6px; font-family: var(--mono); font-size: 6.8px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink3); }
+.push { margin-top: auto; }
+
+.risks { columns: 2; column-gap: 24px; }
+.risk-i { display: flex; gap: 7px; margin-bottom: 3.5px; break-inside: avoid; }
+.risk-i .no { font-family: var(--mono); font-size: 7px; color: var(--rose); position: relative; top: 1px; min-width: 12px; }
+.risk-i .tx { font-size: 7.8px; line-height: 1.42; color: var(--ink1); }
+.risk-i .tx b { color: var(--ink0); font-weight: 600; }
+.rules { columns: 2; column-gap: 24px; }
+.rule-i { display: flex; gap: 7px; margin-bottom: 3.5px; break-inside: avoid; }
+.rule-i .no { font-family: var(--mono); font-size: 7px; color: var(--cyan-dim); position: relative; top: 1px; min-width: 12px; }
+.rule-i .tx { font-size: 7.8px; line-height: 1.42; color: var(--ink1); }
+</style>
+</head>
+<body>
+
+<!-- ============ PAGE 1 : WHY WE WIN ============ -->
+<div class="sheet">
+
+  <div class="mast">
+    <div class="wordmark">
+      <svg width="26" height="16" viewBox="0 0 26 16" fill="none">
+        <line x1="3" y1="12" x2="12" y2="3" stroke="#0f7a9a" stroke-width="0.8"/>
+        <line x1="12" y1="3" x2="22" y2="9" stroke="#0f7a9a" stroke-width="0.8"/>
+        <line x1="3" y1="12" x2="15" y2="13" stroke="#0f7a9a" stroke-width="0.8"/>
+        <line x1="15" y1="13" x2="22" y2="9" stroke="#0f7a9a" stroke-width="0.8"/>
+        <line x1="12" y1="3" x2="15" y2="13" stroke="#0f7a9a" stroke-width="0.8"/>
+        <circle cx="3" cy="12" r="2.1" fill="#0a1224"/><circle cx="12" cy="3" r="2.1" fill="#0a1224"/>
+        <circle cx="22" cy="9" r="2.1" fill="#0a1224"/><circle cx="15" cy="13" r="2.1" fill="#0f7a9a"/>
+      </svg>
+      <span class="name">ANDD</span>
+      <span class="co">AI native distributed datacenters</span>
+    </div>
+    <div class="doc"><b>Product brief · three pager</b><br>August 2026 · andd.network</div>
+  </div>
+
+  <div class="head">
+    <div class="eyebrow">01 · Why we win</div>
+    <h1>Compute within 10 milliseconds, sovereignty by construction, operated end to end by AI.</h1>
+    <div class="dek">ANDD is a mesh of sub-2MW edge datacenters in Opportunity Zone metros, run by autonomous AI agents at a ratio of one human per 20-50 sites. Token prices have fallen roughly 99% since 2023 and keep falling, so we never anchor margin to $/token. The durable premiums attach to what does not deflate: <b>milliseconds (physics), jurisdiction (law), reliability (engineering), and compliance (regulation)</b>. Tokens bring customers onto the network; locality, sovereignty, and self-executing SLAs carry the margin.</div>
+  </div>
+
+  <div class="assets">
+    <div class="asset"><div class="k">Proximity</div><div class="v">Heavy GPUs under 10ms from mid-size metros, sold as a priced, SLA-backed tier. No provider prices latency by geography today.</div></div>
+    <div class="asset"><div class="k">Sovereignty</div><div class="v">Jurisdiction-pinned placement as a checkbox: attested residency, compliance bundles, air-gap and survive-in-place autonomy.</div></div>
+    <div class="asset"><div class="k">Zero-touch operations</div><div class="v">The AI that runs the datacenters runs the funnel: quote to provisioned workload in minutes, every deal under $250k TCV closed without a human.</div></div>
+  </div>
+
+  <div class="sec"><span class="t">The market opening</span><div class="rule"></div><span class="n">live comparables, August 2026</span></div>
+  <table class="dt">
+    <tr><th style="width:19%">ANDD differentiator</th><th style="width:42%">State of the market</th><th>The opportunity</th></tr>
+    <tr><td class="k">Latency</td><td>Serverless pricing ignores geography; AWS Local Zones charge +25% with thin GPU inventory; Cloudflare edge serves small models only</td><td>The only heavy-GPU capacity under 10ms from mid-size metros; a Metro tier at +25-40%</td></tr>
+    <tr><td class="k">Sovereignty</td><td>Hyperscalers put hardware on the customer's premises and budget (Outposts, Azure Local, GDC); DePIN can't say where a workload ran</td><td>Residency as a product feature, not a consulting engagement</td></tr>
+    <tr><td class="k">SLAs</td><td>Lambda and RunPod publish no numeric SLA; best in class is Baseten 99.99% and Fireworks 99.9%, both with manual claims</td><td>Oracle-fed credits that pay automatically; no competitor offers this</td></tr>
+    <tr><td class="k">Dedicated capacity</td><td>Equinix Metal, the best API-provisioned bare metal, shut down June 30, 2026</td><td>A displaced buyer cohort in-market right now</td></tr>
+    <tr><td class="k">Reliability + crypto rails</td><td>DePIN runs 60-80% below AWS but tops out near 99.7% uptime; Akash GPU supply fell over 57% QoQ as token rewards tightened</td><td>DePIN-grade settlement on datacenter-grade infrastructure; QOF-financed supply that doesn't churn with a token</td></tr>
+    <tr><td class="k">Gov procurement</td><td>FedRAMP 20x fast-track began March 2026; NASPO ValuePoint gives states and counties RFP-free purchasing</td><td>The only sub-10ms GPU capacity on a pre-competed cooperative contract</td></tr>
+    <tr><td class="k">Micro-billing</td><td>Per-token pricing exists but settlement doesn't; card-based prepaid breaks down for agentic and IoT per-request payment</td><td>Payment channels settling fractions of a cent per request</td></tr>
+  </table>
+
+  <div class="sec"><span class="t">Demand tailwind</span><div class="rule"></div><span class="n">why now</span></div>
+  <div class="tiles">
+    <div class="tile"><div class="num">2/3</div><div class="lab">Of all AI compute is now inference (was 1/3 in 2023)</div></div>
+    <div class="tile"><div class="num">$30-37<small>B</small></div><div class="lab">Edge AI market in 2026, growing 22-29% CAGR</div></div>
+    <div class="tile"><div class="num">$100<small>B+</small></div><div class="lab">Projected edge AI market by 2030</div></div>
+    <div class="tile"><div class="num">80-90<small>%</small></div><div class="lab">Of a model's lifetime compute spend is inference</div></div>
+  </div>
+
+  <div class="sec"><span class="t">What could break it</span><div class="rule"></div><span class="n">top risks, engineered against</span></div>
+  <div class="risks">
+    <div class="risk-i"><span class="no">R1</span><span class="tx"><b>Edge GPU multi-tenancy.</b> Whole-GPU or MIG tenancy only in year 1; VM isolation for every untrusted tenant.</span></div>
+    <div class="risk-i"><span class="no">R2</span><span class="tx"><b>Serverless cold starts on small pools.</b> Curated 5-8 model catalogs; every model warm somewhere under 2ms away; warm and flex tiers priced separately.</span></div>
+    <div class="risk-i"><span class="no">R3</span><span class="tx"><b>Metering accuracy.</b> Signed idempotent events, dual-path counting, drift alerts below 0.1%. Under-bill on ambiguity, always.</span></div>
+    <div class="risk-i"><span class="no">R4</span><span class="tx"><b>Oracle trust.</b> Two-of-two attestation with an independent probe vendor; on-chain credits only after 4 clean quarters and 2 audits.</span></div>
+    <div class="risk-i"><span class="no">R5</span><span class="tx"><b>Fictional backhaul diversity at OZ sites.</b> Conduit-level path verification before signing; sites that fail the audit sell uptime-only SKUs.</span></div>
+    <div class="risk-i"><span class="no">R6</span><span class="tx"><b>FedRAMP calendar.</b> Small boundary, StateRAMP revenue in parallel, and no revenue plan keyed to ATO dates.</span></div>
+  </div>
+
+  <div class="foot push">
+    <span>ANDD Network · Anannra</span>
+    <span>Confidential · planning targets, not forecasts</span>
+    <span>Page 1 of 3</span>
+  </div>
+</div>
+
+<!-- ============ PAGE 2 : WHAT WE SELL ============ -->
+<div class="sheet">
+
+  <div class="mast thin">
+    <div class="wordmark"><span class="name">ANDD</span><span class="co">02 · What we sell, and for how much</span></div>
+    <div class="doc">August 2026</div>
+  </div>
+
+  <div class="sec"><span class="t">The catalog</span><div class="rule"></div><span class="n">8 lines · ~40 SKU families</span></div>
+  <div class="offers">
+    <div class="offer" style="--key:#0f7a9a"><div class="row1"><span class="nm">Inference &amp; AI services</span><span class="cd">AI</span></div><div class="ds">OpenAI-compatible serverless tokens in Standard, Metro (latency SLA, +15-40%), Resident (jurisdiction-pinned, +20-30%), and Batch (half price). Dedicated endpoints on named GPUs with guaranteed tokens/sec (commits save 20-40%). Fine-tuning at hubs with conversational job launch.</div></div>
+    <div class="offer" style="--key:#0a5570"><div class="row1"><span class="nm">Compute</span><span class="cd">CMP</span></div><div class="ds">GPU-hours on-demand, reserved (-30-55%), spot (-60-75%, 2-minute reclaim, the mechanism that monetizes idle capacity), and MIG fractions. Managed K8s, scale-to-zero containers, VMs, and bare metal aimed at Equinix Metal's orphaned customers.</div></div>
+    <div class="offer" style="--key:#3d7a2c"><div class="row1"><span class="nm">Storage</span><span class="cd">STO</span></div><div class="ds">S3-compatible object erasure-coded across 3+ nodes (11-nines durability, gated on node count), attested residency pinning (+25-40%), block, file, archive at a fifth of object price, managed backup. Egress at $0.01/GB or less, free intra-fabric.</div></div>
+    <div class="offer" style="--key:#55637d"><div class="row1"><span class="nm">Network</span><span class="cd">NET</span></div><div class="ds">Private interconnect into premises and cloud on-ramps (AWS DX, Azure ER, GCP), carrier-neutral peering, metro wavelengths, CDN with semantic AI-response caching, zero-trust mesh VPN across a customer's footprint.</div></div>
+    <div class="offer" style="--key:#c43a55"><div class="row1"><span class="nm">Sovereign &amp; government</span><span class="cd">SOV</span></div><div class="ds">Secure cages (12-60-month terms), FedRAMP/CJIS/HIPAA/ITAR bundles (+15-35%) sold only after the authorization exists, air-gapped survive-in-place nodes with SCIF options, NG911 continuity per PSAP, sovereign model enclaves with attested no-egress.</div></div>
+    <div class="offer" style="--key:#6041c7"><div class="row1"><span class="nm">DePIN &amp; Web3</span><span class="cd">DPN</span></div><div class="ds">Validator hosting with anti-correlation guarantees (no two validators share a node or power region), managed RPC, verifiable compute with TEE attestations, and programmable SLAs (5% attach) whose stablecoin credits cascade into a protocol's own commitments.</div></div>
+    <div class="offer" style="--key:#c27020"><div class="row1"><span class="nm">Whole-node</span><span class="cd">NOD</span></div><div class="ds">Node leases (36-60 months, build-to-suit with take-or-pay), private nodes on hospital, utility, and campus sites, Node-as-a-Service for telcos (white-label, MEC-ready) and municipalities (QOF-financeable, 5-10-year terms), fractional nodes from 25%.</div></div>
+    <div class="offer" style="--key:#8691a8"><div class="row1"><span class="nm">Marketplace</span><span class="cd">MKT</span></div><div class="ds">Prepaid credits from $5 to $50k (card, ACH, USDC provisioned within one block), per-call pay-as-you-go with no subscription or minimum, a public machine-readable spot exchange, and in Phase 3 a model hub (ANDD takes 15-20%) and agent-template store.</div></div>
+  </div>
+
+  <div class="sec"><span class="t">Tiers</span><div class="rule"></div><span class="n">platform fee unlocks limits, SLA, support; usage meters on top</span></div>
+  <table class="dt">
+    <tr><th style="width:15%"></th><th>Free</th><th>Starter</th><th>Pro</th><th>Enterprise</th><th>Gov</th></tr>
+    <tr><td class="k">Platform fee</td><td class="num">$0</td><td class="num">$49/mo</td><td class="num">$499/mo</td><td class="num">~$60k/yr min</td><td>Contract vehicle</td></tr>
+    <tr><td class="k">Default SLA</td><td>Best-effort</td><td>Bronze 99.9%</td><td>Silver 99.95%</td><td>Gold 99.99%</td><td>Gold / Platinum-track</td></tr>
+    <tr><td class="k">Auto-credit SLA</td><td>None</td><td>Attach option</td><td>Attach option</td><td>Included</td><td>Included where permitted</td></tr>
+    <tr><td class="k">Residency</td><td>None</td><td>Metro</td><td>State</td><td>State/county + attestation</td><td>Full sovereign controls</td></tr>
+    <tr><td class="k">Billing</td><td>Prepaid only</td><td>Monthly, NET 30</td><td>Monthly/annual</td><td>Annual, NET 45-60</td><td>Per procurement</td></tr>
+  </table>
+
+  <div class="sec"><span class="t">The commitment ladder</span><div class="rule"></div><span class="n">discounts only ever buy commitment or term</span></div>
+  <table class="dt">
+    <tr><th style="width:20%">Instrument</th><th style="width:13%">Term</th><th style="width:15%">Discount</th><th>Mechanics</th></tr>
+    <tr><td class="k">Prepaid credit packs</td><td class="m">12-mo expiry</td><td class="num">5-15%</td><td>Fiat or USDC in one conversational turn; breakage is margin</td></tr>
+    <tr><td class="k">Committed-use</td><td class="m">1 yr / 3 yr</td><td class="num">25-35% / 40-50%</td><td>Commit dollars, not hardware; the agent auto-proposes from telemetry and executes below $250k TCV</td></tr>
+    <tr><td class="k">Capacity Block</td><td class="m">12-60 mo</td><td class="num">custom floor</td><td>Reserved kW plus GPU mix at named nodes; 15% quarterly flex via the negotiation agent</td></tr>
+    <tr><td class="k">Take-or-pay</td><td class="m">24-60 mo</td><td class="num">floor pricing</td><td>70-85% floor billed regardless; remarketing clause resells unconsumed capacity into spot, half the proceeds credited back</td></tr>
+    <tr><td class="k">Build-to-suit</td><td class="m">36-120 mo</td><td class="num">contracted</td><td>NRC plus node-month; the floor covers financing; QOF-structurable</td></tr>
+    <tr><td class="k">Forward options</td><td class="m">6-36 mo</td><td class="num">3-8% of strike</td><td>Callable future capacity, tradeable back to ANDD</td></tr>
+  </table>
+
+  <div class="sec"><span class="t">Pricing posture</span><div class="rule"></div><span class="n">premium where physics and law bind, parity on commodities</span></div>
+  <table class="dt">
+    <tr><th style="width:26%">Line</th><th style="width:20%">Posture</th><th>Anchor</th></tr>
+    <tr><td class="k">Serverless tokens</td><td class="m">Aggressive, bottom quartile</td><td>Llama-8B-class around $0.10-$0.15/M tokens; a loss leader that fills idle capacity and feeds the funnel</td></tr>
+    <tr><td class="k">Metro / Resident tiers</td><td class="m">Premium +20-40%</td><td>Mirrors AWS's proven 25% Local Zone uplift; competitors can't follow without pouring concrete</td></tr>
+    <tr><td class="k">Dedicated endpoints</td><td class="m">Platform parity</td><td>L40S at $1.90-$2.40/hr, H100-class at $3.50-$4.50/hr, with locality and the auto-credit SLA included</td></tr>
+    <tr><td class="k">Sovereign / compliance</td><td class="m">Premium +20-100%</td><td>Still cheaper all-in than Outposts or GDC, because the customer buys no hardware</td></tr>
+    <tr><td class="k">Storage &amp; egress</td><td class="m">Parity; egress &le;$0.01/GB</td><td>Cheap egress is the switching incentive, and edge cost structure sustains it</td></tr>
+  </table>
+
+  <div class="foot push">
+    <span>ANDD Network · Anannra</span>
+    <span>Confidential · planning targets, not forecasts</span>
+    <span>Page 2 of 3</span>
+  </div>
+</div>
+
+<!-- ============ PAGE 3 : HOW IT SELLS AND SHIPS ============ -->
+<div class="sheet">
+
+  <div class="mast thin">
+    <div class="wordmark"><span class="name">ANDD</span><span class="co">03 · How it sells, and when it ships</span></div>
+    <div class="doc">August 2026</div>
+  </div>
+
+  <div class="sec"><span class="t">How each customer buys</span><div class="rule"></div><span class="n">discover · sign up · consume · grow</span></div>
+  <table class="dt">
+    <tr><th style="width:14%">Persona</th><th style="width:27%">In the door</th><th style="width:27%">Signup</th><th style="width:12%">First workload</th><th>Grows into</th></tr>
+    <tr><td class="k">Spot developer</td><td>Model hubs, framework adapters, latency benchmarks, hackathon credits</td><td>GitHub OAuth or wallet; $5 free credits, no card</td><td class="m">&lt; 3 min</td><td>Auto-top-up, Starter, dedicated endpoints</td></tr>
+    <tr><td class="k">Startup</td><td>Accelerator credit programs, Terraform registries</td><td>Self-serve org; KYB in minutes; credits auto-adjudicated</td><td class="m">&lt; 1 day prod</td><td>Agent-proposed commits, multi-metro</td></tr>
+    <tr><td class="k">Fintech / mid-market</td><td>Residency content, core-banking ISV partners</td><td>Sandbox same day; security questionnaire auto-answered in hours</td><td class="m">&lt; 2 weeks</td><td>Per-state residency, custom models, multi-year commits</td></tr>
+    <tr><td class="k">Off-taker</td><td>Exec origination, cloud-marketplace private offers, wholesale desks</td><td>Binding term sheet drafted by the negotiation agent in days</td><td class="m">&lt; 30 days</td><td>Metro clusters, statewide footprints, 15% quarterly flex</td></tr>
+    <tr><td class="k">Government</td><td>NASPO ValuePoint, FedRAMP Marketplace, OTAs, SI primes</td><td>Compliance agent auto-generates SSPs and control matrices</td><td class="m">&lt; 60 days pilot</td><td>County PSAP to statewide NG911 to federal after ATO</td></tr>
+    <tr><td class="k">DePIN project</td><td>Governance forums, on-chain SLA registry</td><td>Wallet auth plus automated KYB; pay USDC, provision in one block</td><td class="m">&lt; 1 hour</td><td>Protocol backbone; their users consume ANDD inference</td></tr>
+    <tr><td class="k">Municipality</td><td>OZ development offices, groundbreaking press</td><td>Council approval, QOF financing, AI-drafted grant applications</td><td class="m">90 days</td><td>County clusters; the town becomes a channel</td></tr>
+  </table>
+
+  <div class="sec"><span class="t">SLAs &amp; billing</span><div class="rule"></div><span class="n">gated by physics, enforced by code</span></div>
+  <div class="band2">
+    <div class="mini">
+      <p><b>Every SLA is code.</b> Credits land automatically with no claims process; breach telemetry is co-signed by an independent probe vendor, so customers audit us rather than trust us. Tiers are gated on node density: one node contracts 99.9%, a diversity-audited metro pair 99.99%, and five nines is published as measured, never contracted in this horizon. Confirmed data loss pays 12 months of storage fees; a residency violation pays 100% of the monthly charge.</p>
+      <div class="slaladder">
+        <div class="step"><div class="lv">Bronze</div><div class="pc">99.9</div><div class="sc">single node</div></div>
+        <div class="step"><div class="lv">Silver</div><div class="pc">99.95</div><div class="sc">metro failover</div></div>
+        <div class="step"><div class="lv">Gold</div><div class="pc">99.99</div><div class="sc">multi-node metro</div></div>
+        <div class="step"><div class="lv">Platinum</div><div class="pc">99.99+</div><div class="sc">multi-metro mesh</div></div>
+      </div>
+    </div>
+    <div class="mini">
+      <p><b>One meter, one ledger, many rails.</b> Signed usage events feed one metering pipeline; the billing agent settles across prepaid credits, NET-30/60 invoicing, and USDC channels settling per epoch. A live risk score sets prepaid or postpaid automatically; collections run AI-automated through day 60 (DSO under 35 days, bad debt under 0.5%). Marketplace private offers let enterprises spend committed hyperscaler budgets on ANDD; a NASPO listing makes every municipality an eligible buyer.</p>
+    </div>
+  </div>
+
+  <div class="sec"><span class="t">The commercial engine</span><div class="rule"></div><span class="n">reservations anchor, commits fund, usage fills</span></div>
+  <div class="band2">
+    <div class="mini">
+      <p><b>Anchor-tenant node launches.</b> Every node opens its anchor book at site shortlisting: 40-60% of capacity pre-sold before ground-break at the best pricing that node will ever see (typically 45-55% off list, 5-year terms), with delivery-date SLAs enforced by the smart-contract machinery. A half-pre-sold node presents to QOF investors as contracted infrastructure, lowering the cost of capital. The rest is the high-margin merchant layer sold through PLG and commits.</p>
+    </div>
+    <table class="dt" style="align-self:start">
+      <tr><th>300kW node, ~$8M all-in</th><th>40% util</th><th>60% util</th><th>80% util</th></tr>
+      <tr><td class="k">Monthly revenue</td><td class="num">$168k</td><td class="num">$252k</td><td class="num">$336k</td></tr>
+      <tr><td class="k">Node cash margin</td><td class="num">$73k (43%)</td><td class="num">$151k (60%)</td><td class="num">$229k (68%)</td></tr>
+      <tr><td class="k">Cash-on-cash yield</td><td class="num">11%</td><td class="num">23%</td><td class="num">34%</td></tr>
+    </table>
+  </div>
+
+  <div class="sec"><span class="t">Roadmap</span><div class="rule"></div><span class="n">off-take, then verticals, then spot; the last two may swap</span></div>
+  <div class="road">
+    <div class="phase"><div class="ph"><span class="nm">Anchor off-take, prove ops</span><span class="mo">MO 1-12</span></div><ul>
+      <li>3-5 pilot sites; serverless + dedicated endpoints GA; metering pipeline first (it blocks every consumption SKU)</li>
+      <li>AI onboarding agent GA; classic auto-credit SLAs; SOC 2 Type I; two strategic anchors (NG911 county, design-partner fintech)</li>
+    </ul><div class="tgt">$25-45M run rate · 30-50 nodes</div></div>
+    <div class="phase"><div class="ph"><span class="nm">Verticals: add depth</span><span class="mo">MO 12-24</span></div><ul>
+      <li>Hubs unlock 70B serving and fine-tuning; stablecoin rail GA; 99.99% SKUs in diversity-audited metros</li>
+      <li>DePIN APIs with 2-3 protocols; marketplace private offers; NASPO listing; FedRAMP boundary in assessment</li>
+    </ul><div class="tgt">$120-200M run rate · 100-150 nodes</div></div>
+    <div class="phase"><div class="ph"><span class="nm">Spot: open the market</span><span class="mo">MO 24-36</span></div><ul>
+      <li>Smart-contract SLA GA after 2 audits and 4 clean quarters; micro-transaction channels; confidential computing GA</li>
+      <li>FedRAMP ATO opens federal; whole-node and telco NaaS; capacity-market APIs</li>
+    </ul><div class="tgt">$350-550M run rate · 250-300 nodes</div></div>
+  </div>
+
+  <div class="sec"><span class="t">Operating doctrine</span><div class="rule"></div><span class="n">the ten commercial rules</span></div>
+  <div class="rules">
+    <div class="rule-i"><span class="no">01</span><span class="tx">No ground-break below 40% pre-commit coverage.</span></div>
+    <div class="rule-i"><span class="no">02</span><span class="tx">The AI agent sells everything below $250k TCV end to end; humans advise, they don't gatekeep.</span></div>
+    <div class="rule-i"><span class="no">03</span><span class="tx">Publish list prices, machine-readable; never publish reservation floors.</span></div>
+    <div class="rule-i"><span class="no">04</span><span class="tx">Discounts buy commitment or term, never given without one.</span></div>
+    <div class="rule-i"><span class="no">05</span><span class="tx">Premium tiers are fenced by guarantees and placement rights, never by throttling the cheap tier's quality.</span></div>
+    <div class="rule-i"><span class="no">06</span><span class="tx">Stablecoin settlement for DePIN always; native tokens never as payment.</span></div>
+    <div class="rule-i"><span class="no">07</span><span class="tx">Every SLA is code; every credit is automatic; every performance record is public.</span></div>
+    <div class="rule-i"><span class="no">08</span><span class="tx">Egress stays cheap forever. It is the moat-builder against hyperscaler lock-in.</span></div>
+    <div class="rule-i"><span class="no">09</span><span class="tx">DePIN revenue capped near 15% of mix; gov mix grows only as fast as certifications.</span></div>
+    <div class="rule-i"><span class="no">10</span><span class="tx">Every partner deal must inherit zero-touch economics or it dilutes the model.</span></div>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><div class="num">23-25<small>%</small></div><div class="lab">Node breakeven utilization</div></div>
+    <div class="stat"><div class="num">40-60<small>%</small></div><div class="lab">Capacity pre-sold at ground-break</div></div>
+    <div class="stat"><div class="num">115-125<small>%</small></div><div class="lab">Net revenue retention target</div></div>
+    <div class="stat"><div class="num">60<small>%</small></div><div class="lab">New ARR zero-touch by month 36</div></div>
+    <div class="stat"><div class="num">$1B<small>+</small></div><div class="lab">Contracted backlog target, TCV</div></div>
+  </div>
+
+  <div class="foot">
+    <span>ANDD Network · Anannra</span>
+    <span>Confidential · planning targets, not forecasts</span>
+    <span>Page 3 of 3</span>
+  </div>
+</div>
+
+</body>
+</html>

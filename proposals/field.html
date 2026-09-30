@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Native Networks</title>
+<meta name="description" content="Native Networks builds and operates small modular AI datacenters, 500 kW to 20 MW, sited where power and fiber already exist. Inference runs locally instead of round-tripping to a distant cloud.">
+<meta name="theme-color" content="#0A0E1A">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --bg: #0A0E1A; --surface: #111A30; --surface-2: #19223E;
+  --line: #24305A; --line-soft: #1A2447;
+  --indigo: #4C6FFF; --indigo-hi: #6383FF; --indigo-fill: #454FC4; --sky: #38BDF8; --navy: #1E2F72;
+  --ink-0: #FFFFFF; --ink-1: #C8CEE0; --ink-2: #9AA4BD; --ink-3: #6B7488;
+  --radius: 6px; --font: 'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif; --mono: 'IBM Plex Mono', ui-monospace, Menlo, monospace;
+  --pad: clamp(3.5rem, 7vw, 6.5rem);
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--bg); color: var(--ink-1); font-family: var(--font); font-size: 16px; line-height: 1.55; -webkit-font-smoothing: antialiased; }
+a { color: inherit; text-decoration: none; }
+h1, h2, h3 { color: var(--ink-0); margin: 0; font-weight: 500; letter-spacing: -0.02em; text-wrap: balance; }
+p { margin: 0; }
+.wrap { width: min(1200px, calc(100% - 2 * clamp(1.25rem, 4vw, 3rem))); margin-inline: auto; }
+.data { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+
+.nav { border-bottom: 1px solid var(--line-soft); }
+.nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 70px; gap: 24px; }
+.logo { display: inline-flex; align-items: center; gap: 12px; }
+.logo .mark { width: 40px; height: 34px; }
+.wordmark { font-weight: 600; font-size: 1.12rem; color: var(--ink-0); white-space: nowrap; }
+.nav-links { display: flex; gap: 28px; font-size: 0.92rem; color: var(--ink-2); }
+.nav-links a:hover { color: var(--ink-0); }
+.nav .btn { padding: 9px 16px; font-size: 0.9rem; }
+
+.hero { padding: clamp(3rem, 6vw, 5rem) 0 0; }
+.hero .top { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr); gap: 48px; align-items: end; margin-bottom: 40px; }
+.hero h1 { font-size: clamp(2.3rem, 4.4vw, 3.7rem); line-height: 1.06; max-width: 15ch; }
+.hero .dek { color: var(--ink-2); font-size: 1.1rem; max-width: 44ch; }
+.hero .dek .ctas { margin-top: 22px; display: flex; gap: 10px; flex-wrap: wrap; }
+
+.map { border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); padding: 26px 28px 18px; display: grid; grid-template-columns: minmax(0, 1.7fr) minmax(0, 0.55fr); gap: 24px; align-items: end; position: relative; }
+.map .region { position: relative; }
+.map .region h3 { font-size: 0.8rem; color: var(--ink-3); font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 8px; }
+.map svg { width: 100%; height: auto; display: block; overflow: visible; }
+.map .land { fill: var(--surface-2); stroke: #2F4290; stroke-width: 2; stroke-linejoin: round; }
+.map .site text { font-family: var(--font); font-size: 26px; fill: var(--ink-0); font-weight: 500; }
+.map .uk .site text { font-size: 30px; }
+.map .halo { fill: #38BDF8; opacity: 0.16; transform-origin: center; transform-box: fill-box; animation: pulse 3.2s ease-in-out infinite; }
+.map .site:nth-child(2) .halo { animation-delay: 0.8s; }
+@keyframes pulse { 0%, 100% { transform: scale(0.7); opacity: 0.18; } 50% { transform: scale(1.15); opacity: 0.05; } }
+.map .legend { grid-column: 1 / -1; display: flex; gap: 32px; flex-wrap: wrap; border-top: 1px solid var(--line-soft); padding-top: 14px; font-size: 0.85rem; color: var(--ink-2); }
+.map .legend b { color: var(--ink-0); font-weight: 500; }
+.map .legend .dot { display: inline-block; width: 9px; height: 9px; border-radius: 50%; background: var(--sky); margin-right: 8px; vertical-align: 1px; }
+
+.strip { margin-top: 18px; display: grid; grid-template-columns: repeat(4, 1fr); border: 1px solid var(--line); border-radius: var(--radius); }
+.strip div { padding: 18px 22px; border-left: 1px solid var(--line-soft); }
+.strip div:first-child { border-left: 0; }
+.strip b { display: block; color: var(--ink-0); font-weight: 500; font-size: 1.35rem; letter-spacing: -0.01em; }
+.strip span { color: var(--ink-2); font-size: 0.86rem; }
+
+section.block { padding: var(--pad) 0; border-top: 1px solid var(--line-soft); }
+section.block.first { border-top: 0; }
+.sec-head { max-width: 700px; margin-bottom: 36px; }
+.sec-head h2 { font-size: clamp(1.7rem, 2.9vw, 2.4rem); line-height: 1.12; margin-bottom: 12px; }
+.sec-head p { color: var(--ink-2); font-size: 1.05rem; }
+
+.split { display: grid; grid-template-columns: minmax(0, 0.7fr) minmax(0, 1.3fr); gap: 48px; align-items: center; }
+.split figure { margin: 0; border-radius: var(--radius); overflow: hidden; border: 1px solid var(--line-soft); aspect-ratio: 3 / 4; max-height: 520px; }
+.split figure img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.points { display: grid; gap: 22px; }
+.points p { color: var(--ink-2); max-width: 56ch; }
+.points p b { display: block; color: var(--ink-0); font-weight: 500; margin-bottom: 3px; }
+
+table { width: 100%; border-collapse: collapse; font-size: 0.98rem; }
+th, td { text-align: left; padding: 16px 18px; border-top: 1px solid var(--line-soft); vertical-align: top; }
+thead th { color: var(--ink-3); font-weight: 500; font-size: 0.82rem; letter-spacing: 0.04em; text-transform: uppercase; border-top: 0; padding-top: 0; }
+tbody th { color: var(--ink-1); font-weight: 400; width: 26%; }
+td { color: var(--ink-2); }
+td.us { color: var(--ink-0); background: rgba(76,111,255,0.08); }
+thead th.us { color: var(--sky); }
+.table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--radius); padding: 18px 4px 4px; background: var(--surface); }
+tbody tr:last-child td, tbody tr:last-child th { border-bottom: 0; }
+
+.tiers { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.tier { border: 1px solid var(--line); border-radius: var(--radius); padding: 24px; }
+.tier h3 { font-size: 1.1rem; margin-bottom: 4px; }
+.tier .term { color: var(--sky); font-size: 0.88rem; display: block; margin-bottom: 12px; }
+.tier p { color: var(--ink-2); font-size: 0.95rem; }
+
+.contact { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); gap: 56px; align-items: start; }
+.contact h2 { font-size: clamp(1.7rem, 2.9vw, 2.4rem); line-height: 1.12; margin-bottom: 14px; }
+.contact .lead { color: var(--ink-2); font-size: 1.05rem; margin-bottom: 20px; }
+.contact .mail { color: var(--sky); font-weight: 500; }
+
+footer { border-top: 1px solid var(--line-soft); }
+footer .wrap { display: flex; justify-content: space-between; align-items: center; gap: 20px; flex-wrap: wrap; padding: 34px 0; color: var(--ink-3); font-size: 0.88rem; }
+footer nav { display: flex; gap: 20px; }
+footer nav a:hover { color: var(--ink-0); }
+
+.lead-form { display: grid; gap: 22px; }
+.lead-form .frow { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+.field { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.field.full { grid-column: 1 / -1; }
+.field label { font-size: 0.85rem; color: var(--ink-2); }
+.field input, .field select, .field textarea {
+  width: 100%; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+  color: var(--ink-0); font: inherit; font-size: 0.95rem; line-height: 1.4; padding: 12px 14px;
+  transition: border-color 160ms;
+}
+.field input::placeholder, .field textarea::placeholder { color: var(--ink-3); }
+.field textarea { resize: vertical; min-height: 120px; }
+.field input:focus, .field select:focus, .field textarea:focus { outline: none; border-color: var(--sky); }
+.field select { appearance: none; -webkit-appearance: none; cursor: pointer; padding-right: 38px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%239AA4BD' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 14px center; }
+.lead-form .actions { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+.lead-form .privacy { font-size: 0.85rem; color: var(--ink-3); }
+.lead-form .hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+.form-sink { display: none; }
+.form-success { border: 1px solid var(--line); border-radius: var(--radius); padding: 28px 30px; }
+.form-success h3 { margin: 0 0 6px; font-size: 1.3rem; color: var(--ink-0); }
+.form-success p { margin: 0; color: var(--ink-2); }
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 20px; border-radius: var(--radius); border: 1px solid var(--line); color: var(--ink-0); font: inherit; font-weight: 500; font-size: 0.95rem; cursor: pointer; background: transparent; transition: border-color 160ms, background 160ms; }
+.btn:hover { border-color: var(--sky); }
+.btn-primary { background: var(--indigo); border-color: var(--indigo); color: #fff; }
+.btn-primary:hover { background: var(--indigo-hi); border-color: var(--indigo-hi); }
+:focus-visible { outline: 2px solid var(--sky); outline-offset: 3px; }
+@media (max-width: 640px) { .lead-form .frow { grid-template-columns: 1fr; } }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+
+@media (max-width: 960px) {
+  .nav-links { display: none; }
+  .hero .top, .split, .contact, .tiers { grid-template-columns: 1fr; }
+  .map { grid-template-columns: 1fr; }
+  .map .uk { max-width: 240px; }
+  .strip { grid-template-columns: 1fr 1fr; }
+  .strip div:nth-child(3) { border-left: 0; border-top: 1px solid var(--line-soft); }
+  .strip div:nth-child(4) { border-top: 1px solid var(--line-soft); }
+  .split figure { max-height: 380px; aspect-ratio: 4 / 3; }
+}
+@media (max-width: 520px) { .strip { grid-template-columns: 1fr; } .strip div { border-left: 0; border-top: 1px solid var(--line-soft); } .strip div:first-child { border-top: 0; } }
+</style>
+
+</head>
+<body>
+<a id="top"></a>
+<header class="nav"><div class="wrap">
+  <a class="logo" href="#top" aria-label="Native Networks home"><svg class="mark" viewBox="-8 -8 246 206" fill="none" aria-hidden="true">
+  <g stroke="#1E2F72" stroke-width="2" stroke-linecap="round">
+    <path d="M77 9 L43.5 94.5 M77 9 L111.5 94.5 M77 9 L77 179 M43.5 94.5 L77 179 M111.5 94.5 L77 179 M111.5 94.5 L145 179 M9.5 179.5 L145 179"/>
+    <path d="M179 9 L179 179 M179 9 L221 50 M221 50 L221 140 M179.5 94.5 L221 140 M221 140 L179 179"/>
+  </g>
+  <path class="signal" d="M9.5 179.5 L43.5 94.5 L179.5 94.5 L221 50" stroke="#38BDF8" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  <g fill="#4C6FFF"><circle cx="77" cy="9" r="5.5"/><circle cx="179" cy="9" r="5.5"/><circle cx="77" cy="179" r="5.5"/><circle cx="145" cy="179" r="5.5"/><circle cx="179" cy="179" r="5.5"/><circle cx="221" cy="140" r="5.5"/></g>
+  <g fill="#38BDF8"><circle cx="9.5" cy="179.5" r="7.5"/><circle cx="43.5" cy="94.5" r="7.5"/><circle cx="111.5" cy="94.5" r="7.5"/><circle cx="179.5" cy="94.5" r="7.5"/></g>
+  <circle cx="221" cy="50" r="7" fill="#0A0E1A" stroke="#38BDF8" stroke-width="5"/>
+</svg><span class="wordmark">Native Networks</span></a>
+  <nav class="nav-links"><a href="#why">Why now</a><a href="#modules">Modules</a><a href="#compare">Compare</a><a href="#buy">How you buy</a></nav>
+  <a class="btn btn-primary" href="#contact">Talk to us</a>
+</div></header>
+
+<section class="hero"><div class="wrap">
+  <div class="top">
+    <h1>The distributed layer between the hyperscale core and the device.</h1>
+    <div class="dek"><p>Small modular AI datacenters, 500 kW to 20 MW, sited where power and fiber already exist. Inference runs locally instead of round-tripping to a distant cloud.</p>
+      <div class="ctas"><a class="btn btn-primary" href="#contact">Talk to us</a><a class="btn" href="#modules">See the modules</a></div></div>
+  </div>
+  <div class="map" aria-label="Launch sites in the United States and the United Kingdom">
+    <div class="region us"><h3>United States</h3>
+      <svg viewBox="70 470 960 500"><path class="land" d="M 125,491 L 564,491 L 680,559 L 722,551 L 752,567 L 758,620 L 763,626 L 926,568 L 965,521 L 1002,572 L 944,608 L 954,632 L 893,650 L 869,676 L 862,723 L 811,778 L 777,838 L 791,878 L 797,924 L 797,931 L 785,941 L 779,941 L 752,897 L 731,850 L 677,845 L 654,866 L 625,868 L 577,859 L 540,885 L 530,930 L 496,918 L 461,858 L 437,871 L 383,819 L 353,819 L 313,828 L 255,801 L 216,805 L 161,766 L 134,705 L 102,656 L 97,504 L 125,491 Z"/>
+        <g class="site"><circle cx="297" cy="785" r="34" class="halo"/><circle cx="297" cy="785" r="13" fill="#38BDF8"/><circle cx="297" cy="785" r="6" fill="#0A0E1A"/>
+<text x="277" y="755" text-anchor="start">Phoenix</text></g><g class="site"><circle cx="535" cy="797" r="34" class="halo"/><circle cx="535" cy="797" r="13" fill="#38BDF8"/><circle cx="535" cy="797" r="6" fill="#0A0E1A"/>
+<text x="561" y="805" text-anchor="start">Dallas</text></g>
+      </svg></div>
+    <div class="region uk"><h3>United Kingdom</h3>
+      <svg viewBox="1130 310 440 790"><path class="land" d="M 1219,331 L 1298,331 L 1349,411 L 1344,459 L 1359,518 L 1325,560 L 1359,596 L 1366,621 L 1364,629 L 1348,639 L 1345,658 L 1360,673 L 1380,669 L 1387,672 L 1463,769 L 1465,830 L 1536,853 L 1531,905 L 1516,931 L 1520,968 L 1501,977 L 1520,994 L 1480,1021 L 1408,1021 L 1277,1038 L 1236,1066 L 1192,1083 L 1159,1083 L 1215,1043 L 1234,983 L 1254,983 L 1258,979 L 1230,951 L 1195,951 L 1195,947 L 1212,939 L 1178,923 L 1211,900 L 1238,837 L 1233,826 L 1217,814 L 1217,807 L 1213,803 L 1209,806 L 1204,798 L 1286,789 L 1291,781 L 1294,755 L 1289,744 L 1264,729 L 1273,665 L 1265,661 L 1194,669 L 1185,622 L 1181,618 L 1163,624 L 1175,597 L 1180,607 L 1186,603 L 1180,596 L 1180,587 L 1188,568 L 1171,510 L 1153,420 L 1179,357 L 1219,331 Z"/>
+        <g class="site"><circle cx="1367" cy="650" r="34" class="halo"/><circle cx="1367" cy="650" r="13" fill="#38BDF8"/><circle cx="1367" cy="650" r="6" fill="#0A0E1A"/>
+<text x="1345" y="624" text-anchor="end">Newcastle</text></g><g class="site"><circle cx="1370" cy="755" r="34" class="halo"/><circle cx="1370" cy="755" r="13" fill="#38BDF8"/><circle cx="1370" cy="755" r="6" fill="#0A0E1A"/>
+<text x="1346" y="765" text-anchor="end">Leeds</text></g>
+      </svg></div>
+    <div class="legend"><span><span class="dot"></span><b>Four launch sites</b>, 500 kW each</span><span><b>1 GW and more</b> of land-to-power pipeline under development</span><span>Next: <b>20 MW per state</b> across 30 U.S. states</span></div>
+  </div>
+  <div class="strip">
+    <div><b class="data">500 kW – 20 MW</b><span>per site, grown as demand is contracted</span></div>
+    <div><b class="data">90 – 180 days</b><span>from site selection to live</span></div>
+    <div><b class="data">&lt; 30 ms</b><span>round trip at the edge</span></div>
+    <div><b class="data">0 water</b><span>drawn from the community</span></div>
+  </div>
+</div></section>
+
+<section class="block" id="why"><div class="wrap split">
+  <figure><img src="assets/rack.jpg" alt="Illustration of an empty server rack in a dark room" width="1068" height="1600"></figure>
+  <div>
+    <div class="sec-head"><h2>Inference is moving to the edge, and the edge layer is unowned.</h2></div>
+    <div class="points">
+      <p><b>Inference dominates compute.</b> It is now the majority of AI compute and growing faster than training. The shift from model-building to model-deployment is structural and accelerating.</p>
+      <p><b>Latency tolerance is gone.</b> Real-time voice, agentic sessions, inline security, and physical AI cannot tolerate a distant round trip. A rising share of workloads demands local, sub-20 ms response.</p>
+      <p><b>Hyperscale cannot fill the demand.</b> It was engineered for centralized, batch-oriented training, and new capacity is stalled by power and water scarcity, permitting backlogs, and community opposition.</p>
+      <p><b>So the layer does not exist yet.</b> Real-time voice, agentic AI, inline security, and physical AI have nowhere to run at the edge. That is what we build.</p>
+    </div>
+  </div>
+</div></section>
+
+<section class="block" id="modules"><div class="wrap">
+  <div class="sec-head"><h2>Two modules, one template, sited on existing power.</h2>
+    <p>A facility starts with a single module and expands to 20 MW as demand is contracted. Capital follows commitment, not speculation.</p></div>
+  <div class="table-wrap"><table>
+    <thead><tr><th></th><th class="us">EC500</th><th class="us">EC1000</th></tr></thead>
+    <tbody>
+      <tr><th>Capacity</th><td class="us data">500 kW</td><td class="us data">1 MW</td></tr>
+      <tr><th>Accelerator racks</th><td class="us">3 NVL72-class racks</td><td class="us">6 NVL72-class racks</td></tr>
+      <tr><th>Foundation</th><td class="us">Relocatable precast, no cure cycle</td><td class="us">Relocatable precast, no cure cycle</td></tr>
+      <tr><th>Power</th><td class="us">Existing utility capacity: co-ops, municipals, cell sites, IOUs, RTOs</td><td class="us">Existing utility capacity, rates locked before deployment</td></tr>
+      <tr><th>Connectivity</th><td class="us">Carrier-adjacent, bonded fiber, Starlink backup</td><td class="us">Carrier-adjacent, bonded fiber, Starlink backup</td></tr>
+      <tr><th>Water and noise</th><td class="us">No community water draw, minimal noise</td><td class="us">No community water draw, minimal noise</td></tr>
+      <tr><th>Time to live</th><td class="us data">90 – 180 days</td><td class="us data">90 – 180 days</td></tr>
+    </tbody>
+  </table></div>
+</div></section>
+
+<section class="block" id="compare"><div class="wrap">
+  <div class="sec-head"><h2>Cheaper and faster, by design.</h2>
+    <p>The same inference capacity for roughly half the capital, delivered five to ten times faster.</p></div>
+  <div class="table-wrap"><table>
+    <thead><tr><th></th><th>Traditional hyperscale</th><th class="us">Native Networks modular</th></tr></thead>
+    <tbody>
+      <tr><th>Time to deployment</th><td class="data">36 – 60 months</td><td class="us data">90 – 180 days</td></tr>
+      <tr><th>Capital per megawatt</th><td>Baseline</td><td class="us">About half, all-in: interconnect, civils, permitting, security</td></tr>
+      <tr><th>Foundations</th><td>Poured concrete, long cure cycles</td><td class="us">Relocatable precast, no cure cycle</td></tr>
+      <tr><th>Permitting</th><td>12 to 18 month queues</td><td class="us">Streamlined through modular classification</td></tr>
+      <tr><th>Construction</th><td>Linear, no parallelism</td><td class="us">Parallel tracks compress the schedule</td></tr>
+      <tr><th>Community</th><td>Water draw, noise, years of opposition</td><td class="us">No water draw, minimal noise</td></tr>
+    </tbody>
+  </table></div>
+</div></section>
+
+<section class="block" id="buy"><div class="wrap">
+  <div class="sec-head"><h2>Three ways to buy capacity.</h2></div>
+  <div class="tiers">
+    <div class="tier"><h3>Anchor offtake</h3><span class="term">5 years and longer, take-or-pay</span><p>Dedicated capacity under a long-term NNN agreement. Covers the facility's fixed costs before a single spot GPU hour is sold.</p></div>
+    <div class="tier"><h3>Reserved capacity</h3><span class="term">2 years, fractional</span><p>Reserve blocks at mid-tier pricing without committing to 100% utilization.</p></div>
+    <div class="tier"><h3>Spot and preemptible</h3><span class="term">On demand</span><p>GPU time on idle capacity at spot rates. For batch inference, evaluation, and bursty work.</p></div>
+  </div>
+</div></section>
+
+<section class="block" id="contact"><div class="wrap contact">
+  <div><h2>Tell us the workload, the region, and the latency budget.</h2>
+    <p class="lead">Carriers, utilities, AI model providers, and enterprises with real-time workloads: we will come back with a site plan.</p>
+    <a class="mail" href="mailto:contact@andd.ai">contact@andd.ai</a></div>
+  <div>
+<form id="lead-form" class="lead-form" action="https://docs.google.com/forms/d/e/1FAIpQLSfHtd4u5kRASwOWJgg4-gr2M3eRRhZLNxL5clJcXSxOrmuCtw/formResponse" method="POST" target="nn-form-sink" novalidate>
+  <div class="frow">
+    <div class="field"><label for="lf-name">Full name</label><input id="lf-name" name="entry.761505288" type="text" autocomplete="name" required></div>
+    <div class="field"><label for="lf-email">Work email</label><input id="lf-email" name="entry.906364280" type="email" autocomplete="email" required></div>
+  </div>
+  <div class="frow">
+    <div class="field"><label for="lf-org">Organization</label><input id="lf-org" name="entry.528269525" type="text" autocomplete="organization"></div>
+    <div class="field"><label for="lf-audience">I am a</label>
+      <select id="lf-audience" name="entry.445405568" required>
+        <option value="" selected disabled>Choose one</option>
+        <option>Customer</option><option>Partner</option><option>Developer</option><option>Investor</option>
+      </select></div>
+  </div>
+  <div class="frow">
+    <div class="field"><label for="lf-region">Region or market</label><input id="lf-region" name="entry.936819366" type="text" placeholder="Texas, North East England, Arizona"></div>
+    <div class="field"><label for="lf-workload">Workload</label>
+      <select id="lf-workload" name="entry.496908603">
+        <option value="" selected disabled>Choose one</option>
+        <option>AI inference</option><option>Public safety</option><option>Mobility &amp; V2X</option><option>Power &amp; Utilities</option><option>Healthcare</option><option>DePIN / validators</option><option>Smart city</option><option>Other</option>
+      </select></div>
+  </div>
+  <div class="field full"><label for="lf-message">What do you need to run, and where?</label><textarea id="lf-message" name="entry.1983684791" required placeholder="Workload, region, latency budget, and any compliance requirements."></textarea></div>
+  <input type="hidden" name="emailAddress" value=""><input type="hidden" name="fvv" value="1"><input type="hidden" name="pageHistory" value="0">
+  <input class="hp" type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true">
+  <div class="actions"><button type="submit" class="btn btn-primary">Send inquiry</button><span class="privacy">We reply within two business days.</span></div>
+</form>
+<div id="form-success" class="form-success" role="status" aria-live="polite">
+  <h3>Inquiry sent</h3>
+  <p>We'll review the workload and region and reply within two business days at the address you gave.</p>
+</div>
+<iframe name="nn-form-sink" class="form-sink" title="form submission target"></iframe>
+</div>
+</div></section>
+
+<footer><div class="wrap">
+  <a class="logo" href="#top" aria-label="Native Networks home"><svg class="mark" viewBox="-8 -8 246 206" fill="none" aria-hidden="true">
+  <g stroke="#1E2F72" stroke-width="2" stroke-linecap="round">
+    <path d="M77 9 L43.5 94.5 M77 9 L111.5 94.5 M77 9 L77 179 M43.5 94.5 L77 179 M111.5 94.5 L77 179 M111.5 94.5 L145 179 M9.5 179.5 L145 179"/>
+    <path d="M179 9 L179 179 M179 9 L221 50 M221 50 L221 140 M179.5 94.5 L221 140 M221 140 L179 179"/>
+  </g>
+  <path class="signal" d="M9.5 179.5 L43.5 94.5 L179.5 94.5 L221 50" stroke="#38BDF8" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  <g fill="#4C6FFF"><circle cx="77" cy="9" r="5.5"/><circle cx="179" cy="9" r="5.5"/><circle cx="77" cy="179" r="5.5"/><circle cx="145" cy="179" r="5.5"/><circle cx="179" cy="179" r="5.5"/><circle cx="221" cy="140" r="5.5"/></g>
+  <g fill="#38BDF8"><circle cx="9.5" cy="179.5" r="7.5"/><circle cx="43.5" cy="94.5" r="7.5"/><circle cx="111.5" cy="94.5" r="7.5"/><circle cx="179.5" cy="94.5" r="7.5"/></g>
+  <circle cx="221" cy="50" r="7" fill="#0A0E1A" stroke="#38BDF8" stroke-width="5"/>
+</svg><span class="wordmark">Native Networks</span></a>
+  <nav><a href="#why">Why now</a><a href="#modules">Modules</a><a href="#compare">Compare</a><a href="#contact">Contact</a></nav>
+  <span>© 2026 Native Networks · andd.ai</span>
+</div></footer>
+<script>
+(function(){
+  const form = document.getElementById('lead-form');
+  const success = document.getElementById('form-success');
+  if (!form || !success) return;
+  form.addEventListener('submit', function(e){
+    const hp = form.querySelector('.hp');
+    if (hp && hp.value) { e.preventDefault(); return; }
+    if (!form.checkValidity()) { e.preventDefault(); form.reportValidity(); return; }
+    const emailField = document.getElementById('lf-email');
+    const emailAddr = form.querySelector('input[name="emailAddress"]');
+    if (emailField && emailAddr) emailAddr.value = emailField.value;
+    setTimeout(function(){
+      form.hidden = true;
+      success.hidden = false;
+      success.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 120);
+  });
+})();
+document.getElementById('form-success').hidden = true;</script>
+
+</body>
+</html>

@@ -1,0 +1,1209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ANDD — Business Pitch Deck</title>
+    <link rel="icon" type="image/png" href="andd.png">
+    <style>
+        :root {
+            --blue-dark: #1a3a5c;
+            --blue-mid: #2b6cb0;
+            --blue-bright: #3b82f6;
+            --blue-light: #60a5fa;
+            --silver-dark: #6b7280;
+            --silver-mid: #9ca3af;
+            --silver-light: #d1d5db;
+            --blue-gradient: linear-gradient(135deg, #1e40af, #3b82f6, #60a5fa);
+            --dark-bg: #0a1628;
+            --dark-surface: #111d33;
+            --dark-card: #162440;
+            --green: #22c55e;
+            --red: #ef4444;
+            --amber: #f59e0b;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html, body {
+            width: 100%; height: 100%;
+            overflow: hidden;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: var(--dark-bg);
+            color: #e2e8f0;
+        }
+
+        .deck { width: 100%; height: 100%; position: relative; }
+
+        .slide {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 3.5rem 5rem;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.45s ease;
+            overflow-y: auto;
+        }
+
+        .slide.active { opacity: 1; pointer-events: auto; }
+
+        /* Navigation */
+        .nav-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0; right: 0;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.75rem 2rem;
+            background: rgba(10, 22, 40, 0.92);
+            backdrop-filter: blur(12px);
+            border-top: 1px solid rgba(59, 130, 246, 0.15);
+            font-size: 0.8rem;
+        }
+
+        .nav-bar .brand {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--silver-mid);
+            font-weight: 600;
+        }
+
+        .nav-bar .brand img { height: 28px; }
+
+        .nav-bar .controls {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .nav-bar button {
+            background: rgba(59, 130, 246, 0.12);
+            border: 1px solid rgba(59, 130, 246, 0.25);
+            color: var(--blue-light);
+            padding: 0.4rem 0.9rem;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .nav-bar button:hover { background: rgba(59, 130, 246, 0.25); }
+
+        .slide-counter {
+            color: var(--silver-mid);
+            font-variant-numeric: tabular-nums;
+        }
+
+        .progress {
+            position: fixed;
+            top: 0; left: 0;
+            height: 3px;
+            background: var(--blue-gradient);
+            z-index: 100;
+            transition: width 0.4s ease;
+        }
+
+        /* Typography */
+        h1 {
+            font-size: 3.2rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1.25rem;
+            background: linear-gradient(135deg, #e2e8f0 0%, #94a3b8 30%, #60a5fa 60%, #3b82f6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        h2 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            line-height: 1.15;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #e2e8f0, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #f1f5f9;
+            margin-bottom: 0.4rem;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--silver-mid);
+            max-width: 800px;
+            line-height: 1.6;
+        }
+
+        .section-label {
+            display: inline-block;
+            color: var(--blue-bright);
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            margin-bottom: 0.75rem;
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(59, 130, 246, 0.12);
+            border: 1px solid rgba(59, 130, 246, 0.25);
+            color: var(--blue-light);
+            padding: 0.35rem 0.9rem;
+            border-radius: 999px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 1.25rem;
+        }
+
+        .card {
+            background: var(--dark-card);
+            border: 1px solid rgba(59, 130, 246, 0.1);
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+
+        .card p, .card li {
+            color: var(--silver-mid);
+            font-size: 0.88rem;
+            line-height: 1.6;
+        }
+
+        .card-icon {
+            width: 42px; height: 42px;
+            background: rgba(59, 130, 246, 0.1);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            margin-bottom: 0.9rem;
+        }
+
+        /* Grids */
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+        .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; }
+        .grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 1.25rem; }
+
+        .stat { text-align: center; }
+        .stat-value {
+            font-size: 2.6rem;
+            font-weight: 800;
+            background: var(--blue-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.1;
+        }
+        .stat-label {
+            color: var(--silver-mid);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-top: 0.3rem;
+        }
+
+        .bullets { list-style: none; padding: 0; }
+
+        .bullets li {
+            padding: 0.4rem 0;
+            color: var(--silver-light);
+            font-size: 0.92rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.65rem;
+            line-height: 1.5;
+        }
+
+        .bullets li::before {
+            content: '\25B8';
+            color: var(--blue-bright);
+            font-weight: bold;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+        }
+
+        th {
+            text-align: left;
+            padding: 0.55rem 0.75rem;
+            color: var(--blue-light);
+            font-weight: 600;
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            border-bottom: 1px solid rgba(59, 130, 246, 0.2);
+        }
+
+        td {
+            padding: 0.5rem 0.75rem;
+            color: var(--silver-light);
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+        }
+
+        tr:last-child td { border-bottom: none; }
+
+        .slide-title {
+            text-align: center;
+            align-items: center;
+        }
+
+        .slide-title h1 { font-size: 3.6rem; }
+
+        .slide-title .logo {
+            width: 260px;
+            margin-bottom: 2rem;
+            filter: drop-shadow(0 0 40px rgba(59, 130, 246, 0.25));
+        }
+
+        .hero-grid-bg {
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(59, 130, 246, 0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(59, 130, 246, 0.04) 1px, transparent 1px);
+            background-size: 60px 60px;
+            pointer-events: none;
+        }
+
+        .hero-glow {
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 80% 60% at 50% 40%, rgba(30, 64, 175, 0.15), transparent),
+                radial-gradient(ellipse 60% 50% at 80% 20%, rgba(59, 130, 246, 0.08), transparent);
+            pointer-events: none;
+        }
+
+        .highlight { color: var(--blue-light); font-weight: 700; }
+        .green { color: var(--green); }
+        .red { color: var(--red); }
+        .amber { color: var(--amber); }
+
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2.5rem;
+            align-items: start;
+        }
+
+        .two-col-60-40 {
+            display: grid;
+            grid-template-columns: 3fr 2fr;
+            gap: 2.5rem;
+            align-items: start;
+        }
+
+        .big-number {
+            font-size: 3.5rem;
+            font-weight: 800;
+            background: var(--blue-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1;
+        }
+
+        .divider {
+            height: 1px;
+            background: rgba(59, 130, 246, 0.15);
+            margin: 1.25rem 0;
+        }
+
+        .confidential {
+            color: var(--silver-dark);
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .callout-box {
+            border-left: 3px solid var(--blue-bright);
+            padding: 0.75rem 1rem;
+            background: rgba(59, 130, 246, 0.05);
+            border-radius: 0 8px 8px 0;
+            margin-top: 0.75rem;
+        }
+
+        .callout-box p {
+            color: var(--silver-light);
+            font-size: 0.88rem;
+            line-height: 1.5;
+        }
+
+        .risk-item {
+            display: flex;
+            gap: 0.75rem;
+            padding: 0.6rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+        }
+
+        .risk-item:last-child { border-bottom: none; }
+
+        .risk-label {
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            flex-shrink: 0;
+            width: 70px;
+            text-align: center;
+        }
+
+        @media (max-width: 1024px) {
+            .slide { padding: 2.5rem; }
+            h1 { font-size: 2.2rem; }
+            h2 { font-size: 1.6rem; }
+            .grid-4 { grid-template-columns: 1fr 1fr; }
+            .grid-3 { grid-template-columns: 1fr 1fr; }
+            .two-col, .two-col-60-40 { grid-template-columns: 1fr; gap: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="progress" id="progress"></div>
+
+<div class="deck" id="deck">
+
+<!-- ════════════════════════════════════════════
+     SLIDE 1 — TITLE
+     ════════════════════════════════════════════ -->
+<div class="slide slide-title active" data-slide="0">
+    <div class="hero-grid-bg"></div>
+    <div class="hero-glow"></div>
+    <img src="andd.png" alt="ANDD" class="logo" style="position:relative;">
+    <h1 style="position:relative;">AI Native Distributed<br>Datacenter Network</h1>
+    <p class="subtitle" style="position:relative; text-align:center; margin:0 auto 1.5rem;">
+        A commercially scalable network of inference-specific micro datacenters<br>
+        delivering AI models, agents, and on-demand token capacity at the edge
+    </p>
+    <div style="position:relative; display:flex; gap:2rem; justify-content:center; margin-bottom:1.5rem;">
+        <div style="text-align:center;">
+            <div style="font-size:2rem; font-weight:800; color:var(--blue-light);">$162B</div>
+            <div style="font-size:0.72rem; color:var(--silver-mid); text-transform:uppercase;">DC Projects Blocked</div>
+        </div>
+        <div style="text-align:center;">
+            <div style="font-size:2rem; font-weight:800; color:var(--blue-light);">&lt;2MW</div>
+            <div style="font-size:0.72rem; color:var(--silver-mid); text-transform:uppercase;">Per Site Footprint</div>
+        </div>
+        <div style="text-align:center;">
+            <div style="font-size:2rem; font-weight:800; color:var(--green);">AI Native</div>
+            <div style="font-size:0.72rem; color:var(--silver-mid); text-transform:uppercase;">Autonomous Operations</div>
+        </div>
+    </div>
+    <p style="position:relative; color:var(--silver-dark); font-size:0.9rem;">Business Overview &mdash; April 2026</p>
+    <p class="confidential" style="position:relative; margin-top:1.5rem;">Confidential &mdash; Do Not Distribute</p>
+</div>
+
+<!-- ════════════════════════════════════════════
+     SLIDE 2 — THE PROBLEM
+     ════════════════════════════════════════════ -->
+<div class="slide" data-slide="1">
+    <div class="section-label">The Problem</div>
+    <h2>The Datacenter Industry Has Hit a Wall</h2>
+    <p class="subtitle" style="margin-bottom:1.75rem;">
+        Massive datacenter projects are facing unprecedented opposition while demand for AI inference
+        capacity is exploding. The industry needs a fundamentally different approach.
+    </p>
+
+    <div class="grid-3" style="margin-bottom:1.75rem;">
+        <div class="card" style="text-align:center; padding:1.75rem;">
+            <div style="font-size:2.4rem; font-weight:800; color:var(--red);">$162B</div>
+            <div style="font-size:0.85rem; color:var(--silver-light); margin-top:0.4rem;">of datacenter projects<br><strong>blocked by state and local pushback</strong></div>
+        </div>
+        <div class="card" style="text-align:center; padding:1.75rem;">
+            <div style="font-size:2.4rem; font-weight:800; color:var(--red);">70%</div>
+            <div style="font-size:0.85rem; color:var(--silver-light); margin-top:0.4rem;">of East Coast internet traffic<br><strong>routed through Northern Virginia alone</strong></div>
+        </div>
+        <div class="card" style="text-align:center; padding:1.75rem;">
+            <div style="font-size:2.4rem; font-weight:800; color:var(--red);">300MW</div>
+            <div style="font-size:0.85rem; color:var(--silver-light); margin-top:0.4rem;">per hyperscale campus &mdash;<br><strong>equivalent to a small power plant</strong></div>
+        </div>
+    </div>
+
+    <div class="grid-2">
+        <div>
+            <h3 style="color:var(--red); margin-bottom:0.75rem;">Why States Are Pushing Back</h3>
+            <ul class="bullets">
+                <li>Hyperscale campuses overwhelm local power grids</li>
+                <li>Massive water consumption for cooling (millions of gallons/day)</li>
+                <li>Communities see burden without proportional economic benefit</li>
+                <li>Environmental impact reviews are blocking permits</li>
+                <li>Political pressure from residents and local government</li>
+            </ul>
+        </div>
+        <div>
+            <h3 style="color:var(--red); margin-bottom:0.75rem;">What This Concentration Means</h3>
+            <ul class="bullets">
+                <li>Critical internet functions have no geographic redundancy</li>
+                <li>No data sovereignty &mdash; state/local governments have zero control over where their data lives</li>
+                <li>AI inference requires low latency that centralized facilities cannot serve at the edge</li>
+                <li>A single regional disaster could degrade federal, financial, and defense systems simultaneously</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     SLIDE 3 — WHY THIS MAKES SENSE
+     ════════════════════════════════════════════ -->
+<div class="slide" data-slide="2">
+    <div class="section-label">Market Opportunity</div>
+    <h2>$162B in Blocked Projects. The Market Needs an Alternative.</h2>
+    <p class="subtitle" style="margin-bottom:1.75rem;">
+        The demand for compute capacity hasn't gone away &mdash; the deployment model is what's broken.
+        ANDD offers a path that sidesteps every obstacle blocking conventional datacenter expansion.
+    </p>
+
+    <div class="two-col">
+        <div>
+            <div class="card" style="margin-bottom:1.25rem; border-color:rgba(239,68,68,0.3); background:rgba(239,68,68,0.04);">
+                <h3 style="color:var(--red);">The Blocked Pipeline</h3>
+                <ul class="bullets" style="margin-top:0.5rem;">
+                    <li>$162B of announced datacenter projects facing delays or cancellation</li>
+                    <li>States including Virginia, Georgia, Indiana, and South Carolina imposing moratoriums</li>
+                    <li>Environmental impact reviews adding 12-24+ months to timelines</li>
+                    <li>Grid interconnection queues extending 3-5+ years</li>
+                    <li>Community opposition escalating to state legislation</li>
+                </ul>
+            </div>
+            <div class="card" style="border-color:rgba(245,158,11,0.3); background:rgba(245,158,11,0.04);">
+                <h3 style="color:var(--amber);">Environmental Concerns Are Real</h3>
+                <ul class="bullets" style="margin-top:0.5rem;">
+                    <li>Single hyperscale campus uses 1-5M gallons of water/day</li>
+                    <li>Concentrated power demand drives new fossil generation</li>
+                    <li>IEA projects DC electricity at 945-1,300 TWh by 2030</li>
+                </ul>
+            </div>
+        </div>
+        <div>
+            <div class="card" style="margin-bottom:1.25rem; border-color:rgba(34,197,94,0.3); background:rgba(34,197,94,0.04);">
+                <h3 style="color:var(--green);">Why Distributed Solves This</h3>
+                <ul class="bullets" style="margin-top:0.5rem;">
+                    <li><strong>Power:</strong> &lt;2MW per site works within existing grid capacity &mdash; no new generation required</li>
+                    <li><strong>Permitting:</strong> Small footprints within existing cellular tower sites bypass major permitting battles</li>
+                    <li><strong>Water:</strong> Direct liquid cooling at edge scale eliminates evaporative cooling towers</li>
+                    <li><strong>Community:</strong> Creates local jobs and tax revenue without environmental burden</li>
+                </ul>
+            </div>
+            <div class="card" style="border-color:rgba(59,130,246,0.3); background:rgba(59,130,246,0.06);">
+                <h3 style="color:var(--blue-light);">Data Sovereignty Requires Local</h3>
+                <p style="margin-top:0.5rem;">States are increasingly mandating that government data remain within their borders. Municipalities need local compute for 911 dispatch, traffic management, and utility SCADA. <strong>Data sovereignty can only be addressed by local operation</strong> &mdash; no amount of cloud policy can substitute for physical proximity.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     SLIDE 4 — HOW WE'RE DOING THIS
+     ════════════════════════════════════════════ -->
+<div class="slide" data-slide="3">
+    <div class="section-label">Our Approach</div>
+    <h2>Micro Datacenters at Cellular Tower Sites</h2>
+    <p class="subtitle" style="margin-bottom:1.75rem;">
+        Highly dispersed, inference-specific micro datacenters (&lt;2MW each) deployed at existing cellular tower
+        infrastructure &mdash; eliminating the permitting, power, and community opposition problems that
+        plague conventional builds.
+    </p>
+
+    <div class="two-col">
+        <div>
+            <div class="grid-2" style="margin-bottom:1.25rem;">
+                <div class="card" style="text-align:center; padding:1.5rem;">
+                    <div style="font-size:2.2rem; font-weight:800; color:var(--blue-light);">&lt;2MW</div>
+                    <div style="font-size:0.78rem; color:var(--silver-mid); margin-top:0.3rem;">Per site power draw</div>
+                </div>
+                <div class="card" style="text-align:center; padding:1.5rem;">
+                    <div style="font-size:2.2rem; font-weight:800; color:var(--blue-light);">60-90</div>
+                    <div style="font-size:0.78rem; color:var(--silver-mid); margin-top:0.3rem;">Days to deploy (prefab)</div>
+                </div>
+                <div class="card" style="text-align:center; padding:1.5rem;">
+                    <div style="font-size:2.2rem; font-weight:800; color:var(--green);">Zero</div>
+                    <div style="font-size:0.78rem; color:var(--silver-mid); margin-top:0.3rem;">New permitting required</div>
+                </div>
+                <div class="card" style="text-align:center; padding:1.5rem;">
+                    <div style="font-size:2.2rem; font-weight:800; color:var(--green);">40K+</div>
+                    <div style="font-size:0.78rem; color:var(--silver-mid); margin-top:0.3rem;">Crown Castle tower sites</div>
+                </div>
+            </div>
+
+            <div class="callout-box">
+                <p><strong class="highlight">Crown Castle Agreement:</strong> Active discussions with Crown Castle to co-locate ANDD micro datacenters at their tower sites across the United States. Crown Castle operates 40,000+ cell towers with existing power, connectivity, and site access &mdash; providing an immediate deployment pipeline.</p>
+            </div>
+        </div>
+        <div>
+            <h3 style="margin-bottom:0.75rem;">Why Cell Tower Sites</h3>
+            <div class="card" style="margin-bottom:0.75rem;">
+                <h3>Existing Power & Connectivity</h3>
+                <p>Tower sites already have utility power feeds and fiber/microwave backhaul. We scale to the grid capacity that's already there &mdash; no new substations or transmission lines needed.</p>
+            </div>
+            <div class="card" style="margin-bottom:0.75rem;">
+                <h3>Permitting Risk Eliminated</h3>
+                <p>By staying inside the existing site footprint, we operate under the tower's existing land use permits and zoning. No new environmental reviews, no public hearings, no 2-year permitting battles.</p>
+            </div>
+            <div class="card" style="margin-bottom:0.75rem;">
+                <h3>Geographic Distribution Built-In</h3>
+                <p>Cell towers are sited for population coverage. We inherit a deployment map that already optimizes for proximity to end users &mdash; exactly what edge AI inference requires.</p>
+            </div>
+            <div class="card">
+                <h3>AI Native = Lower Operating Cost</h3>
+                <p>Making the micro datacenter AI-native from the ground up means autonomous operations: AI handles provisioning, monitoring, billing, and maintenance. <strong class="green">1 human operator per 20-50 sites</strong>, not 5-10 humans per site.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     SLIDE 5 — WHAT'S NOVEL
+     ════════════════════════════════════════════ -->
+<div class="slide" data-slide="4">
+    <div class="section-label">What's Novel</div>
+    <h2>An Inference Network, Not Just Datacenters</h2>
+    <p class="subtitle" style="margin-bottom:1.75rem;">
+        ANDD is not building smaller versions of big datacenters. We're building a <span class="highlight">commercially
+        scalable network of inference-specific resources</span> that makes AI capacity available like a utility.
+    </p>
+
+    <div class="grid-3" style="margin-bottom:1.75rem;">
+        <div class="card">
+            <div class="card-icon" style="background:rgba(168,85,247,0.12); color:#a855f7;">AI</div>
+            <h3>AI Model Marketplace</h3>
+            <p>Customers access a wide catalog of AI models, LLMs, and agents hosted across the network. No need to provision GPUs or manage infrastructure &mdash; consume inference as a service.</p>
+        </div>
+        <div class="card">
+            <div class="card-icon" style="background:rgba(34,197,94,0.12); color:var(--green);">+</div>
+            <h3>Elastic Token Capacity</h3>
+            <p>Customers purchase AI token capacity on-demand. When inference demand spikes, the network automatically routes to available GPU resources across the mesh &mdash; no capacity planning needed.</p>
+        </div>
+        <div class="card">
+            <div class="card-icon" style="background:rgba(59,130,246,0.12); color:var(--blue-light);">E</div>
+            <h3>Edge-Native Inference</h3>
+            <p>Sub-10ms inference latency for real-time applications: autonomous vehicles, medical devices, industrial control, fraud detection. Only possible with local compute.</p>
+        </div>
+    </div>
+
+    <div class="two-col">
+        <div>
+            <h3 style="margin-bottom:0.75rem;">Five Things That Make ANDD Different</h3>
+            <table>
+                <tbody>
+                    <tr>
+                        <td style="color:var(--blue-light); font-weight:700; width:30px;">1</td>
+                        <td><strong>Cell tower co-location</strong> &mdash; 40,000+ sites, existing permits, existing power</td>
+                    </tr>
+                    <tr>
+                        <td style="color:var(--blue-light); font-weight:700;">2</td>
+                        <td><strong>&lt;2MW per site</strong> &mdash; fits within current grid, no new generation needed</td>
+                    </tr>
+                    <tr>
+                        <td style="color:var(--blue-light); font-weight:700;">3</td>
+                        <td><strong>AI-native operations</strong> &mdash; 95%+ of ops automated, 60-75% lower staffing costs</td>
+                    </tr>
+                    <tr>
+                        <td style="color:var(--blue-light); font-weight:700;">4</td>
+                        <td><strong>Inference-specific hardware</strong> &mdash; optimized for the 60-70% of AI compute that is inference</td>
+                    </tr>
+                    <tr>
+                        <td style="color:var(--blue-light); font-weight:700;">5</td>
+                        <td><strong>Network mesh fabric</strong> &mdash; nodes cooperate, workloads route to optimal location automatically</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div>
+            <div class="card" style="border-color:rgba(34,197,94,0.3); background:rgba(34,197,94,0.04);">
+                <h3 class="green">The Business Moat</h3>
+                <p style="margin-top:0.5rem;">Every new site makes the network more valuable. AI models cached across more locations = lower latency for more customers. More geographic coverage = more addressable customers. More utilization data = better AI capacity planning. <strong>This is a network effect business, not a real estate business.</strong></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     SLIDE 6 — WHO ARE OUR CUSTOMERS
+     ════════════════════════════════════════════ -->
+<div class="slide" data-slide="5">
+    <div class="section-label">Customers</div>
+    <h2>Who Buys Edge AI Inference Capacity</h2>
+    <div style="height:0.5rem;"></div>
+
+    <div class="grid-3" style="margin-bottom:1.5rem;">
+        <div class="card">
+            <div class="card-icon" style="background:rgba(168,85,247,0.12);">&#x1F916;</div>
+            <h3>AI/ML Companies</h3>
+            <p>Companies deploying AI models that need low-latency inference close to end users. LLM providers, computer vision, NLP services, AI agents. <strong>Buy token capacity and GPU hours.</strong></p>
+        </div>
+        <div class="card">
+            <div class="card-icon" style="background:rgba(59,130,246,0.12);">&#x1F3DB;</div>
+            <h3>Government (Fed/State/Local)</h3>
+            <p>Data sovereignty requirements, FedRAMP workloads, NG911, FirstNet, CJIS, defense-adjacent processing. <strong>Multi-year contracts, premium pricing, compliance-driven.</strong></p>
+        </div>
+        <div class="card">
+            <div class="card-icon" style="background:rgba(34,197,94,0.12);">&#x1F3E5;</div>
+            <h3>Healthcare & Telemedicine</h3>
+            <p>HIPAA-compliant edge compute for medical imaging AI, remote diagnostics, patient data processing. <strong>Data must stay local, latency is life-critical.</strong></p>
+        </div>
+        <div class="card">
+            <div class="card-icon" style="background:rgba(245,158,11,0.12);">&#x1F4B3;</div>
+            <h3>Financial Services</h3>
+            <p>Fraud detection (sub-50ms), payment processing, data residency. Regional banks and fintech needing local compute for compliance. <strong>High-value, SLA-sensitive.</strong></p>
+        </div>
+        <div class="card">
+            <div class="card-icon" style="background:rgba(239,68,68,0.12);">&#x1F697;</div>
+            <h3>Autonomous Systems</h3>
+            <p>V2X for autonomous vehicles, drone coordination, industrial robotics &mdash; all requiring sub-10ms inference. <strong>Growing rapidly, no alternative to edge.</strong></p>
+        </div>
+        <div class="card">
+            <div class="card-icon" style="background:rgba(96,165,250,0.12);">&#x26D3;</div>
+            <h3>Web3 / DePIN Projects</h3>
+            <p>Enterprise-grade physical infrastructure for decentralized networks. Validator hosting, compute marketplace, token settlement. <strong>Pay-per-use via crypto micro-transactions.</strong></p>
+        </div>
+    </div>
+
+    <div class="grid-3" style="text-align:center;">
+        <div class="card" style="padding:1.25rem;">
+            <div style="font-size:1.8rem; font-weight:800; color:var(--blue-light);">$500B+</div>
+            <div style="font-size:0.72rem; color:var(--silver-mid); text-transform:uppercase;">Edge computing TAM by 2030</div>
+        </div>
+        <div class="card" style="padding:1.25rem;">
+            <div style="font-size:1.8rem; font-weight:800; color:var(--blue-light);">60-70%</div>
+            <div style="font-size:0.72rem; color:var(--silver-mid); text-transform:uppercase;">Of all AI compute is inference</div>
+        </div>
+        <div class="card" style="padding:1.25rem;">
+            <div style="font-size:1.8rem; font-weight:800; color:var(--blue-light);">$25B+</div>
+            <div style="font-size:0.72rem; color:var(--silver-mid); text-transform:uppercase;">DePIN infrastructure market</div>
+        </div>
+    </div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     SLIDE 7 — KEYS TO SUCCESS & RISKS
+     ════════════════════════════════════════════ -->
+<div class="slide" data-slide="6">
+    <div class="section-label">Execution</div>
+    <h2>Keys to Success &amp; Risk Mitigation</h2>
+    <div style="height:0.5rem;"></div>
+
+    <div class="two-col">
+        <div>
+            <h3 style="margin-bottom:0.75rem; color:var(--green);">Keys to Success</h3>
+
+            <div class="card" style="margin-bottom:0.75rem;">
+                <h3>Speed to Scale</h3>
+                <p>Prefab modular units deploy in 60-90 days vs. 18-24 months for traditional builds. Cell tower sites provide a pre-validated pipeline of 40,000+ locations. Target: 3-5 sites in Year 1, 50 by Year 2, 300 by Year 4.</p>
+            </div>
+
+            <div class="card" style="margin-bottom:0.75rem;">
+                <h3>Cost Management</h3>
+                <p>AI-native operations are the economic unlock. Traditional sub-2MW sites need $400K+/yr in staffing alone. ANDD's AI ops model: <strong class="green">$80K-$150K/yr OpEx per site</strong>. Power scales to existing grid &mdash; no infrastructure buildout premiums.</p>
+            </div>
+
+            <div class="card" style="margin-bottom:0.75rem;">
+                <h3>Compute Fill at Premium Rates</h3>
+                <p>Inference-specific positioning commands premium pricing: customers pay for low-latency guarantees and data sovereignty, not commodity compute. AI capacity planning ensures utilization by routing workloads across the mesh to fill available capacity.</p>
+            </div>
+
+            <div class="card">
+                <h3>Offtake Customers</h3>
+                <p>Government contracts (3-5 yr, premium rates) provide base revenue. AI companies and healthcare provide volume. Multi-rail revenue &mdash; subscriptions, usage-based, micro-transactions &mdash; diversifies customer concentration risk.</p>
+            </div>
+        </div>
+        <div>
+            <h3 style="margin-bottom:0.75rem; color:var(--amber);">Key Risks &amp; Mitigations</h3>
+
+            <div class="card" style="margin-bottom:0.75rem; border-color:rgba(245,158,11,0.2);">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.4rem;">
+                    <h3>Crown Castle Partnership</h3>
+                    <span class="risk-label" style="background:rgba(245,158,11,0.15); color:var(--amber);">Medium</span>
+                </div>
+                <p><strong>Risk:</strong> Agreement may not materialize or terms may be unfavorable.<br>
+                <strong>Mitigation:</strong> Cell towers are one channel. ANDD can co-locate at any commercial site with power and fiber &mdash; industrial parks, substations, ISP POPs. Multiple site strategies in parallel.</p>
+            </div>
+
+            <div class="card" style="margin-bottom:0.75rem; border-color:rgba(245,158,11,0.2);">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.4rem;">
+                    <h3>Utilization / Fill Rate</h3>
+                    <span class="risk-label" style="background:rgba(245,158,11,0.15); color:var(--amber);">Medium</span>
+                </div>
+                <p><strong>Risk:</strong> Sites don't reach target utilization fast enough.<br>
+                <strong>Mitigation:</strong> AI demand modeling drives site selection. Government anchor tenants provide base load. Mesh routing fills spare capacity from adjacent regions.</p>
+            </div>
+
+            <div class="card" style="margin-bottom:0.75rem; border-color:rgba(34,197,94,0.2);">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.4rem;">
+                    <h3>Technology Execution</h3>
+                    <span class="risk-label" style="background:rgba(34,197,94,0.15); color:var(--green);">Low</span>
+                </div>
+                <p><strong>Risk:</strong> AI management layer doesn't achieve target autonomy.<br>
+                <strong>Mitigation:</strong> Each component (monitoring, billing, provisioning) is proven technology. The innovation is integration, not invention. Graduated rollout with human fallback.</p>
+            </div>
+
+            <div class="card" style="border-color:rgba(34,197,94,0.2);">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.4rem;">
+                    <h3>Competition</h3>
+                    <span class="risk-label" style="background:rgba(34,197,94,0.15); color:var(--green);">Low</span>
+                </div>
+                <p><strong>Risk:</strong> Hyperscalers or incumbents replicate the model.<br>
+                <strong>Mitigation:</strong> Hyperscalers are optimized for 100MW+ campuses &mdash; sub-2MW is structurally unattractive for them. Previous edge attempts (Vapor IO, EdgeMicro) failed on economics that AI ops now solve.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     SLIDE 8 — WHAT WILL IT COST
+     ════════════════════════════════════════════ -->
+<div class="slide" data-slide="7">
+    <div class="section-label">Unit Economics</div>
+    <h2>What It Costs: Per-Site Economics</h2>
+    <div style="height:0.5rem;"></div>
+
+    <div class="two-col">
+        <div>
+            <h3 style="margin-bottom:0.75rem;">Capital Expenditure (Per 200kW Edge Node)</h3>
+            <div class="card" style="margin-bottom:1.25rem;">
+                <table>
+                    <thead>
+                        <tr><th>Component</th><th>Cost</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Modular enclosure + site prep</td><td style="font-weight:600;">$300K-$500K</td></tr>
+                        <tr><td>Compute & GPU hardware (4-8 racks)</td><td style="font-weight:600;">$600K-$1.0M</td></tr>
+                        <tr><td>Networking (switches, backhaul)</td><td style="font-weight:600;">$100K-$200K</td></tr>
+                        <tr><td>Power (UPS, PDU, switchgear)</td><td style="font-weight:600;">$150K-$250K</td></tr>
+                        <tr><td>Cooling (DLC + ambient)</td><td style="font-weight:600;">$100K-$150K</td></tr>
+                        <tr><td>Security, fire suppression, misc</td><td style="font-weight:600;">$50K-$100K</td></tr>
+                        <tr style="border-top:2px solid rgba(59,130,246,0.3);">
+                            <td style="font-weight:800;">Total CapEx per node</td>
+                            <td style="font-weight:800; color:var(--blue-light); font-size:1.1rem;">$1.5M-$2.5M</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="card" style="border-color:rgba(34,197,94,0.3); background:rgba(34,197,94,0.04);">
+                <h3 class="green">CapEx Offsets</h3>
+                <table style="margin-top:0.5rem;">
+                    <tr><td>On-site solar (100kW)</td><td style="font-weight:600;">~$150K</td></tr>
+                    <tr><td>Battery storage (500kWh)</td><td style="font-weight:600;">~$200K</td></tr>
+                    <tr><td style="color:var(--green);">IRA ITC credit (30-50%)</td><td style="font-weight:600; color:var(--green);">-$105K to -$175K</td></tr>
+                    <tr><td style="color:var(--green);">OZ tax benefits</td><td style="font-weight:600; color:var(--green);">Significant (see ROI slide)</td></tr>
+                </table>
+            </div>
+        </div>
+        <div>
+            <h3 style="margin-bottom:0.75rem;">Annual Operating Expenses (Per Node)</h3>
+            <div class="card" style="margin-bottom:1.25rem;">
+                <table>
+                    <thead>
+                        <tr><th>Category</th><th>Traditional</th><th style="color:var(--green);">ANDD AI-Native</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Staffing / operations</td>
+                            <td style="color:var(--red); font-weight:600;">$400K+</td>
+                            <td style="color:var(--green); font-weight:600;">$80K-$150K</td>
+                        </tr>
+                        <tr>
+                            <td>Power (@ $0.08/kWh)</td>
+                            <td style="font-weight:600;">$140K</td>
+                            <td style="font-weight:600;">$140K</td>
+                        </tr>
+                        <tr>
+                            <td>Connectivity</td>
+                            <td style="font-weight:600;">$100K</td>
+                            <td style="font-weight:600;">$60K-$120K</td>
+                        </tr>
+                        <tr>
+                            <td>Site lease / co-lo fee</td>
+                            <td style="font-weight:600;">$50K-$100K</td>
+                            <td style="font-weight:600;">$50K-$100K</td>
+                        </tr>
+                        <tr>
+                            <td>Insurance, maintenance</td>
+                            <td style="font-weight:600;">$50K</td>
+                            <td style="font-weight:600;">$30K-$50K</td>
+                        </tr>
+                        <tr style="border-top:2px solid rgba(59,130,246,0.3);">
+                            <td style="font-weight:800;">Total Annual OpEx</td>
+                            <td style="font-weight:800; color:var(--red);">$740K+</td>
+                            <td style="font-weight:800; color:var(--green);">$360K-$560K</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="card" style="border-color:rgba(59,130,246,0.3); background:rgba(59,130,246,0.06);">
+                <h3 style="color:var(--blue-light);">The AI Operations Advantage</h3>
+                <p style="margin-top:0.5rem;">Traditional model: sub-2MW sites are <strong class="red">margin-negative</strong>. Staffing costs alone consume most of the revenue.<br><br>
+                ANDD model: AI automation cuts operating costs by <strong class="green">40-55%</strong>, making 200kW sites <strong class="green">margin-positive</strong> for the first time in the industry.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     SLIDE 9 — RETURN ON INVESTMENT
+     ════════════════════════════════════════════ -->
+<div class="slide" data-slide="8">
+    <div class="section-label">Financial Returns</div>
+    <h2>Return on Investment</h2>
+    <div style="height:0.5rem;"></div>
+
+    <div class="two-col">
+        <div>
+            <h3 style="margin-bottom:0.75rem;">Per-Node Revenue Model (200kW, at target utilization)</h3>
+            <div class="card" style="margin-bottom:1.25rem;">
+                <table>
+                    <thead>
+                        <tr><th>Revenue Stream</th><th>Annual</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>AI inference (GPU hours, token capacity)</td><td style="font-weight:600;">$350K-$600K</td></tr>
+                        <tr><td>Compute & colocation (enterprise, gov)</td><td style="font-weight:600;">$100K-$250K</td></tr>
+                        <tr><td>Storage & CDN services</td><td style="font-weight:600;">$30K-$80K</td></tr>
+                        <tr><td>DePIN / Web3 hosting</td><td style="font-weight:600;">$20K-$70K</td></tr>
+                        <tr><td>Grid services (BESS demand response)</td><td style="font-weight:600;">$50K-$150K</td></tr>
+                        <tr style="border-top:2px solid rgba(59,130,246,0.3);">
+                            <td style="font-weight:800;">Total Annual Revenue</td>
+                            <td style="font-weight:800; color:var(--green); font-size:1.1rem;">$550K-$1.15M</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="card" style="border-color:rgba(34,197,94,0.3); background:rgba(34,197,94,0.04);">
+                <h3 class="green">Ramp Assumptions</h3>
+                <table style="margin-top:0.5rem;">
+                    <thead><tr><th>Year</th><th>Utilization</th><th>Revenue %</th></tr></thead>
+                    <tbody>
+                        <tr><td>Year 1</td><td>30-40%</td><td>Covers OpEx + partial CapEx service</td></tr>
+                        <tr><td>Year 2</td><td>50-65%</td><td>Cash-flow positive</td></tr>
+                        <tr><td>Year 3+</td><td>70-85%</td><td>Full margin realization</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div>
+            <h3 style="margin-bottom:0.75rem;">Investment Returns Summary</h3>
+            <div class="grid-2" style="margin-bottom:1.25rem;">
+                <div class="card" style="text-align:center; padding:1.5rem;">
+                    <div style="font-size:2rem; font-weight:800; color:var(--green);">30-45%</div>
+                    <div style="font-size:0.75rem; color:var(--silver-mid); text-transform:uppercase; margin-top:0.3rem;">Gross Margin<br>(at target util.)</div>
+                </div>
+                <div class="card" style="text-align:center; padding:1.5rem;">
+                    <div style="font-size:2rem; font-weight:800; color:var(--green);">2.5-4 yr</div>
+                    <div style="font-size:0.75rem; color:var(--silver-mid); text-transform:uppercase; margin-top:0.3rem;">CapEx Payback<br>(per node)</div>
+                </div>
+                <div class="card" style="text-align:center; padding:1.5rem;">
+                    <div style="font-size:2rem; font-weight:800; color:var(--green);">18-30%</div>
+                    <div style="font-size:0.75rem; color:var(--silver-mid); text-transform:uppercase; margin-top:0.3rem;">Unlevered IRR<br>(10-yr hold)</div>
+                </div>
+                <div class="card" style="text-align:center; padding:1.5rem; border-color:rgba(34,197,94,0.3); background:rgba(34,197,94,0.04);">
+                    <div style="font-size:2rem; font-weight:800; color:var(--green);">0%</div>
+                    <div style="font-size:0.75rem; color:var(--silver-mid); text-transform:uppercase; margin-top:0.3rem;">Federal Cap Gains<br>(10-yr OZ hold)</div>
+                </div>
+            </div>
+
+            <div class="card" style="border-color:rgba(59,130,246,0.3); background:rgba(59,130,246,0.06);">
+                <h3 style="color:var(--blue-light);">Opportunity Zone Tax Stack</h3>
+                <ul class="bullets" style="margin-top:0.5rem; font-size:0.85rem;">
+                    <li><strong>Deferral:</strong> Capital gains reinvested into QOF defer tax obligation</li>
+                    <li><strong>Step-up:</strong> 10% basis step-up at 5 years (up to 30% for rural OZ)</li>
+                    <li><strong>Exclusion:</strong> Zero capital gains tax on all appreciation after 10 years</li>
+                    <li><strong>IRA credits:</strong> 30-50% ITC on solar/BESS further reduces effective cost basis</li>
+                </ul>
+            </div>
+
+            <div class="card" style="margin-top:0.75rem;">
+                <h3>Network Scale Economics</h3>
+                <p>Unit economics improve with scale: shared AI ops platform costs are amortized across more nodes, bandwidth purchasing power improves, and mesh routing enables higher network-wide utilization vs. individual-site utilization.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     SLIDE 10 — SCALE PLAN
+     ════════════════════════════════════════════ -->
+<div class="slide" data-slide="9">
+    <div class="section-label">Scale Plan</div>
+    <h2>Path to Scale: Network Buildout</h2>
+    <div style="height:0.5rem;"></div>
+
+    <div class="grid-4" style="margin-bottom:1.75rem;">
+        <div class="card" style="border-color:rgba(59,130,246,0.35);">
+            <div style="font-size:0.7rem; color:var(--blue-light); font-weight:700; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:0.5rem;">Phase 1 &mdash; Prove</div>
+            <div style="font-size:0.85rem; color:var(--silver-light); font-weight:600; margin-bottom:0.5rem;">Months 1-12</div>
+            <ul class="bullets" style="font-size:0.78rem;">
+                <li>3-5 pilot sites at Crown Castle locations</li>
+                <li>AI ops platform v1 operational</li>
+                <li>Beta customers across gov, AI, healthcare</li>
+                <li>SOC 2 Type I certification</li>
+                <li>QOF structure established</li>
+            </ul>
+            <div class="divider"></div>
+            <div style="text-align:center;">
+                <div style="font-size:1.6rem; font-weight:800; color:var(--blue-light);">$8-15M</div>
+                <div style="font-size:0.68rem; color:var(--silver-mid); text-transform:uppercase;">Capital Required</div>
+            </div>
+        </div>
+        <div class="card">
+            <div style="font-size:0.7rem; color:var(--blue-light); font-weight:700; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:0.5rem;">Phase 2 &mdash; Validate</div>
+            <div style="font-size:0.85rem; color:var(--silver-light); font-weight:600; margin-bottom:0.5rem;">Months 12-24</div>
+            <ul class="bullets" style="font-size:0.78rem;">
+                <li>20-50 nodes in regional clusters</li>
+                <li>2-3 regional hubs deployed</li>
+                <li>First government contracts signed</li>
+                <li>AI handles >90% of ops</li>
+                <li>FedRAMP Moderate authorization</li>
+            </ul>
+            <div class="divider"></div>
+            <div style="text-align:center;">
+                <div style="font-size:1.6rem; font-weight:800; color:var(--blue-light);">$40-100M</div>
+                <div style="font-size:0.68rem; color:var(--silver-mid); text-transform:uppercase;">Capital Required</div>
+            </div>
+        </div>
+        <div class="card">
+            <div style="font-size:0.7rem; color:var(--blue-light); font-weight:700; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:0.5rem;">Phase 3 &mdash; Scale</div>
+            <div style="font-size:0.85rem; color:var(--silver-light); font-weight:600; margin-bottom:0.5rem;">Months 24-48</div>
+            <ul class="bullets" style="font-size:0.78rem;">
+                <li>100-300 nodes, 10+ hubs</li>
+                <li>Full mesh fabric operational</li>
+                <li>Federal government customers</li>
+                <li>AI model marketplace live</li>
+                <li>Cash-flow positive at network level</li>
+            </ul>
+            <div class="divider"></div>
+            <div style="text-align:center;">
+                <div style="font-size:1.6rem; font-weight:800; color:var(--blue-light);">$200-600M</div>
+                <div style="font-size:0.68rem; color:var(--silver-mid); text-transform:uppercase;">Capital Required</div>
+            </div>
+        </div>
+        <div class="card">
+            <div style="font-size:0.7rem; color:var(--blue-light); font-weight:700; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:0.5rem;">Phase 4 &mdash; Dominate</div>
+            <div style="font-size:0.85rem; color:var(--silver-light); font-weight:600; margin-bottom:0.5rem;">Months 48-72</div>
+            <ul class="bullets" style="font-size:0.78rem;">
+                <li>500-1,000+ nodes nationwide</li>
+                <li>Revenue funds growth &mdash; self-sustaining</li>
+                <li>International expansion (allied nations)</li>
+                <li>Critical national infrastructure</li>
+                <li>VPP grid services at scale</li>
+            </ul>
+            <div class="divider"></div>
+            <div style="text-align:center;">
+                <div style="font-size:1.6rem; font-weight:800; color:var(--green);">Self-Funding</div>
+                <div style="font-size:0.68rem; color:var(--silver-mid); text-transform:uppercase;">Revenue-Funded Expansion</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="grid-3">
+        <div class="card" style="text-align:center; padding:1.25rem;">
+            <div style="font-size:1.8rem; font-weight:800; color:var(--blue-light);">$2.5M</div>
+            <div style="font-size:0.72rem; color:var(--silver-mid); text-transform:uppercase;">Avg CapEx per node</div>
+        </div>
+        <div class="card" style="text-align:center; padding:1.25rem;">
+            <div style="font-size:1.8rem; font-weight:800; color:var(--blue-light);">60-90 days</div>
+            <div style="font-size:0.72rem; color:var(--silver-mid); text-transform:uppercase;">Deploy time (prefab)</div>
+        </div>
+        <div class="card" style="text-align:center; padding:1.25rem; border-color:rgba(34,197,94,0.3); background:rgba(34,197,94,0.04);">
+            <div style="font-size:1.8rem; font-weight:800; color:var(--green);">40,000+</div>
+            <div style="font-size:0.72rem; color:var(--silver-mid); text-transform:uppercase;">Available tower sites (Crown Castle alone)</div>
+        </div>
+    </div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     SLIDE 11 — TEAM
+     ════════════════════════════════════════════ -->
+<div class="slide" data-slide="10">
+    <div class="section-label">Team</div>
+    <h2>The Team Building This</h2>
+    <div style="height:0.5rem;"></div>
+
+    <div class="two-col">
+        <div>
+            <div class="card" style="margin-bottom:1.25rem; padding:2rem;">
+                <h3 style="font-size:1.3rem; margin-bottom:0.75rem;">Founding Team</h3>
+                <p style="color:var(--silver-light); line-height:1.7; font-size:0.95rem;">
+                    Building ANDD requires expertise across datacenter infrastructure, AI/ML systems, telecommunications,
+                    real estate development, federal compliance, and financial structuring. The founding team brings
+                    direct operating experience across these domains.
+                </p>
+
+                <div class="divider"></div>
+
+                <div style="margin-top:0.75rem;">
+                    <div style="font-size:0.75rem; color:var(--blue-light); font-weight:600; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:0.5rem;">Key Roles to Fill / In Place</div>
+                    <table style="font-size:0.85rem;">
+                        <tr><td style="color:var(--silver-light); font-weight:600;">CEO / Visionary</td><td>Strategy, investor relations, partnerships</td></tr>
+                        <tr><td style="color:var(--silver-light); font-weight:600;">CTO</td><td>AI ops platform, infrastructure architecture</td></tr>
+                        <tr><td style="color:var(--silver-light); font-weight:600;">VP Infrastructure</td><td>Site buildout, hardware, power systems</td></tr>
+                        <tr><td style="color:var(--silver-light); font-weight:600;">VP Sales / BD</td><td>Government contracts, enterprise customers</td></tr>
+                        <tr><td style="color:var(--silver-light); font-weight:600;">CFO</td><td>QOF structure, capital markets, financial ops</td></tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div>
+            <h3 style="margin-bottom:0.75rem;">What the Team Must Excel At</h3>
+            <div class="card" style="margin-bottom:0.75rem;">
+                <h3>Deals & Partnerships</h3>
+                <p>Crown Castle agreement. Utility interconnections. Government contract vehicles. OZ fund structure. These are execution-dependent relationships that require experienced operators.</p>
+            </div>
+            <div class="card" style="margin-bottom:0.75rem;">
+                <h3>AI Operations Engineering</h3>
+                <p>The AI management layer is the core differentiator. The team needs deep ML/AI engineering to build the autonomous ops platform that makes the economics work.</p>
+            </div>
+            <div class="card" style="margin-bottom:0.75rem;">
+                <h3>Datacenter Operations</h3>
+                <p>Prefab deployment, power systems, cooling, physical security, compliance certifications. Proven operators who have built and run facilities at scale.</p>
+            </div>
+            <div class="card">
+                <h3>Government & Compliance</h3>
+                <p>FedRAMP, SOC 2, HIPAA, CJIS, ITAR. Government procurement processes, security clearances, and the patience to navigate federal sales cycles.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     SLIDE 12 — THE ASK
+     ════════════════════════════════════════════ -->
+<div class="slide slide-title" data-slide="11">
+    <div class="hero-grid-bg"></div>
+    <div class="hero-glow"></div>
+    <div style="position:relative; max-width:900px; text-align:center;">
+        <div class="section-label">The Opportunity</div>
+        <h1 style="font-size:3rem;">The Compute Market Needs a New Model.<br>This Is It.</h1>
+        <p class="subtitle" style="margin:0 auto 2rem; text-align:center;">
+            $162B in blocked datacenter projects. Exploding AI inference demand. States pushing back on hyperscale.
+            ANDD delivers the compute capacity the market needs &mdash; without the problems.
+        </p>
+
+        <div class="grid-4" style="margin-bottom:2rem; text-align:center;">
+            <div class="card" style="padding:1.25rem;">
+                <div style="font-size:1.6rem; font-weight:800; color:var(--blue-light);">&lt;2MW</div>
+                <div style="font-size:0.72rem; color:var(--silver-mid);">Fits existing grid<br>No pushback</div>
+            </div>
+            <div class="card" style="padding:1.25rem;">
+                <div style="font-size:1.6rem; font-weight:800; color:var(--green);">AI Native</div>
+                <div style="font-size:0.72rem; color:var(--silver-mid);">60-75% lower ops cost<br>Margin-positive at 200kW</div>
+            </div>
+            <div class="card" style="padding:1.25rem;">
+                <div style="font-size:1.6rem; font-weight:800; color:var(--blue-light);">40K+ Sites</div>
+                <div style="font-size:0.72rem; color:var(--silver-mid);">Crown Castle pipeline<br>Pre-permitted locations</div>
+            </div>
+            <div class="card" style="padding:1.25rem;">
+                <div style="font-size:1.6rem; font-weight:800; color:var(--green);">0% Tax</div>
+                <div style="font-size:0.72rem; color:var(--silver-mid);">On appreciation<br>10-year OZ hold</div>
+            </div>
+        </div>
+
+        <div style="display:flex; gap:1rem; justify-content:center; flex-wrap:wrap; margin-bottom:2rem;">
+            <div style="background:var(--dark-card); border:1px solid rgba(59,130,246,0.15); border-radius:8px; padding:1rem 1.5rem; text-align:left; max-width:260px;">
+                <div style="font-size:0.7rem; color:var(--blue-light); text-transform:uppercase; font-weight:600; letter-spacing:0.08em; margin-bottom:0.3rem;">Revenue from Year 1</div>
+                <div style="font-size:0.85rem; color:var(--silver-light);">Infrastructure services generate income immediately upon deployment</div>
+            </div>
+            <div style="background:var(--dark-card); border:1px solid rgba(59,130,246,0.15); border-radius:8px; padding:1rem 1.5rem; text-align:left; max-width:260px;">
+                <div style="font-size:0.7rem; color:var(--blue-light); text-transform:uppercase; font-weight:600; letter-spacing:0.08em; margin-bottom:0.3rem;">Network Appreciation</div>
+                <div style="font-size:0.85rem; color:var(--silver-light);">Each new node increases the value of every existing node in the mesh</div>
+            </div>
+            <div style="background:var(--dark-card); border:1px solid rgba(59,130,246,0.15); border-radius:8px; padding:1rem 1.5rem; text-align:left; max-width:260px;">
+                <div style="font-size:0.7rem; color:var(--blue-light); text-transform:uppercase; font-weight:600; letter-spacing:0.08em; margin-bottom:0.3rem;">National Impact</div>
+                <div style="font-size:0.85rem; color:var(--silver-light);">Sovereign infrastructure, local jobs, and AI capacity for underserved communities</div>
+            </div>
+        </div>
+
+        <div style="display:flex; gap:2rem; justify-content:center; flex-wrap:wrap;">
+            <div style="text-align:center;">
+                <div style="font-size:0.7rem; color:var(--blue-light); text-transform:uppercase; font-weight:600; letter-spacing:0.08em; margin-bottom:0.3rem;">Email</div>
+                <div style="font-size:1rem; color:var(--silver-light);">contact@andd.network</div>
+            </div>
+            <div style="text-align:center;">
+                <div style="font-size:0.7rem; color:var(--blue-light); text-transform:uppercase; font-weight:600; letter-spacing:0.08em; margin-bottom:0.3rem;">Web</div>
+                <div style="font-size:1rem; color:var(--silver-light);">andd.network</div>
+            </div>
+        </div>
+    </div>
+    <p class="confidential" style="position:relative; margin-top:2rem;">Confidential &mdash; Do Not Distribute</p>
+</div>
+
+</div><!-- /deck -->
+
+<!-- Navigation Bar -->
+<div class="nav-bar">
+    <div class="brand">
+        <img src="andd.png" alt="ANDD">
+        <span>Business Overview</span>
+    </div>
+    <div class="controls">
+        <button onclick="prevSlide()">&#9664; Prev</button>
+        <span class="slide-counter"><span id="current">1</span> / <span id="total">12</span></span>
+        <button onclick="nextSlide()">Next &#9654;</button>
+    </div>
+</div>
+
+<script>
+    const slides = document.querySelectorAll('.slide');
+    const total = slides.length;
+    let current = 0;
+
+    document.getElementById('total').textContent = total;
+
+    function showSlide(n) {
+        slides[current].classList.remove('active');
+        current = ((n % total) + total) % total;
+        slides[current].classList.add('active');
+        document.getElementById('current').textContent = current + 1;
+        document.getElementById('progress').style.width =
+            ((current / (total - 1)) * 100) + '%';
+    }
+
+    function nextSlide() { showSlide(current + 1); }
+    function prevSlide() { showSlide(current - 1); }
+
+    document.addEventListener('keydown', e => {
+        if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+            e.preventDefault(); nextSlide();
+        }
+        if (e.key === 'ArrowLeft' || e.key === 'PageUp' || e.key === 'Backspace') {
+            e.preventDefault(); prevSlide();
+        }
+        if (e.key === 'Home') { e.preventDefault(); showSlide(0); }
+        if (e.key === 'End')  { e.preventDefault(); showSlide(total - 1); }
+    });
+
+    let touchStartX = 0;
+    document.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; });
+    document.addEventListener('touchend', e => {
+        const diff = e.changedTouches[0].clientX - touchStartX;
+        if (Math.abs(diff) > 50) { diff < 0 ? nextSlide() : prevSlide(); }
+    });
+</script>
+
+</body>
+</html>
